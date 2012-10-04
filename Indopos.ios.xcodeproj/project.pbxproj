@@ -1,0 +1,299 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		712EA981161E56A500C047E3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712EA980161E56A500C047E3 /* UIKit.framework */; };
+		712EA983161E56A500C047E3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712EA982161E56A500C047E3 /* Foundation.framework */; };
+		712EA985161E56A500C047E3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712EA984161E56A500C047E3 /* CoreGraphics.framework */; };
+		712EA98B161E56A500C047E3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 712EA989161E56A500C047E3 /* InfoPlist.strings */; };
+		712EA98D161E56A500C047E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 712EA98C161E56A500C047E3 /* main.m */; };
+		712EA991161E56A500C047E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 712EA990161E56A500C047E3 /* AppDelegate.m */; };
+		712EA993161E56A500C047E3 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 712EA992161E56A500C047E3 /* Default.png */; };
+		712EA995161E56A500C047E3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 712EA994161E56A500C047E3 /* Default@2x.png */; };
+		712EA997161E56A500C047E3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 712EA996161E56A500C047E3 /* Default-568h@2x.png */; };
+		712EA99A161E56A500C047E3 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 712EA998161E56A500C047E3 /* MainStoryboard.storyboard */; };
+		712EA99D161E56A500C047E3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 712EA99C161E56A500C047E3 /* ViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		712EA97C161E56A500C047E3 /* Indopos.ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Indopos.ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		712EA980161E56A500C047E3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		712EA982161E56A500C047E3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		712EA984161E56A500C047E3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		712EA988161E56A500C047E3 /* Indopos.ios-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Indopos.ios-Info.plist"; sourceTree = "<group>"; };
+		712EA98A161E56A500C047E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		712EA98C161E56A500C047E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		712EA98E161E56A500C047E3 /* Indopos.ios-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Indopos.ios-Prefix.pch"; sourceTree = "<group>"; };
+		712EA98F161E56A500C047E3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		712EA990161E56A500C047E3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		712EA992161E56A500C047E3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		712EA994161E56A500C047E3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		712EA996161E56A500C047E3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		712EA999161E56A500C047E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		712EA99B161E56A500C047E3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		712EA99C161E56A500C047E3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		712EA979161E56A500C047E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				712EA981161E56A500C047E3 /* UIKit.framework in Frameworks */,
+				712EA983161E56A500C047E3 /* Foundation.framework in Frameworks */,
+				712EA985161E56A500C047E3 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		712EA971161E56A500C047E3 = {
+			isa = PBXGroup;
+			children = (
+				712EA986161E56A500C047E3 /* Indopos.ios */,
+				712EA97F161E56A500C047E3 /* Frameworks */,
+				712EA97D161E56A500C047E3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		712EA97D161E56A500C047E3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				712EA97C161E56A500C047E3 /* Indopos.ios.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		712EA97F161E56A500C047E3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				712EA980161E56A500C047E3 /* UIKit.framework */,
+				712EA982161E56A500C047E3 /* Foundation.framework */,
+				712EA984161E56A500C047E3 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		712EA986161E56A500C047E3 /* Indopos.ios */ = {
+			isa = PBXGroup;
+			children = (
+				712EA98F161E56A500C047E3 /* AppDelegate.h */,
+				712EA990161E56A500C047E3 /* AppDelegate.m */,
+				712EA998161E56A500C047E3 /* MainStoryboard.storyboard */,
+				712EA99B161E56A500C047E3 /* ViewController.h */,
+				712EA99C161E56A500C047E3 /* ViewController.m */,
+				712EA987161E56A500C047E3 /* Supporting Files */,
+			);
+			path = Indopos.ios;
+			sourceTree = "<group>";
+		};
+		712EA987161E56A500C047E3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				712EA988161E56A500C047E3 /* Indopos.ios-Info.plist */,
+				712EA989161E56A500C047E3 /* InfoPlist.strings */,
+				712EA98C161E56A500C047E3 /* main.m */,
+				712EA98E161E56A500C047E3 /* Indopos.ios-Prefix.pch */,
+				712EA992161E56A500C047E3 /* Default.png */,
+				712EA994161E56A500C047E3 /* Default@2x.png */,
+				712EA996161E56A500C047E3 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		712EA97B161E56A500C047E3 /* Indopos.ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 712EA9A0161E56A500C047E3 /* Build configuration list for PBXNativeTarget "Indopos.ios" */;
+			buildPhases = (
+				712EA978161E56A500C047E3 /* Sources */,
+				712EA979161E56A500C047E3 /* Frameworks */,
+				712EA97A161E56A500C047E3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Indopos.ios;
+			productName = Indopos.ios;
+			productReference = 712EA97C161E56A500C047E3 /* Indopos.ios.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		712EA973161E56A500C047E3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Wonsang Song";
+			};
+			buildConfigurationList = 712EA976161E56A500C047E3 /* Build configuration list for PBXProject "Indopos.ios" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 712EA971161E56A500C047E3;
+			productRefGroup = 712EA97D161E56A500C047E3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				712EA97B161E56A500C047E3 /* Indopos.ios */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		712EA97A161E56A500C047E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				712EA98B161E56A500C047E3 /* InfoPlist.strings in Resources */,
+				712EA993161E56A500C047E3 /* Default.png in Resources */,
+				712EA995161E56A500C047E3 /* Default@2x.png in Resources */,
+				712EA997161E56A500C047E3 /* Default-568h@2x.png in Resources */,
+				712EA99A161E56A500C047E3 /* MainStoryboard.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		712EA978161E56A500C047E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				712EA98D161E56A500C047E3 /* main.m in Sources */,
+				712EA991161E56A500C047E3 /* AppDelegate.m in Sources */,
+				712EA99D161E56A500C047E3 /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		712EA989161E56A500C047E3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				712EA98A161E56A500C047E3 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		712EA998161E56A500C047E3 /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				712EA999161E56A500C047E3 /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		712EA99E161E56A500C047E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		712EA99F161E56A500C047E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		712EA9A1161E56A500C047E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Indopos.ios/Indopos.ios-Prefix.pch";
+				INFOPLIST_FILE = "Indopos.ios/Indopos.ios-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		712EA9A2161E56A500C047E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Indopos.ios/Indopos.ios-Prefix.pch";
+				INFOPLIST_FILE = "Indopos.ios/Indopos.ios-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		712EA976161E56A500C047E3 /* Build configuration list for PBXProject "Indopos.ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				712EA99E161E56A500C047E3 /* Debug */,
+				712EA99F161E56A500C047E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		712EA9A0161E56A500C047E3 /* Build configuration list for PBXNativeTarget "Indopos.ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				712EA9A1161E56A500C047E3 /* Debug */,
+				712EA9A2161E56A500C047E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 712EA973161E56A500C047E3 /* Project object */;
+}
