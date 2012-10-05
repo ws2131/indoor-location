@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7129B7E1161E8B9900743A97 /* MainTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7129B7E0161E8B9900743A97 /* MainTVC.m */; };
+		7129B7F0161EA20700743A97 /* w.png in Resources */ = {isa = PBXBuildFile; fileRef = 7129B7EF161EA20700743A97 /* w.png */; };
+		7129B7F2161EA20F00743A97 /* p.png in Resources */ = {isa = PBXBuildFile; fileRef = 7129B7F1161EA20F00743A97 /* p.png */; };
 		712EA981161E56A500C047E3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712EA980161E56A500C047E3 /* UIKit.framework */; };
 		712EA983161E56A500C047E3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712EA982161E56A500C047E3 /* Foundation.framework */; };
 		712EA985161E56A500C047E3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712EA984161E56A500C047E3 /* CoreGraphics.framework */; };
@@ -17,26 +20,48 @@
 		712EA995161E56A500C047E3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 712EA994161E56A500C047E3 /* Default@2x.png */; };
 		712EA997161E56A500C047E3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 712EA996161E56A500C047E3 /* Default-568h@2x.png */; };
 		712EA99A161E56A500C047E3 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 712EA998161E56A500C047E3 /* MainStoryboard.storyboard */; };
-		712EA99D161E56A500C047E3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 712EA99C161E56A500C047E3 /* ViewController.m */; };
+		712EA9AB161E5A1A00C047E3 /* cs-logo-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 712EA9A9161E5A1A00C047E3 /* cs-logo-57x57.png */; };
+		712EA9AC161E5A1A00C047E3 /* cs-logo-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = 712EA9AA161E5A1A00C047E3 /* cs-logo-114x114.png */; };
+		712EA9B5161E641700C047E3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712EA9B4161E641700C047E3 /* CoreData.framework */; };
+		712EA9B8161E644500C047E3 /* SettingTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 712EA9B7161E644500C047E3 /* SettingTVC.m */; };
+		712EA9BD161E666200C047E3 /* CoreDataTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 712EA9BA161E666200C047E3 /* CoreDataTableViewCell.m */; };
+		712EA9BE161E666200C047E3 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 712EA9BC161E666200C047E3 /* CoreDataTableViewController.m */; };
+		712EA9C1161E66BA00C047E3 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 712EA9BF161E66BA00C047E3 /* Model.xcdatamodeld */; };
+		712EA9C4161E678B00C047E3 /* BuildingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 712EA9C3161E678A00C047E3 /* BuildingInfo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7129B7DF161E8B9900743A97 /* MainTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTVC.h; sourceTree = "<group>"; };
+		7129B7E0161E8B9900743A97 /* MainTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTVC.m; sourceTree = "<group>"; };
+		7129B7EF161EA20700743A97 /* w.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = w.png; sourceTree = "<group>"; };
+		7129B7F1161EA20F00743A97 /* p.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = p.png; sourceTree = "<group>"; };
 		712EA97C161E56A500C047E3 /* Indopos.ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Indopos.ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		712EA980161E56A500C047E3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		712EA982161E56A500C047E3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		712EA984161E56A500C047E3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		712EA988161E56A500C047E3 /* Indopos.ios-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Indopos.ios-Info.plist"; sourceTree = "<group>"; };
+		712EA988161E56A500C047E3 /* Indopos.ios.ios-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Indopos.ios.ios-Info.plist"; sourceTree = "<group>"; };
 		712EA98A161E56A500C047E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		712EA98C161E56A500C047E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		712EA98E161E56A500C047E3 /* Indopos.ios-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Indopos.ios-Prefix.pch"; sourceTree = "<group>"; };
+		712EA98E161E56A500C047E3 /* Indopos.ios.ios-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Indopos.ios.ios-Prefix.pch"; sourceTree = "<group>"; };
 		712EA98F161E56A500C047E3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		712EA990161E56A500C047E3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		712EA992161E56A500C047E3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		712EA994161E56A500C047E3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		712EA996161E56A500C047E3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		712EA999161E56A500C047E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		712EA99B161E56A500C047E3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		712EA99C161E56A500C047E3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		712EA9A9161E5A1A00C047E3 /* cs-logo-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cs-logo-57x57.png"; sourceTree = "<group>"; };
+		712EA9AA161E5A1A00C047E3 /* cs-logo-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cs-logo-114x114.png"; sourceTree = "<group>"; };
+		712EA9B4161E641700C047E3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		712EA9B6161E644500C047E3 /* SettingTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTVC.h; sourceTree = "<group>"; };
+		712EA9B7161E644500C047E3 /* SettingTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTVC.m; sourceTree = "<group>"; };
+		712EA9B9161E666200C047E3 /* CoreDataTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewCell.h; sourceTree = "<group>"; };
+		712EA9BA161E666200C047E3 /* CoreDataTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewCell.m; sourceTree = "<group>"; };
+		712EA9BB161E666200C047E3 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
+		712EA9BC161E666200C047E3 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
+		712EA9C0161E66BA00C047E3 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		712EA9C2161E678A00C047E3 /* BuildingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildingInfo.h; sourceTree = "<group>"; };
+		712EA9C3161E678A00C047E3 /* BuildingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildingInfo.m; sourceTree = "<group>"; };
+		712EA9C5161E682500C047E3 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				712EA9B5161E641700C047E3 /* CoreData.framework in Frameworks */,
 				712EA981161E56A500C047E3 /* UIKit.framework in Frameworks */,
 				712EA983161E56A500C047E3 /* Foundation.framework in Frameworks */,
 				712EA985161E56A500C047E3 /* CoreGraphics.framework in Frameworks */,
@@ -56,6 +82,10 @@
 		712EA971161E56A500C047E3 = {
 			isa = PBXGroup;
 			children = (
+				712EA9A9161E5A1A00C047E3 /* cs-logo-57x57.png */,
+				712EA9AA161E5A1A00C047E3 /* cs-logo-114x114.png */,
+				7129B7EF161EA20700743A97 /* w.png */,
+				7129B7F1161EA20F00743A97 /* p.png */,
 				712EA986161E56A500C047E3 /* Indopos.ios */,
 				712EA97F161E56A500C047E3 /* Frameworks */,
 				712EA97D161E56A500C047E3 /* Products */,
@@ -73,6 +103,7 @@
 		712EA97F161E56A500C047E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				712EA9B4161E641700C047E3 /* CoreData.framework */,
 				712EA980161E56A500C047E3 /* UIKit.framework */,
 				712EA982161E56A500C047E3 /* Foundation.framework */,
 				712EA984161E56A500C047E3 /* CoreGraphics.framework */,
@@ -83,11 +114,21 @@
 		712EA986161E56A500C047E3 /* Indopos.ios */ = {
 			isa = PBXGroup;
 			children = (
+				712EA9C5161E682500C047E3 /* Logger.h */,
+				712EA9B9161E666200C047E3 /* CoreDataTableViewCell.h */,
+				712EA9BA161E666200C047E3 /* CoreDataTableViewCell.m */,
+				712EA9BB161E666200C047E3 /* CoreDataTableViewController.h */,
+				712EA9BC161E666200C047E3 /* CoreDataTableViewController.m */,
+				712EA998161E56A500C047E3 /* MainStoryboard.storyboard */,
+				712EA9BF161E66BA00C047E3 /* Model.xcdatamodeld */,
+				712EA9C2161E678A00C047E3 /* BuildingInfo.h */,
+				712EA9C3161E678A00C047E3 /* BuildingInfo.m */,
 				712EA98F161E56A500C047E3 /* AppDelegate.h */,
 				712EA990161E56A500C047E3 /* AppDelegate.m */,
-				712EA998161E56A500C047E3 /* MainStoryboard.storyboard */,
-				712EA99B161E56A500C047E3 /* ViewController.h */,
-				712EA99C161E56A500C047E3 /* ViewController.m */,
+				7129B7DF161E8B9900743A97 /* MainTVC.h */,
+				7129B7E0161E8B9900743A97 /* MainTVC.m */,
+				712EA9B6161E644500C047E3 /* SettingTVC.h */,
+				712EA9B7161E644500C047E3 /* SettingTVC.m */,
 				712EA987161E56A500C047E3 /* Supporting Files */,
 			);
 			path = Indopos.ios;
@@ -96,10 +137,10 @@
 		712EA987161E56A500C047E3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				712EA988161E56A500C047E3 /* Indopos.ios-Info.plist */,
+				712EA988161E56A500C047E3 /* Indopos.ios.ios-Info.plist */,
 				712EA989161E56A500C047E3 /* InfoPlist.strings */,
 				712EA98C161E56A500C047E3 /* main.m */,
-				712EA98E161E56A500C047E3 /* Indopos.ios-Prefix.pch */,
+				712EA98E161E56A500C047E3 /* Indopos.ios.ios-Prefix.pch */,
 				712EA992161E56A500C047E3 /* Default.png */,
 				712EA994161E56A500C047E3 /* Default@2x.png */,
 				712EA996161E56A500C047E3 /* Default-568h@2x.png */,
@@ -163,6 +204,10 @@
 				712EA995161E56A500C047E3 /* Default@2x.png in Resources */,
 				712EA997161E56A500C047E3 /* Default-568h@2x.png in Resources */,
 				712EA99A161E56A500C047E3 /* MainStoryboard.storyboard in Resources */,
+				712EA9AB161E5A1A00C047E3 /* cs-logo-57x57.png in Resources */,
+				712EA9AC161E5A1A00C047E3 /* cs-logo-114x114.png in Resources */,
+				7129B7F0161EA20700743A97 /* w.png in Resources */,
+				7129B7F2161EA20F00743A97 /* p.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,7 +220,12 @@
 			files = (
 				712EA98D161E56A500C047E3 /* main.m in Sources */,
 				712EA991161E56A500C047E3 /* AppDelegate.m in Sources */,
-				712EA99D161E56A500C047E3 /* ViewController.m in Sources */,
+				712EA9B8161E644500C047E3 /* SettingTVC.m in Sources */,
+				712EA9BD161E666200C047E3 /* CoreDataTableViewCell.m in Sources */,
+				712EA9BE161E666200C047E3 /* CoreDataTableViewController.m in Sources */,
+				712EA9C1161E66BA00C047E3 /* Model.xcdatamodeld in Sources */,
+				712EA9C4161E678B00C047E3 /* BuildingInfo.m in Sources */,
+				7129B7E1161E8B9900743A97 /* MainTVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +275,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Indopos;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -246,6 +297,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = Indopos;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -255,9 +307,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Indopos.ios/Indopos.ios-Prefix.pch";
-				INFOPLIST_FILE = "Indopos.ios/Indopos.ios-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Indopos.ios/Indopos.ios.ios-Prefix.pch";
+				INFOPLIST_FILE = "Indopos.ios/Indopos.ios.ios-Info.plist";
+				PRODUCT_NAME = Indopos.ios;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -266,9 +318,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Indopos.ios/Indopos.ios-Prefix.pch";
-				INFOPLIST_FILE = "Indopos.ios/Indopos.ios-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Indopos.ios/Indopos.ios.ios-Prefix.pch";
+				INFOPLIST_FILE = "Indopos.ios/Indopos.ios.ios-Info.plist";
+				PRODUCT_NAME = Indopos.ios;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -292,8 +344,22 @@
 				712EA9A2161E56A500C047E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		712EA9BF161E66BA00C047E3 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				712EA9C0161E66BA00C047E3 /* Model.xcdatamodel */,
+			);
+			currentVersion = 712EA9C0161E66BA00C047E3 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 712EA973161E56A500C047E3 /* Project object */;
 }
