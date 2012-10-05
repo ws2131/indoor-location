@@ -16,6 +16,11 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+@synthesize buildingInfo;
+
+
+# pragma mark -
+# pragma mark Application Delegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -25,16 +30,17 @@
         [self importCoreDataDefaultBuildingInfo];
     } else {
         DLog(@"DB has values.");
+        self.buildingInfo = [[self.fetchedResultsController fetchedObjects] objectAtIndex:0];
     }
     
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
-    //UINavigationController *mainTVCnav = [[tabBarController viewControllers] objectAtIndex:0];
+    UINavigationController *mainTVCnav = [[tabBarController viewControllers] objectAtIndex:0];
     UINavigationController *settingTVCnav = [[tabBarController viewControllers] objectAtIndex:1];
     
-    //MainTVC *mainTVC = (MainTVC *)mainTVCnav.topViewController;
-    
+    MainTVC *mainTVC = (MainTVC *)mainTVCnav.topViewController;
+    mainTVC.buildingInfo = self.buildingInfo;
     SettingTVC *settingTVC = (SettingTVC *)settingTVCnav.topViewController;
-    settingTVC.managedObjectContext = self.managedObjectContext;
+    settingTVC.buildingInfo = self.buildingInfo;
     
     return YES;
 }
@@ -80,6 +86,7 @@
         }
     }
 }
+
 
 #pragma mark - Core Data stack
 
@@ -159,6 +166,7 @@
     return _persistentStoreCoordinator;
 }
 
+
 #pragma mark - Application's Documents directory
 
 // Returns the URL to the application's Documents directory.
@@ -187,18 +195,19 @@
 - (void)importCoreDataDefaultBuildingInfo {
     
     DLog(@"Importing Core Data Default Values for BuildingInfo...");
-    BuildingInfo *buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
-                                                               inManagedObjectContext:self.managedObjectContext];
-    buildingInfo.address1 = @"CEPSR";
-    buildingInfo.address2 = @"530 W 120 ST";
-    buildingInfo.address3 = @"New York, NY 10027";
-    buildingInfo.floorOfEntry = [NSNumber numberWithInt:1];
-    buildingInfo.floorHeight = [NSNumber numberWithFloat:4.4];
-    buildingInfo.lobbyHeight = [NSNumber numberWithFloat:4.4];
-    buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
+    self.buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
+                                                      inManagedObjectContext:self.managedObjectContext];
+    self.buildingInfo.address1 = @"CEPSR";
+    self.buildingInfo.address2 = @"530 W 120 ST";
+    self.buildingInfo.address3 = @"New York, NY 10027";
+    self.buildingInfo.floorOfEntry = [NSNumber numberWithInt:1];
+    self.buildingInfo.floorHeight = [NSNumber numberWithFloat:4.4];
+    self.buildingInfo.lobbyHeight = [NSNumber numberWithFloat:4.4];
+    self.buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
     [self.managedObjectContext save:nil];
     
     DLog(@"Importing Core Data Default Values for BuildingInfo Completed!");
 }
+
 @end
 

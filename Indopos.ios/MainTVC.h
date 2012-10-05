@@ -7,12 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BuildingInfo.h"
 
 @interface MainTVC : UITableViewController {
     BOOL startButtonOn;
 }
 
+@property (strong, nonatomic) BuildingInfo *buildingInfo;
+
 @property (strong, nonatomic) IBOutlet UITextField *curFloorTextField;
 @property (strong, nonatomic) IBOutlet UITextField *curDispositionTextField;
+@property (strong, nonatomic) IBOutlet UITextView *addressTextView;
 @property (strong, nonatomic) IBOutlet UIButton *startUIButton;
 @end

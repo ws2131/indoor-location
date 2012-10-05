@@ -10,10 +10,11 @@
 #import "SettingTVC.h"
 
 @implementation SettingTVC
-@synthesize managedObjectContext = _managedObjectContext;
+@synthesize buildingInfo;
 
 # pragma mark -
 # pragma mark View
+
 - (void)viewDidLoad
 {    
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
@@ -29,8 +30,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self setupFetchedResultsController];
-    self.buildingInfo = [[self.fetchedResultsController fetchedObjects] objectAtIndex:0];
     DLog(@"building info: %@, %@, %@", self.buildingInfo.address1, self.buildingInfo.floorOfEntry, self.buildingInfo.floorHeight);
 
     self.floorOfEntryTextField.text = [self.buildingInfo.floorOfEntry stringValue];
@@ -41,23 +40,6 @@
     self.address1TextField.text = self.buildingInfo.address1;
     self.address2TextField.text = self.buildingInfo.address2;
     self.address3TextField.text = self.buildingInfo.address3;
-}
-
-
-# pragma mark -
-# pragma mark CoreData 
-
-- (void)setupFetchedResultsController {
-    NSString *entityName = @"BuildingInfo";
-    DLog(@"Setting up a fetched results controller for the entity named %@", entityName);
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"address1"
-                                                                                     ascending:YES
-                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext
-                                                                          sectionNameKeyPath:nil cacheName:nil];
-    NSError *error;
-    [self.fetchedResultsController performFetch:&error];
 }
 
 
@@ -76,8 +58,11 @@
     self.buildingInfo.address2 = self.address2TextField.text;
     self.buildingInfo.address3 = self.address3TextField.text;
     
-    [self.managedObjectContext save:nil];
+    [self.buildingInfo.managedObjectContext save:nil];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Setting is saved."
+                                                    delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
 }
-
 
 @end
