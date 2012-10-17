@@ -9,7 +9,14 @@
         <attribute name="lobbyHeight" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="numOfLandings" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
     </entity>
+    <entity name="SensorData" representedClassName="SensorData" syncable="YES">
+        <attribute name="a_x" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="a_y" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="a_z" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+    </entity>
     <elements>
         <element name="BuildingInfo" positionX="160" positionY="192" width="128" height="150"/>
+        <element name="SensorData" positionX="160" positionY="192" width="128" height="105"/>
     </elements>
 </model>

@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import "BuildingInfo.h"
+#import "FileHandler.h"
+#import "MainTVC.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, MainTVCDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
@@ -20,7 +22,8 @@
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @property (strong, nonatomic) BuildingInfo *buildingInfo;
-
+@property (strong, nonatomic) FileHandler *fileHandler;
+@property (strong, nonatomic) NSMutableArray *measurements;
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 

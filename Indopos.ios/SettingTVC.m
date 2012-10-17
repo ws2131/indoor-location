@@ -10,6 +10,7 @@
 #import "SettingTVC.h"
 
 @implementation SettingTVC
+
 @synthesize buildingInfo;
 
 # pragma mark -

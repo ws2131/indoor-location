@@ -11,6 +11,9 @@
 
 @implementation MainTVC
 
+@synthesize buildingInfo;
+@synthesize delegate;
+
 # pragma mark -
 # pragma mark View
 
@@ -37,14 +40,17 @@
     DLog(@"startbutton touched state: %@", startButtonOn ? @"YES" : @"NO");
     UIButton *button = (UIButton *)sender;
     if (startButtonOn == YES) {
+        DLog(@"stop pushed");
         startButtonOn = NO;
         [button setTitle:@"Start" forState:UIControlStateNormal];
         //[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-
+        [self.delegate stopButtonPushed:self];
     } else {
+        DLog(@"start pushed");
         startButtonOn = YES;
         [button setTitle:@"Stop" forState:UIControlStateNormal];
         //[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [self.delegate startButtonPushed:self];
     }
 }
 

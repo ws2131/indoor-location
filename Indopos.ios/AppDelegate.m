@@ -10,6 +10,8 @@
 #import "Logger.h"
 #import "MainTVC.h"
 #import "SettingTVC.h"
+#import "SensorData.h"
+#import "ElevatorModule.h"
 
 @implementation AppDelegate
 
@@ -17,7 +19,8 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize buildingInfo;
-
+@synthesize fileHandler;
+@synthesize measurements;
 
 # pragma mark -
 # pragma mark Application Delegate
@@ -33,12 +36,20 @@
         self.buildingInfo = [[self.fetchedResultsController fetchedObjects] objectAtIndex:0];
     }
     
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSS"];
+    
+    self.fileHandler = [[FileHandler alloc] initWithName:@"accel"];
+    self.fileHandler.dateFormatter = dateFormatter;
+    
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
     UINavigationController *mainTVCnav = [[tabBarController viewControllers] objectAtIndex:0];
     UINavigationController *settingTVCnav = [[tabBarController viewControllers] objectAtIndex:1];
     
     MainTVC *mainTVC = (MainTVC *)mainTVCnav.topViewController;
     mainTVC.buildingInfo = self.buildingInfo;
+    mainTVC.delegate = self;
+    
     SettingTVC *settingTVC = (SettingTVC *)settingTVCnav.topViewController;
     settingTVC.buildingInfo = self.buildingInfo;
     
@@ -207,6 +218,33 @@
     [self.managedObjectContext save:nil];
     
     DLog(@"Importing Core Data Default Values for BuildingInfo Completed!");
+}
+
+
+# pragma mark -
+# pragma mark MainTVC Delegate
+- (void)startButtonPushed:(MainTVC *)controller {
+    
+    // simulate measurements from csv file
+    NSArray *array = [self.fileHandler loadFromFile];
+    self.measurements = [[NSMutableArray alloc] initWithCapacity:[array count]];
+    
+    for (int i = 2; i < [array count]; i++) {
+        NSArray *fields = [array objectAtIndex:i];
+        if ([fields count] >= 7) {
+            SensorData *sensorData = [NSEntityDescription insertNewObjectForEntityForName:@"SensorData" inManagedObjectContext:self.managedObjectContext];
+            sensorData.time = [NSNumber numberWithDouble:[[fields objectAtIndex:1] doubleValue]];
+            sensorData.a_x = [NSNumber numberWithDouble:[[fields objectAtIndex:4] doubleValue]];
+            sensorData.a_y = [NSNumber numberWithDouble:[[fields objectAtIndex:5] doubleValue]];
+            sensorData.a_z = [NSNumber numberWithDouble:[[fields objectAtIndex:6] doubleValue]];
+            [self.measurements addObject:sensorData];
+        }
+    }
+}
+
+- (void)stopButtonPushed:(MainTVC *)controller {
+    ElevatorModule *elevatorModule = [[ElevatorModule alloc] initWithData:self.measurements];
+    [elevatorModule run];
 }
 
 @end
