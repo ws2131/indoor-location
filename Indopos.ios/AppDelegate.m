@@ -21,6 +21,8 @@
 @synthesize buildingInfo;
 @synthesize fileHandler;
 @synthesize measurements;
+@synthesize currentFloor;
+@synthesize currentDisplacement;
 
 # pragma mark -
 # pragma mark Application Delegate
@@ -39,6 +41,10 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSS"];
     
+    NSNumberFormatter *distanceFormatter = [[NSNumberFormatter alloc] init];
+    [distanceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [distanceFormatter setMaximumFractionDigits:1];
+    
     self.fileHandler = [[FileHandler alloc] initWithName:@"accel"];
     self.fileHandler.dateFormatter = dateFormatter;
     
@@ -48,10 +54,14 @@
     
     MainTVC *mainTVC = (MainTVC *)mainTVCnav.topViewController;
     mainTVC.buildingInfo = self.buildingInfo;
+    mainTVC.distanceFormatter = distanceFormatter;
     mainTVC.delegate = self;
     
     SettingTVC *settingTVC = (SettingTVC *)settingTVCnav.topViewController;
     settingTVC.buildingInfo = self.buildingInfo;
+ 
+    self.currentDisplacement = [NSNumber numberWithDouble:0.0];
+    self.currentFloor = self.buildingInfo.floorOfEntry;
     
     return YES;
 }
@@ -244,7 +254,25 @@
 
 - (void)stopButtonPushed:(MainTVC *)controller {
     ElevatorModule *elevatorModule = [[ElevatorModule alloc] initWithData:self.measurements];
+    elevatorModule.buildingInfo = self.buildingInfo;
+    
     [elevatorModule run];
+    
+    double displacement = [elevatorModule.movedDisplacement doubleValue] + [self.currentDisplacement doubleValue];
+    int floor = [self.currentFloor intValue] + [elevatorModule.movedFloor intValue];
+    self.currentDisplacement = [NSNumber numberWithDouble:displacement];
+    self.currentFloor = [NSNumber numberWithInt:floor];
+    
+    [controller updateCurrentDisplacement:self.currentDisplacement];
+    [controller updateCurrentFloor:self.currentFloor];
+}
+
+- (void)refreshButtonPushed:(MainTVC *)controller {
+    self.currentDisplacement = [NSNumber numberWithDouble:0.0];
+    self.currentFloor = self.buildingInfo.floorOfEntry;
+    
+    [controller updateCurrentDisplacement:self.currentDisplacement];
+    [controller updateCurrentFloor:self.currentFloor];
 }
 
 @end

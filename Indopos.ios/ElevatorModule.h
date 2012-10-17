@@ -10,6 +10,4 @@
 
 @interface ElevatorModule : AnalysisModule
 
-- (void)run;
-
 @end

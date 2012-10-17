@@ -24,6 +24,10 @@
 @property (strong, nonatomic) BuildingInfo *buildingInfo;
 @property (strong, nonatomic) FileHandler *fileHandler;
 @property (strong, nonatomic) NSMutableArray *measurements;
+
+@property (strong, nonatomic) NSNumber *currentFloor;
+@property (strong, nonatomic) NSNumber *currentDisplacement;
+
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 

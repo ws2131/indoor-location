@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="12C54" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="0Yb-aZ-Pt8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="0Yb-aZ-Pt8">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
     </dependencies>
@@ -176,7 +176,7 @@
                                         </view>
                                         <constraints>
                                             <constraint firstItem="gGh-Kp-oY1" firstAttribute="centerX" secondItem="3vC-BD-MgB" secondAttribute="centerX" type="default" id="EbT-vX-reI"/>
-                                            <constraint firstItem="gGh-Kp-oY1" firstAttribute="top" secondItem="3vC-BD-MgB" secondAttribute="top" constant="1" id="dUT-Ha-GKq"/>
+                                            <constraint firstItem="gGh-Kp-oY1" firstAttribute="top" secondItem="3vC-BD-MgB" secondAttribute="top" type="default" id="FG9-ap-OdK"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
@@ -187,7 +187,13 @@
                             <outlet property="delegate" destination="5VU-Tp-WPC" id="wyZ-ic-XeL"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="UuC-ij-LL8"/>
+                    <navigationItem key="navigationItem" id="UuC-ij-LL8">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="ry9-yO-dYC">
+                            <connections>
+                                <action selector="refresh:" destination="5VU-Tp-WPC" id="7cy-bi-f0d"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="addressTextView" destination="Khl-61-NcN" id="zvx-o4-ECP"/>
                         <outlet property="curDispositionTextField" destination="yco-9V-lpQ" id="ye6-DW-gmA"/>
@@ -476,33 +482,6 @@
         <image name="p.png" width="26" height="26"/>
         <image name="w.png" width="26" height="26"/>
     </resources>
-    <classes>
-        <class className="MainTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="startButtonTouched:"/>
-                <relationship kind="outlet" name="addressTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="curDispositionTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="curFloorTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="startUIButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="SettingTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingTVC.h"/>
-            <relationships>
-                <relationship kind="outlet" name="address1TextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="address2TextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="address3TextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="floorHeightTextfield" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="floorOfEntryTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="lobbyHeightTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="numOfLandingsTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

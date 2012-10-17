@@ -13,6 +13,7 @@
 @protocol MainTVCDelegate <NSObject>
 - (void)startButtonPushed:(MainTVC *)controller;
 - (void)stopButtonPushed:(MainTVC *)controller;
+- (void)refreshButtonPushed:(MainTVC *)controller;
 @end
 
 @interface MainTVC : UITableViewController {
@@ -20,10 +21,15 @@
 }
 
 @property (strong, nonatomic) BuildingInfo *buildingInfo;
+@property (strong, nonatomic) NSNumberFormatter *distanceFormatter;
+
 @property (nonatomic, weak) id <MainTVCDelegate> delegate;
 
 @property (strong, nonatomic) IBOutlet UITextField *curFloorTextField;
 @property (strong, nonatomic) IBOutlet UITextField *curDispositionTextField;
 @property (strong, nonatomic) IBOutlet UITextView *addressTextView;
 @property (strong, nonatomic) IBOutlet UIButton *startUIButton;
+
+- (void)updateCurrentFloor:(NSNumber *)currentFloor;
+- (void)updateCurrentDisplacement:(NSNumber *)currentDisplacement;
 @end

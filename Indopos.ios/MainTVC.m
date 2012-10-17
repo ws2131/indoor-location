@@ -12,6 +12,7 @@
 @implementation MainTVC
 
 @synthesize buildingInfo;
+@synthesize distanceFormatter;
 @synthesize delegate;
 
 # pragma mark -
@@ -20,7 +21,7 @@
 - (void)viewDidLoad
 {
     self.curFloorTextField.text = [self.buildingInfo.floorOfEntry stringValue];
-    self.curDispositionTextField.text = @"0.0";
+    self.curDispositionTextField.text = @"0";
     startButtonOn = NO;
     
     [super viewDidLoad];
@@ -52,6 +53,19 @@
         //[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [self.delegate startButtonPushed:self];
     }
+}
+
+- (IBAction)refresh:(id)sender {
+    [self.delegate refreshButtonPushed:self];
+}
+
+- (void)updateCurrentFloor:(NSNumber *)currentFloor {
+    self.curFloorTextField.text = [NSString stringWithFormat:@"%d", [currentFloor intValue]];
+}
+
+- (void)updateCurrentDisplacement:(NSNumber *)currentDisplacement {
+    self.curDispositionTextField.text = [NSString stringWithFormat:@"%@", [self.distanceFormatter stringFromNumber:currentDisplacement]];
+
 }
 
 @end;
