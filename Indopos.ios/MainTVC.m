@@ -8,9 +8,11 @@
 
 #import "Logger.h"
 #import "MainTVC.h"
+#import "HistoryTVC.h"
 
 @implementation MainTVC
 
+@synthesize managedObjectContext = _managedObjectContext;
 @synthesize buildingInfo;
 @synthesize distanceFormatter;
 @synthesize delegate;
@@ -33,6 +35,13 @@
     self.addressTextView.text = addr;
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"History Segue"]) {
+        HistoryTVC *historyTVC = segue.destinationViewController;
+        historyTVC.managedObjectContext = self.managedObjectContext;
+        historyTVC.distanceFormatter = self.distanceFormatter;
+    }
+}
 
 # pragma mark -
 # pragma mark UI Action functions

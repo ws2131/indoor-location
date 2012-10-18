@@ -20,6 +20,7 @@
     BOOL startButtonOn;
 }
 
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) BuildingInfo *buildingInfo;
 @property (strong, nonatomic) NSNumberFormatter *distanceFormatter;
 

@@ -130,7 +130,7 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="History" id="vbq-Vx-JiX">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="afj-g2-pxh">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="afj-g2-pxh">
                                         <rect key="frame" x="0.0" y="232" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -139,7 +139,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
-                                            <segue destination="8Vj-C3-N4K" kind="push" identifier="Show Location History" id="eiX-EJ-tHx"/>
+                                            <segue destination="8Vj-C3-N4K" kind="push" identifier="History Segue" id="eiX-EJ-tHx"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -204,21 +204,28 @@
             </objects>
             <point key="canvasLocation" x="1445" y="-641"/>
         </scene>
-        <!--Table View Controller-->
+        <!--HistoryTVC-->
         <scene sceneID="MC7-qF-UgN">
             <objects>
-                <tableViewController id="8Vj-C3-N4K" sceneMemberID="viewController">
+                <tableViewController id="8Vj-C3-N4K" customClass="HistoryTVC" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="eOO-Yb-cyY">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="Cell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="WIq-hw-ii6">
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="Cell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="History Cell" textLabel="B5w-fB-Ild" style="IBUITableViewCellStyleDefault" id="WIq-hw-ii6">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B5w-fB-Ild">
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                             </tableViewCell>
@@ -482,6 +489,40 @@
         <image name="p.png" width="26" height="26"/>
         <image name="w.png" width="26" height="26"/>
     </resources>
+    <classes>
+        <class className="CoreDataTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
+        </class>
+        <class className="HistoryTVC" superclassName="CoreDataTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/HistoryTVC.h"/>
+        </class>
+        <class className="MainTVC" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="refresh:"/>
+                <relationship kind="action" name="startButtonTouched:"/>
+                <relationship kind="outlet" name="addressTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="curDispositionTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="curFloorTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="startUIButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="SettingTVC" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingTVC.h"/>
+            <relationships>
+                <relationship kind="outlet" name="address1TextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="address2TextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="address3TextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="floorHeightTextfield" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="floorOfEntryTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="lobbyHeightTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="numOfLandingsTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

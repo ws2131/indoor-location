@@ -2,7 +2,7 @@
 //  SensorData.h
 //  Indopos.ios
 //
-//  Created by Wonsang Song on 10/16/12.
+//  Created by Wonsang Song on 10/17/12.
 //  Copyright (c) 2012 Wonsang Song. All rights reserved.
 //
 
@@ -12,9 +12,9 @@
 
 @interface SensorData : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * time;
 @property (nonatomic, retain) NSNumber * a_x;
 @property (nonatomic, retain) NSNumber * a_y;
 @property (nonatomic, retain) NSNumber * a_z;
+@property (nonatomic, retain) NSNumber * time;
 
 @end

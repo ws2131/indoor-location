@@ -12,6 +12,7 @@
 #import "SettingTVC.h"
 #import "SensorData.h"
 #import "ElevatorModule.h"
+#import "History.h"
 
 @implementation AppDelegate
 
@@ -53,6 +54,7 @@
     UINavigationController *settingTVCnav = [[tabBarController viewControllers] objectAtIndex:1];
     
     MainTVC *mainTVC = (MainTVC *)mainTVCnav.topViewController;
+    mainTVC.managedObjectContext = self.managedObjectContext;
     mainTVC.buildingInfo = self.buildingInfo;
     mainTVC.distanceFormatter = distanceFormatter;
     mainTVC.delegate = self;
@@ -265,6 +267,12 @@
     
     [controller updateCurrentDisplacement:self.currentDisplacement];
     [controller updateCurrentFloor:self.currentFloor];
+    
+    History *newHistory = [NSEntityDescription insertNewObjectForEntityForName:@"History" inManagedObjectContext:self.managedObjectContext];
+    newHistory.time = [NSDate date];
+    newHistory.floor = self.currentFloor;
+    newHistory.displacement = self.currentDisplacement;
+    [newHistory.managedObjectContext save:nil];
 }
 
 - (void)refreshButtonPushed:(MainTVC *)controller {
