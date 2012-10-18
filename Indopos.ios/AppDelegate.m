@@ -30,6 +30,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.motionManager = [[CMMotionManager alloc] init];
+    [[UIAccelerometer sharedAccelerometer] setDelegate:self];
+    
     [self setupFetchedResultsController];
     if (![[self.fetchedResultsController fetchedObjects] count] > 0) {
         DLog(@"DB is empty, default values will be inserted.");
@@ -237,6 +240,7 @@
 # pragma mark MainTVC Delegate
 - (void)startButtonPushed:(MainTVC *)controller {
     
+    
     // simulate measurements from csv file
     NSArray *array = [self.fileHandler loadFromFile];
     self.measurements = [[NSMutableArray alloc] initWithCapacity:[array count]];
@@ -252,27 +256,41 @@
             [self.measurements addObject:sensorData];
         }
     }
+    
+    /*
+    self.measurements = [[NSMutableArray alloc] initWithCapacity:100];
+    isPaused = NO;
+    start_ts = 0;
+    NSTimeInterval interval = 1.0 / 30;
+    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
+     */
 }
 
 - (void)stopButtonPushed:(MainTVC *)controller {
-    ElevatorModule *elevatorModule = [[ElevatorModule alloc] initWithData:self.measurements];
-    elevatorModule.buildingInfo = self.buildingInfo;
     
-    [elevatorModule run];
+    isPaused = YES;
+    DLog(@"number of measurements: %d", [self.measurements count]);
+    if ([self.measurements count] > 0) {
+        
+        ElevatorModule *elevatorModule = [[ElevatorModule alloc] initWithData:self.measurements];
+        elevatorModule.buildingInfo = self.buildingInfo;
     
-    double displacement = [elevatorModule.movedDisplacement doubleValue] + [self.currentDisplacement doubleValue];
-    int floor = [self.currentFloor intValue] + [elevatorModule.movedFloor intValue];
-    self.currentDisplacement = [NSNumber numberWithDouble:displacement];
-    self.currentFloor = [NSNumber numberWithInt:floor];
+        [elevatorModule run];
     
-    [controller updateCurrentDisplacement:self.currentDisplacement];
-    [controller updateCurrentFloor:self.currentFloor];
+        double displacement = [elevatorModule.movedDisplacement doubleValue] + [self.currentDisplacement doubleValue];
+        int floor = [self.currentFloor intValue] + [elevatorModule.movedFloor intValue];
+        self.currentDisplacement = [NSNumber numberWithDouble:displacement];
+        self.currentFloor = [NSNumber numberWithInt:floor];
     
-    History *newHistory = [NSEntityDescription insertNewObjectForEntityForName:@"History" inManagedObjectContext:self.managedObjectContext];
-    newHistory.time = [NSDate date];
-    newHistory.floor = self.currentFloor;
-    newHistory.displacement = self.currentDisplacement;
-    [newHistory.managedObjectContext save:nil];
+        [controller updateCurrentDisplacement:self.currentDisplacement];
+        [controller updateCurrentFloor:self.currentFloor];
+    
+        History *newHistory = [NSEntityDescription insertNewObjectForEntityForName:@"History" inManagedObjectContext:self.managedObjectContext];
+        newHistory.time = [NSDate date];
+        newHistory.floor = self.currentFloor;
+        newHistory.displacement = self.currentDisplacement;
+        [newHistory.managedObjectContext save:nil];
+    }
 }
 
 - (void)refreshButtonPushed:(MainTVC *)controller {
@@ -281,6 +299,41 @@
     
     [controller updateCurrentDisplacement:self.currentDisplacement];
     [controller updateCurrentFloor:self.currentFloor];
+}
+
+
+# pragma mark -
+# pragma mark UIAccelerometer delegate
+
+- (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
+{
+	if(!isPaused)
+	{
+        if (start_ts == 0) {
+            start_ts = acceleration.timestamp;
+        }
+        SensorData *sensorData = [NSEntityDescription insertNewObjectForEntityForName:@"SensorData" inManagedObjectContext:self.managedObjectContext];
+        sensorData.time = [NSNumber numberWithDouble:(acceleration.timestamp - start_ts)];
+        sensorData.a_x = [NSNumber numberWithDouble:acceleration.x];
+        sensorData.a_y = [NSNumber numberWithDouble:acceleration.x];
+        sensorData.a_z = [NSNumber numberWithDouble:acceleration.x];
+        [self.measurements addObject:sensorData];
+    }
+}
+
+- (void)resetAll {
+    DLog(@"resetAll");
+    NSFetchRequest * request = [[NSFetchRequest alloc] init];
+    [request setEntity:[NSEntityDescription entityForName:@"History" inManagedObjectContext:self.managedObjectContext]];
+    [request setIncludesPropertyValues:NO]; //only fetch the managedObjectID
+    
+    NSError * error = nil;
+    NSArray * histories = [self.managedObjectContext executeFetchRequest:request error:&error];
+    //error handling goes here
+    for (NSManagedObject * history in histories) {
+        [self.managedObjectContext deleteObject:history];
+    }
+    [self.managedObjectContext save:nil];
 }
 
 @end

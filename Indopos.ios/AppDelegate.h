@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import <CoreMotion/CoreMotion.h>
+
 #import "BuildingInfo.h"
 #import "FileHandler.h"
 #import "MainTVC.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, MainTVCDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, MainTVCDelegate, UIAccelerometerDelegate> {
+    BOOL isPaused;
+    NSTimeInterval start_ts;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 
@@ -28,7 +33,10 @@
 @property (strong, nonatomic) NSNumber *currentFloor;
 @property (strong, nonatomic) NSNumber *currentDisplacement;
 
+@property (strong, nonatomic) CMMotionManager *motionManager;
+
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+- (void)resetAll;
 
 @end

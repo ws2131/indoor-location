@@ -30,7 +30,14 @@
         [times addObject:sensorData.time];
     }
     
-    int freq = round(1 / ([[times objectAtIndex:99] doubleValue] / 100));
+    int index = 0;
+    if (len > 100) {
+        index = 100;
+    } else {
+        index = len;
+    }
+    int freq = round(1 / ([[times objectAtIndex:index-1] doubleValue] / index));
+    
     double alpha = (1.0 / freq) / (1.0 / freq + (1.0 / (freq / 2.0)));
     DLog(@"freq: %d, alpha: %f", freq, alpha);
 
@@ -67,7 +74,7 @@
         double tmp = [[a_user2 objectAtIndex:i] doubleValue] * GRAVITY;
         [a_linear addObject:[NSNumber numberWithDouble:tmp]];
     }
-    DLog(@"a_linear(end): %f", [[a_linear objectAtIndex:484] doubleValue]);
+    DLog(@"a_linear(end): %f", [[a_linear objectAtIndex:len-1] doubleValue]);
     
     int offset = 0.5 * freq;
     int last_index = 0;

@@ -8,6 +8,7 @@
 
 #import "Logger.h"
 #import "SettingTVC.h"
+#import "AppDelegate.h"
 
 @implementation SettingTVC
 
@@ -64,6 +65,11 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Setting is saved."
                                                     delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
+}
+
+- (IBAction)reset:(id)sender {
+    DLog(@"reset pushed");
+    [(AppDelegate *)[UIApplication sharedApplication].delegate resetAll];
 }
 
 @end

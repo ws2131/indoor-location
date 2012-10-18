@@ -9,6 +9,7 @@
 #import "HistoryTVC.h"
 #import "History.h"
 #import "Logger.h"
+#import "AppDelegate.h"
 
 @implementation HistoryTVC
 
@@ -75,4 +76,24 @@
         [self.tableView endUpdates];
     }
 }
+
+- (IBAction)deleteAll:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete All" message:@"Do you want to delete all history?"
+                                                    delegate:self cancelButtonTitle:@"No" otherButtonTitles:nil];
+    [alert addButtonWithTitle:@"Yes"];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [self removeAllHistory];
+    }
+}
+
+- (void)removeAllHistory {
+    [(AppDelegate *)[UIApplication sharedApplication].delegate resetAll];    
+    [self setupFetchedResultsController];
+    [self.tableView reloadData];
+}
+
 @end

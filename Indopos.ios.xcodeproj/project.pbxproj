@@ -31,6 +31,8 @@
 		71D00223162F82C300FEB70D /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = 71D00222162F82C300FEB70D /* History.m */; };
 		71D00226162F82C400FEB70D /* BuildingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 71D00225162F82C400FEB70D /* BuildingInfo.m */; };
 		71D00229162F82C400FEB70D /* SensorData.m in Sources */ = {isa = PBXBuildFile; fileRef = 71D00228162F82C400FEB70D /* SensorData.m */; };
+		71D0022F162F917600FEB70D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D0022E162F917600FEB70D /* CoreMotion.framework */; };
+		71D00231162F919500FEB70D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D00230162F919500FEB70D /* Accelerate.framework */; };
 		71F77D72162DFEFB0064C1B7 /* FileHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F77D71162DFEFB0064C1B7 /* FileHandler.m */; };
 		71F77D7D162E0C0F0064C1B7 /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F77D7C162E0C0F0064C1B7 /* CHCSVParser.m */; };
 		71F77D82162E0CEA0064C1B7 /* NSArray+CHCSVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F77D7F162E0CEA0064C1B7 /* NSArray+CHCSVAdditions.m */; };
@@ -80,6 +82,8 @@
 		71D00225162F82C400FEB70D /* BuildingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildingInfo.m; sourceTree = "<group>"; };
 		71D00227162F82C400FEB70D /* SensorData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorData.h; sourceTree = "<group>"; };
 		71D00228162F82C400FEB70D /* SensorData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorData.m; sourceTree = "<group>"; };
+		71D0022E162F917600FEB70D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		71D00230162F919500FEB70D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		71F77D70162DFEFB0064C1B7 /* FileHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileHandler.h; sourceTree = "<group>"; };
 		71F77D71162DFEFB0064C1B7 /* FileHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHandler.m; sourceTree = "<group>"; };
 		71F77D7A162E0BED0064C1B7 /* CHCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCSV.h; sourceTree = "<group>"; };
@@ -102,6 +106,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71D00231162F919500FEB70D /* Accelerate.framework in Frameworks */,
+				71D0022F162F917600FEB70D /* CoreMotion.framework in Frameworks */,
 				712EA9B5161E641700C047E3 /* CoreData.framework in Frameworks */,
 				712EA981161E56A500C047E3 /* UIKit.framework in Frameworks */,
 				712EA983161E56A500C047E3 /* Foundation.framework in Frameworks */,
@@ -136,6 +142,8 @@
 		712EA97F161E56A500C047E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				71D00230162F919500FEB70D /* Accelerate.framework */,
+				71D0022E162F917600FEB70D /* CoreMotion.framework */,
 				712EA9B4161E641700C047E3 /* CoreData.framework */,
 				712EA980161E56A500C047E3 /* UIKit.framework */,
 				712EA982161E56A500C047E3 /* Foundation.framework */,
