@@ -33,12 +33,6 @@
     return myData;
 }
 
-- (NSArray *)loadFromFile {
-    NSString *content = [self getFileContent];
-    NSArray *fields = [content CSVComponents];
-    return fields;
-}
-
 - (void)writeToFile:(NSString *)data {
     NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:self.filePath];
     if (!fileHandle) {
@@ -187,6 +181,14 @@
     NSArray * files = [self.fileManager contentsOfDirectoryAtPath:self.fileDir error:nil];
     NSString *num = [NSString stringWithFormat:@"%d", files.count];
     return num;
+}
+
+
+- (NSArray *)loadFromFile:(NSString *)fileName_ {
+    NSString *filePath_ = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.txt", fileName_]];
+    NSString *content = [NSString stringWithContentsOfFile:filePath_ encoding:NSASCIIStringEncoding error:nil];
+    NSArray *fields = [content CSVComponents];
+    return fields;
 }
 
 @end

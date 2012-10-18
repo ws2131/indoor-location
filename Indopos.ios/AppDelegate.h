@@ -9,14 +9,29 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import <CoreMotion/CoreMotion.h>
+#import <CoreLocation/CoreLocation.h>
 
 #import "BuildingInfo.h"
 #import "FileHandler.h"
 #import "MainTVC.h"
+#import "Measurement.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, MainTVCDelegate, UIAccelerometerDelegate> {
+@interface AppDelegate : UIResponder <UIApplicationDelegate, MainTVCDelegate, UIAccelerometerDelegate, CLLocationManagerDelegate> {
     BOOL isPaused;
-    NSTimeInterval start_ts;
+    
+    NSDateFormatter *dateFormatter;
+    NSNumberFormatter *distanceFormatter;
+
+    BuildingInfo *buildingInfo;
+    FileHandler *fileHandler;
+    Measurement *measurement;
+    
+    NSNumber *currentFloor;
+    NSNumber *currentDisplacement;
+    
+    CMMotionManager *motionManager;
+    CLLocationManager *locationManager;
+    CLHeading *currentHeading;
 }
 
 @property (strong, nonatomic) UIWindow *window;
@@ -26,17 +41,9 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
-@property (strong, nonatomic) BuildingInfo *buildingInfo;
-@property (strong, nonatomic) FileHandler *fileHandler;
-@property (strong, nonatomic) NSMutableArray *measurements;
-
-@property (strong, nonatomic) NSNumber *currentFloor;
-@property (strong, nonatomic) NSNumber *currentDisplacement;
-
-@property (strong, nonatomic) CMMotionManager *motionManager;
-
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
-- (void)resetAll;
+- (void)resetHistory;
+- (void)exportMeasurement;
 
 @end

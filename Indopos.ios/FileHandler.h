@@ -26,12 +26,13 @@
 
 - (id)initWithName:(NSString *)fileName;
 - (NSString *)getFileContent;
-- (NSArray *)loadFromFile;
 - (void)writeToFile:(NSString *)data;
 - (void)deleteFile;
 - (void)deleteAll;
 - (NSString *)getFileSize;
 - (NSString *)getNumFiles;
 - (void)sendFileTo:(NSString *)url;
+
+- (NSArray *)loadFromFile:(NSString *)fileName;
 
 @end

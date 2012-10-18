@@ -67,9 +67,14 @@
     [alert show];
 }
 
-- (IBAction)reset:(id)sender {
+- (IBAction)resetHistory:(id)sender {
     DLog(@"reset pushed");
-    [(AppDelegate *)[UIApplication sharedApplication].delegate resetAll];
+    [(AppDelegate *)[UIApplication sharedApplication].delegate resetHistory];
+}
+
+- (IBAction)exportMeasurement:(id)sender {
+    DLog(@"export pushed");
+    [(AppDelegate *)[UIApplication sharedApplication].delegate exportMeasurement];
 }
 
 @end

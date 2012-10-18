@@ -2,7 +2,7 @@
 //  History.h
 //  Indopos.ios
 //
-//  Created by Wonsang Song on 10/17/12.
+//  Created by Wonsang Song on 10/18/12.
 //  Copyright (c) 2012 Wonsang Song. All rights reserved.
 //
 
@@ -12,8 +12,9 @@
 
 @interface History : NSManagedObject
 
-@property (nonatomic, retain) NSDate * time;
-@property (nonatomic, retain) NSNumber * floor;
 @property (nonatomic, retain) NSNumber * displacement;
+@property (nonatomic, retain) NSNumber * floor;
+@property (nonatomic, retain) NSDate * time;
+@property (nonatomic, retain) NSNumber * duration;
 
 @end

@@ -55,8 +55,11 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     History *history = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    NSString *text = [NSString stringWithFormat:@"%@,  floor: %@,  (%@ m)",
-                       [dateFormatter stringFromDate:history.time], [history.floor stringValue], [distanceFormatter stringFromNumber:history.displacement]];
+    NSString *text = [NSString stringWithFormat:@"%@ [%d],  floor: %@,  (%@ m)",
+                      [dateFormatter stringFromDate:history.time],
+                      [history.duration intValue],
+                      [history.floor stringValue],
+                      [distanceFormatter stringFromNumber:history.displacement]];
     cell.textLabel.text = text;
     return cell;
 }
@@ -91,7 +94,7 @@
 }
 
 - (void)removeAllHistory {
-    [(AppDelegate *)[UIApplication sharedApplication].delegate resetAll];    
+    [(AppDelegate *)[UIApplication sharedApplication].delegate resetHistory];
     [self setupFetchedResultsController];
     [self.tableView reloadData];
 }

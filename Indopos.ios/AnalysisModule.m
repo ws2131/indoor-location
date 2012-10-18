@@ -11,14 +11,14 @@
 @implementation AnalysisModule
 
 @synthesize buildingInfo;
-@synthesize measurements;
+@synthesize measurement;
 @synthesize movedFloor;
 @synthesize movedDisplacement;
 
-- (id)initWithData:(NSArray *)data {
+- (id)initWithData:(Measurement *)data {
     self = [super init];
     if (self) {
-        self.measurements = data;
+        self.measurement = data;
     }
     return self;
 }

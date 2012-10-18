@@ -13,25 +13,31 @@
 #import "SensorData.h"
 #import "ElevatorModule.h"
 #import "History.h"
+#import "Measurement.h"
+
+#define ACC_UPLOAD_URL @"http://ng911dev1.cs.columbia.edu/iLM/acc/upload.php"
+#define FREQUENCY 30
 
 @implementation AppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
-@synthesize buildingInfo;
-@synthesize fileHandler;
-@synthesize measurements;
-@synthesize currentFloor;
-@synthesize currentDisplacement;
 
 # pragma mark -
 # pragma mark Application Delegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.motionManager = [[CMMotionManager alloc] init];
+    // intialize sensors
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    motionManager = [[CMMotionManager alloc] init];
     [[UIAccelerometer sharedAccelerometer] setDelegate:self];
+    
+    NSTimeInterval interval = 1.0 / FREQUENCY;
+    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
+    motionManager.deviceMotionUpdateInterval = interval;
     
     [self setupFetchedResultsController];
     if (![[self.fetchedResultsController fetchedObjects] count] > 0) {
@@ -39,18 +45,18 @@
         [self importCoreDataDefaultBuildingInfo];
     } else {
         DLog(@"DB has values.");
-        self.buildingInfo = [[self.fetchedResultsController fetchedObjects] objectAtIndex:0];
+        buildingInfo = [[self.fetchedResultsController fetchedObjects] objectAtIndex:0];
     }
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSS"];
     
-    NSNumberFormatter *distanceFormatter = [[NSNumberFormatter alloc] init];
+    distanceFormatter = [[NSNumberFormatter alloc] init];
     [distanceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     [distanceFormatter setMaximumFractionDigits:1];
     
-    self.fileHandler = [[FileHandler alloc] initWithName:@"accel"];
-    self.fileHandler.dateFormatter = dateFormatter;
+    fileHandler = [[FileHandler alloc] initWithName:@"accel"];
+    fileHandler.dateFormatter = dateFormatter;
     
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
     UINavigationController *mainTVCnav = [[tabBarController viewControllers] objectAtIndex:0];
@@ -58,15 +64,15 @@
     
     MainTVC *mainTVC = (MainTVC *)mainTVCnav.topViewController;
     mainTVC.managedObjectContext = self.managedObjectContext;
-    mainTVC.buildingInfo = self.buildingInfo;
+    mainTVC.buildingInfo = buildingInfo;
     mainTVC.distanceFormatter = distanceFormatter;
     mainTVC.delegate = self;
     
     SettingTVC *settingTVC = (SettingTVC *)settingTVCnav.topViewController;
-    settingTVC.buildingInfo = self.buildingInfo;
+    settingTVC.buildingInfo = buildingInfo;
  
-    self.currentDisplacement = [NSNumber numberWithDouble:0.0];
-    self.currentFloor = self.buildingInfo.floorOfEntry;
+    currentDisplacement = [NSNumber numberWithDouble:0.0];
+    currentFloor = buildingInfo.floorOfEntry;
     
     return YES;
 }
@@ -99,6 +105,9 @@
     [self saveContext];
 }
 
+
+#pragma mark - Core Data stack
+
 - (void)saveContext
 {
     NSError *error = nil;
@@ -112,9 +121,6 @@
         }
     }
 }
-
-
-#pragma mark - Core Data stack
 
 // Returns the managed object context for the application.
 // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
@@ -203,7 +209,7 @@
 
 
 # pragma mark -
-# pragma mark Import default
+# pragma mark Private functions
 
 - (void)setupFetchedResultsController {
     NSString *entityName = @"BuildingInfo";
@@ -221,84 +227,18 @@
 - (void)importCoreDataDefaultBuildingInfo {
     
     DLog(@"Importing Core Data Default Values for BuildingInfo...");
-    self.buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
+    buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
                                                       inManagedObjectContext:self.managedObjectContext];
-    self.buildingInfo.address1 = @"CEPSR";
-    self.buildingInfo.address2 = @"530 W 120 ST";
-    self.buildingInfo.address3 = @"New York, NY 10027";
-    self.buildingInfo.floorOfEntry = [NSNumber numberWithInt:1];
-    self.buildingInfo.floorHeight = [NSNumber numberWithFloat:4.4];
-    self.buildingInfo.lobbyHeight = [NSNumber numberWithFloat:4.4];
-    self.buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
+    buildingInfo.address1 = @"CEPSR";
+    buildingInfo.address2 = @"530 W 120 ST";
+    buildingInfo.address3 = @"New York, NY 10027";
+    buildingInfo.floorOfEntry = [NSNumber numberWithInt:1];
+    buildingInfo.floorHeight = [NSNumber numberWithFloat:4.4];
+    buildingInfo.lobbyHeight = [NSNumber numberWithFloat:4.4];
+    buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
     [self.managedObjectContext save:nil];
     
     DLog(@"Importing Core Data Default Values for BuildingInfo Completed!");
-}
-
-
-# pragma mark -
-# pragma mark MainTVC Delegate
-- (void)startButtonPushed:(MainTVC *)controller {
-    
-    
-    // simulate measurements from csv file
-    NSArray *array = [self.fileHandler loadFromFile];
-    self.measurements = [[NSMutableArray alloc] initWithCapacity:[array count]];
-    
-    for (int i = 2; i < [array count]; i++) {
-        NSArray *fields = [array objectAtIndex:i];
-        if ([fields count] >= 7) {
-            SensorData *sensorData = [NSEntityDescription insertNewObjectForEntityForName:@"SensorData" inManagedObjectContext:self.managedObjectContext];
-            sensorData.time = [NSNumber numberWithDouble:[[fields objectAtIndex:1] doubleValue]];
-            sensorData.a_x = [NSNumber numberWithDouble:[[fields objectAtIndex:4] doubleValue]];
-            sensorData.a_y = [NSNumber numberWithDouble:[[fields objectAtIndex:5] doubleValue]];
-            sensorData.a_z = [NSNumber numberWithDouble:[[fields objectAtIndex:6] doubleValue]];
-            [self.measurements addObject:sensorData];
-        }
-    }
-    
-    /*
-    self.measurements = [[NSMutableArray alloc] initWithCapacity:100];
-    isPaused = NO;
-    start_ts = 0;
-    NSTimeInterval interval = 1.0 / 30;
-    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
-     */
-}
-
-- (void)stopButtonPushed:(MainTVC *)controller {
-    
-    isPaused = YES;
-    DLog(@"number of measurements: %d", [self.measurements count]);
-    if ([self.measurements count] > 0) {
-        
-        ElevatorModule *elevatorModule = [[ElevatorModule alloc] initWithData:self.measurements];
-        elevatorModule.buildingInfo = self.buildingInfo;
-    
-        [elevatorModule run];
-    
-        double displacement = [elevatorModule.movedDisplacement doubleValue] + [self.currentDisplacement doubleValue];
-        int floor = [self.currentFloor intValue] + [elevatorModule.movedFloor intValue];
-        self.currentDisplacement = [NSNumber numberWithDouble:displacement];
-        self.currentFloor = [NSNumber numberWithInt:floor];
-    
-        [controller updateCurrentDisplacement:self.currentDisplacement];
-        [controller updateCurrentFloor:self.currentFloor];
-    
-        History *newHistory = [NSEntityDescription insertNewObjectForEntityForName:@"History" inManagedObjectContext:self.managedObjectContext];
-        newHistory.time = [NSDate date];
-        newHistory.floor = self.currentFloor;
-        newHistory.displacement = self.currentDisplacement;
-        [newHistory.managedObjectContext save:nil];
-    }
-}
-
-- (void)refreshButtonPushed:(MainTVC *)controller {
-    self.currentDisplacement = [NSNumber numberWithDouble:0.0];
-    self.currentFloor = self.buildingInfo.floorOfEntry;
-    
-    [controller updateCurrentDisplacement:self.currentDisplacement];
-    [controller updateCurrentFloor:self.currentFloor];
 }
 
 
@@ -309,20 +249,50 @@
 {
 	if(!isPaused)
 	{
-        if (start_ts == 0) {
-            start_ts = acceleration.timestamp;
+        if (measurement.start_ti == 0) {
+            measurement.start_ti = acceleration.timestamp;
         }
+        measurement.end_ti = acceleration.timestamp;
+        
+        CMRotationMatrix cmRotationMatrix = motionManager.deviceMotion.attitude.rotationMatrix;
         SensorData *sensorData = [NSEntityDescription insertNewObjectForEntityForName:@"SensorData" inManagedObjectContext:self.managedObjectContext];
-        sensorData.time = [NSNumber numberWithDouble:(acceleration.timestamp - start_ts)];
+        sensorData.time = [NSNumber numberWithDouble:(acceleration.timestamp - measurement.start_ti)];
         sensorData.a_x = [NSNumber numberWithDouble:acceleration.x];
-        sensorData.a_y = [NSNumber numberWithDouble:acceleration.x];
-        sensorData.a_z = [NSNumber numberWithDouble:acceleration.x];
-        [self.measurements addObject:sensorData];
+        sensorData.a_y = [NSNumber numberWithDouble:acceleration.y];
+        sensorData.a_z = [NSNumber numberWithDouble:acceleration.z];
+        sensorData.heading = [NSNumber numberWithDouble:currentHeading.magneticHeading];
+        sensorData.headingAccuracy = [NSNumber numberWithDouble:currentHeading.headingAccuracy];
+        sensorData.m11 = [NSNumber numberWithDouble:cmRotationMatrix.m11];
+        sensorData.m12 = [NSNumber numberWithDouble:cmRotationMatrix.m12];
+        sensorData.m13 = [NSNumber numberWithDouble:cmRotationMatrix.m13];
+        sensorData.m21 = [NSNumber numberWithDouble:cmRotationMatrix.m21];
+        sensorData.m22 = [NSNumber numberWithDouble:cmRotationMatrix.m22];
+        sensorData.m23 = [NSNumber numberWithDouble:cmRotationMatrix.m23];
+        sensorData.m31 = [NSNumber numberWithDouble:cmRotationMatrix.m31];
+        sensorData.m32 = [NSNumber numberWithDouble:cmRotationMatrix.m32];
+        sensorData.m33 = [NSNumber numberWithDouble:cmRotationMatrix.m33];
+        [measurement.sensorDataArray addObject:sensorData];
     }
 }
 
-- (void)resetAll {
-    DLog(@"resetAll");
+
+# pragma mark -
+# pragma mark CLLocationManager delegate
+- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
+    // even though heading accuracy is -1, use it since we only need changes in headings
+    /*
+     if (newHeading.headingAccuracy < 0)
+     return;
+     */
+    currentHeading = newHeading;
+}
+
+
+# pragma mark -
+# pragma mark common functions for TVCs
+
+- (void)resetHistory {
+    DLog(@"resetHistory");
     NSFetchRequest * request = [[NSFetchRequest alloc] init];
     [request setEntity:[NSEntityDescription entityForName:@"History" inManagedObjectContext:self.managedObjectContext]];
     [request setIncludesPropertyValues:NO]; //only fetch the managedObjectID
@@ -334,6 +304,141 @@
         [self.managedObjectContext deleteObject:history];
     }
     [self.managedObjectContext save:nil];
+}
+
+- (void)exportMeasurement {
+    if ([measurement.sensorDataArray count] == 0) {
+        DLog(@"measurement empty");
+        return;
+    }
+    
+    // dump measurement to the file
+    [fileHandler writeToFile:[NSString stringWithFormat:@"start, %@, %d\n",
+                              [dateFormatter stringFromDate:measurement.startDate], measurement.frequency]];
+    [fileHandler writeToFile:@"timestamp, sec, floor, state, x, y, z, lpf.x, lpf.y, lpf.z, hpf.x, hpf.y, hpf.z, a1, a2, a3, v1, v2, v3, d1, d2, d3, gx, gy, gz, ax, ay, az, a_adj, v_adj, d_adj, v_gap, v_max, curFloor, temp, pressure, altitude, heading, roll, pitch, yaw, rr.x, rr.y, rr.z, m11, m12, m13, m21, m22, m23, m31, m32, m33, heading_acc\n"];
+    NSArray *measurements = measurement.sensorDataArray;
+    for (int i = 0; i < [measurements count]; i++) {
+        SensorData *data = [measurements objectAtIndex:i];
+        NSString *str = [NSString stringWithFormat:@"%@, %lf, %d, %d, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %d, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf\n",
+                         @"0000-00-00 00:00:00.000",
+                         [data.time doubleValue],
+                         0, 0,
+                         [data.a_x doubleValue], [data.a_y doubleValue], [data.a_z doubleValue],
+                         0., 0., 0.,
+                         0., 0., 0.,
+                         0., 0., 0.,
+                         0., 0., 0.,
+                         0., 0., 0.,
+                         0., 0., 0.,
+                         0., 0., 0.,
+                         0., 0., 0.,
+                         0., 0., 0,
+                         0., 0., 0.,
+                         [data.heading doubleValue],
+                         0., 0., 0.,
+                         0., 0., 0.,
+                         [data.m11 doubleValue], [data.m12 doubleValue], [data.m13 doubleValue],
+                         [data.m21 doubleValue], [data.m22 doubleValue], [data.m23 doubleValue],
+                         [data.m31 doubleValue], [data.m32 doubleValue], [data.m33 doubleValue],
+                         [data.headingAccuracy doubleValue]];
+        [fileHandler writeToFile:str];
+    }
+    [fileHandler sendFileTo:ACC_UPLOAD_URL];
+}
+
+
+# pragma mark -
+# pragma mark MainTVC Delegate
+
+- (void)startButtonPushed:(MainTVC *)controller {
+    
+    measurement = [[Measurement alloc] init];
+    
+    /*
+     // simulate measurements from csv file
+     NSArray *array = [fileHandler loadFromFile:@"test"];
+     NSMutableArray *measurements = [[NSMutableArray alloc] initWithCapacity:[array count]];
+     
+     NSString *ts = [[array objectAtIndex:0] objectAtIndex:1];
+     measurement.startDate = [dateFormatter dateFromString:ts];
+     for (int i = [array count] -1; i > 0; i--) {
+     NSArray *fields = [array objectAtIndex:i];
+     if ([fields count] > 7) {
+     ts = [fields objectAtIndex:0];
+     break;
+     }
+     }
+     measurement.endDate = [dateFormatter dateFromString:ts];
+     DLog(@"endDate: %@", [dateFormatter stringFromDate:measurement.endDate]);
+     
+     for (int i = 2; i < [array count]; i++) {
+     NSArray *fields = [array objectAtIndex:i];
+     if ([fields count] >= 7) {
+     SensorData *sensorData = [NSEntityDescription insertNewObjectForEntityForName:@"SensorData" inManagedObjectContext:self.managedObjectContext];
+     sensorData.time = [NSNumber numberWithDouble:[[fields objectAtIndex:1] doubleValue]];
+     sensorData.a_x = [NSNumber numberWithDouble:[[fields objectAtIndex:4] doubleValue]];
+     sensorData.a_y = [NSNumber numberWithDouble:[[fields objectAtIndex:5] doubleValue]];
+     sensorData.a_z = [NSNumber numberWithDouble:[[fields objectAtIndex:6] doubleValue]];
+     [measurements addObject:sensorData];
+     }
+     }
+     measurement.sensorDataArray = measurements;
+     measurement.frequency = FREQUENCY;
+     */
+    
+    
+    isPaused = NO;
+    measurement.startDate = [NSDate date];
+    measurement.sensorDataArray = [[NSMutableArray alloc] initWithCapacity:400];
+    measurement.start_ti = 0;
+    measurement.frequency = FREQUENCY;
+    
+    [motionManager startDeviceMotionUpdates];
+    [locationManager startUpdatingHeading];
+}
+
+- (void)stopButtonPushed:(MainTVC *)controller {
+    
+    isPaused = YES;
+    measurement.endDate = [NSDate date];
+    
+    [motionManager stopDeviceMotionUpdates];
+    [locationManager stopUpdatingHeading];
+    
+    DLog(@"number of measurements: %d", [measurement.sensorDataArray count]);
+    if ([measurement.sensorDataArray count] > 0) {
+        
+        ElevatorModule *elevatorModule = [[ElevatorModule alloc] initWithData:measurement];
+        elevatorModule.buildingInfo = buildingInfo;
+        
+        [elevatorModule run];
+        
+        double displacement = [elevatorModule.movedDisplacement doubleValue] + [currentDisplacement doubleValue];
+        int floor = [currentFloor intValue] + [elevatorModule.movedFloor intValue];
+        currentDisplacement = [NSNumber numberWithDouble:displacement];
+        currentFloor = [NSNumber numberWithInt:floor];
+        
+        [controller updateCurrentDisplacement:currentDisplacement];
+        [controller updateCurrentFloor:currentFloor];
+        
+        History *newHistory = [NSEntityDescription insertNewObjectForEntityForName:@"History" inManagedObjectContext:self.managedObjectContext];
+        newHistory.time = [NSDate date];
+        newHistory.floor = currentFloor;
+        newHistory.displacement = currentDisplacement;
+        newHistory.duration = [NSNumber numberWithDouble:(measurement.end_ti - measurement.start_ti)];
+        [newHistory.managedObjectContext save:nil];
+    }
+    
+    // for debug
+    //[self exportMeasurement];
+}
+
+- (void)refreshButtonPushed:(MainTVC *)controller {
+    currentDisplacement = [NSNumber numberWithDouble:0.0];
+    currentFloor = buildingInfo.floorOfEntry;
+    
+    [controller updateCurrentDisplacement:currentDisplacement];
+    [controller updateCurrentFloor:currentFloor];
 }
 
 @end

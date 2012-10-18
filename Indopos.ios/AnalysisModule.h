@@ -8,15 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "BuildingInfo.h"
+#import "Measurement.h"
 
 @interface AnalysisModule : NSObject
 
 @property (nonatomic, strong) BuildingInfo *buildingInfo;
-@property (nonatomic, strong) NSArray *measurements;
+@property (nonatomic, strong) Measurement *measurement;
 @property (nonatomic, strong) NSNumber *movedFloor;
 @property (nonatomic, strong) NSNumber *movedDisplacement;
 
-- (id)initWithData:(NSArray *)data;
+- (id)initWithData:(Measurement *)data;
 - (NSMutableArray *)lowPassFilter:(NSArray *)array withAlpha:(double)alpha;
 - (NSMutableArray *)cutOffDecimal:(NSArray *)array withPosition:(int)num;
 - (NSMutableArray *)getVelocity:(NSArray *)time withAccel:(NSArray *)accel;
