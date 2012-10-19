@@ -15,15 +15,14 @@
 - (void)startButtonPushed:(MainTVC *)controller;
 - (void)stopButtonPushed:(MainTVC *)controller;
 - (void)refreshButtonPushed:(MainTVC *)controller;
+- (void)currentFloorChanged:(MainTVC *)controller;
 @end
 
-@interface MainTVC : UITableViewController {
+@interface MainTVC : UITableViewController<UITextFieldDelegate> {
     BOOL startButtonOn;
-    Config *config;
-    BuildingInfo *buildingInfo;
 }
 
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) Config *config;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) NSNumberFormatter *distanceFormatter;
 

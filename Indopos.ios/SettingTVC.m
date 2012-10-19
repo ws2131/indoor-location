@@ -15,36 +15,31 @@
 
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize config;
-@synthesize buildingInfo;
 
 # pragma mark -
 # pragma mark View
 
 - (void)viewDidLoad
-{    
+{
+    [super viewDidLoad];
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.tableView addGestureRecognizer:tgr];
-    
-    [super viewDidLoad];
-}
-
-- (void)dismissKeyboard {
-    [self.view endEditing:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    DLog(@"building info: %@, %@, %@", self.buildingInfo.address1, self.buildingInfo.floorOfEntry, self.buildingInfo.floorHeight);
+    BuildingInfo *buildingInfo = self.config.inBuilding;
+    DLog(@"building info: %@, %@, %@", buildingInfo.address1, buildingInfo.floorOfEntry, buildingInfo.floorHeight);
 
-    self.floorOfEntryTextField.text = [self.buildingInfo.floorOfEntry stringValue];
-    self.floorHeightTextfield.text = [self.buildingInfo.floorHeight stringValue];
-    self.lobbyHeightTextField.text = [self.buildingInfo.lobbyHeight stringValue];
-    self.numOfLandingsTextField.text = [self.buildingInfo.numOfLandings stringValue];
+    self.floorOfEntryTextField.text = [buildingInfo.floorOfEntry stringValue];
+    self.floorHeightTextfield.text = [buildingInfo.floorHeight stringValue];
+    self.lobbyHeightTextField.text = [buildingInfo.lobbyHeight stringValue];
+    self.numOfLandingsTextField.text = [buildingInfo.numOfLandings stringValue];
 
-    self.address1TextField.text = self.buildingInfo.address1;
-    self.address2TextField.text = self.buildingInfo.address2;
-    self.address3TextField.text = self.buildingInfo.address3;
+    self.address1TextField.text = buildingInfo.address1;
+    self.address2TextField.text = buildingInfo.address2;
+    self.address3TextField.text = buildingInfo.address3;
 }
 
 
@@ -55,26 +50,27 @@
     DLog(@"buidlingInfo saved");
     [self dismissKeyboard];
 
+    BuildingInfo *buildingInfo = self.config.inBuilding;
     // address1 is key
     NSString *msg = nil;
-    if ([self.buildingInfo.address1 isEqualToString:self.address1TextField.text]) {
+    if ([buildingInfo.address1 isEqualToString:self.address1TextField.text]) {
         // update
         msg = @"Updated.";
     } else {
         // insert
         msg = @"Inserted.";
-        self.buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
-                                                          inManagedObjectContext:self.buildingInfo.managedObjectContext];
-        self.config.inBuilding = self.buildingInfo;
+        buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
+                                                          inManagedObjectContext:self.managedObjectContext];
+        self.config.inBuilding = buildingInfo;
     }
 
-    self.buildingInfo.floorOfEntry = [NSNumber numberWithInteger:[self.floorOfEntryTextField.text integerValue]];
-    self.buildingInfo.floorHeight = [NSNumber numberWithFloat:[self.floorHeightTextfield.text floatValue]];
-    self.buildingInfo.lobbyHeight = [NSNumber numberWithFloat:[self.lobbyHeightTextField.text floatValue]];
-    self.buildingInfo.numOfLandings = [NSNumber numberWithFloat:[self.numOfLandingsTextField.text floatValue]];
-    self.buildingInfo.address1 = self.address1TextField.text;
-    self.buildingInfo.address2 = self.address2TextField.text;
-    self.buildingInfo.address3 = self.address3TextField.text;
+    buildingInfo.floorOfEntry = [NSNumber numberWithInteger:[self.floorOfEntryTextField.text integerValue]];
+    buildingInfo.floorHeight = [NSNumber numberWithFloat:[self.floorHeightTextfield.text floatValue]];
+    buildingInfo.lobbyHeight = [NSNumber numberWithFloat:[self.lobbyHeightTextField.text floatValue]];
+    buildingInfo.numOfLandings = [NSNumber numberWithFloat:[self.numOfLandingsTextField.text floatValue]];
+    buildingInfo.address1 = self.address1TextField.text;
+    buildingInfo.address2 = self.address2TextField.text;
+    buildingInfo.address3 = self.address3TextField.text;
     [self.managedObjectContext save:nil];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:msg
@@ -95,7 +91,6 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"Predefined Buildings Segue"]) {
         BuildingsTVC *buildingsTVC = segue.destinationViewController;
-        buildingsTVC.selectedBuilding = self.buildingInfo;
         buildingsTVC.managedObjectContext = self.managedObjectContext;
         buildingsTVC.delegate = self;
     }
@@ -103,10 +98,22 @@
 
 - (void)buildingWasSelectedOnBuildingsTVC:(BuildingsTVC *)controller {
     DLog(@"predefined building selected %@", controller.selectedBuilding.address1);
-    self.buildingInfo = controller.selectedBuilding;
-    self.config.inBuilding = self.buildingInfo;
+    self.config.inBuilding = controller.selectedBuilding;
     [self.managedObjectContext save:nil];
     [controller.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)dismissKeyboard {
+    [self.view endEditing:YES];
+}
+
+
+# pragma mark -
+# pragma mark UI Textfield delegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end

@@ -11,10 +11,9 @@
 #import "BuildingInfo.h"
 #import "BuildingsTVC.h"
 
-@interface SettingTVC : UITableViewController<BuildingsTVCDelegate>
+@interface SettingTVC : UITableViewController<BuildingsTVCDelegate, UITextFieldDelegate>
 
 @property (strong, nonatomic) Config *config;
-@property (strong, nonatomic) BuildingInfo *buildingInfo;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @property (strong, nonatomic) IBOutlet UITextField *floorOfEntryTextField;
@@ -24,8 +23,5 @@
 @property (strong, nonatomic) IBOutlet UITextField *address1TextField;
 @property (strong, nonatomic) IBOutlet UITextField *address2TextField;
 @property (strong, nonatomic) IBOutlet UITextField *address3TextField;
-
-- (IBAction)resetHistory:(id)sender;
-- (IBAction)exportMeasurement:(id)sender;
 
 @end

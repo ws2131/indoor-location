@@ -23,7 +23,6 @@
     NSDateFormatter *dateFormatter;
     NSNumberFormatter *distanceFormatter;
 
-    BuildingInfo *buildingInfo;
     FileHandler *fileHandler;
     Measurement *measurement;
     
@@ -36,7 +35,6 @@
 }
 
 @property (strong, nonatomic) UIWindow *window;
-
 @property (strong, nonatomic) Config *config;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;

@@ -32,6 +32,8 @@
 		712EA9C1161E66BA00C047E3 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 712EA9BF161E66BA00C047E3 /* Model.xcdatamodeld */; };
 		716F5C48162F5F3300E29525 /* cs-logo-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 716F5C46162F5F3300E29525 /* cs-logo-57x57.png */; };
 		716F5C49162F5F3300E29525 /* cs-logo-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = 716F5C47162F5F3300E29525 /* cs-logo-114x114.png */; };
+		71CD0AB31631E19A00A8A185 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CD0AB21631E19A00A8A185 /* AudioToolbox.framework */; };
+		71CD0AB61631E32500A8A185 /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = 71CD0AB51631E32500A8A185 /* click.wav */; };
 		71D00217162F78BD00FEB70D /* HistoryTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 71D00216162F78BD00FEB70D /* HistoryTVC.m */; };
 		71D0022F162F917600FEB70D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D0022E162F917600FEB70D /* CoreMotion.framework */; };
 		71D00231162F919500FEB70D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D00230162F919500FEB70D /* Accelerate.framework */; };
@@ -87,6 +89,8 @@
 		712EA9C5161E682500C047E3 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
 		716F5C46162F5F3300E29525 /* cs-logo-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cs-logo-57x57.png"; sourceTree = "<group>"; };
 		716F5C47162F5F3300E29525 /* cs-logo-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cs-logo-114x114.png"; sourceTree = "<group>"; };
+		71CD0AB21631E19A00A8A185 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		71CD0AB51631E32500A8A185 /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
 		71D00215162F78BD00FEB70D /* HistoryTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryTVC.h; sourceTree = "<group>"; };
 		71D00216162F78BD00FEB70D /* HistoryTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTVC.m; sourceTree = "<group>"; };
 		71D00219162F7A9300FEB70D /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71CD0AB31631E19A00A8A185 /* AudioToolbox.framework in Frameworks */,
 				71E3092016309E080099B29F /* CoreLocation.framework in Frameworks */,
 				71D00231162F919500FEB70D /* Accelerate.framework in Frameworks */,
 				71D0022F162F917600FEB70D /* CoreMotion.framework in Frameworks */,
@@ -138,6 +143,7 @@
 				7129B7F1161EA20F00743A97 /* p.png */,
 				716F5C46162F5F3300E29525 /* cs-logo-57x57.png */,
 				716F5C47162F5F3300E29525 /* cs-logo-114x114.png */,
+				71CD0AB51631E32500A8A185 /* click.wav */,
 				712EA986161E56A500C047E3 /* Indopos.ios */,
 				712EA97F161E56A500C047E3 /* Frameworks */,
 				712EA97D161E56A500C047E3 /* Products */,
@@ -155,6 +161,7 @@
 		712EA97F161E56A500C047E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				71CD0AB21631E19A00A8A185 /* AudioToolbox.framework */,
 				71E3091F16309E080099B29F /* CoreLocation.framework */,
 				71D00230162F919500FEB70D /* Accelerate.framework */,
 				71D0022E162F917600FEB70D /* CoreMotion.framework */,
@@ -306,6 +313,7 @@
 				7129B7F2161EA20F00743A97 /* p.png in Resources */,
 				716F5C48162F5F3300E29525 /* cs-logo-57x57.png in Resources */,
 				716F5C49162F5F3300E29525 /* cs-logo-114x114.png in Resources */,
+				71CD0AB61631E32500A8A185 /* click.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

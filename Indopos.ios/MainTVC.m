@@ -6,50 +6,41 @@
 //  Copyright (c) 2012 Wonsang Song. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+#import <Audiotoolbox/AudioToolbox.h>
 #import "Logger.h"
 #import "MainTVC.h"
 #import "HistoryTVC.h"
 
 @implementation MainTVC
 
+@synthesize config;
 @synthesize managedObjectContext = _managedObjectContext;
-@synthesize fetchedResultsController = _fetchedResultsController;
-
 @synthesize distanceFormatter;
 @synthesize delegate;
 
-- (void)fetchConfig {
-    NSString *entityName = @"Config";
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"test"
-                                                                                     ascending:YES
-                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext
-                                                                          sectionNameKeyPath:nil cacheName:nil];
-    [self.fetchedResultsController performFetch:nil];
-    config = [[self.fetchedResultsController fetchedObjects] objectAtIndex:0];
-    buildingInfo = config.inBuilding;
-    DLog(@"building %@", buildingInfo.address1);
-}
 
 # pragma mark -
 # pragma mark View
 
 - (void)viewDidLoad
 {
-    [self fetchConfig];
-    DLog(@"building %@", buildingInfo.address1);
+    [super viewDidLoad];
+    
+    // This conflicts with history view button!
+    //UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    //[self.tableView addGestureRecognizer:tgr];
+    
+    BuildingInfo *buildingInfo = self.config.inBuilding;
     self.curFloorTextField.text = [buildingInfo.floorOfEntry stringValue];
     self.curDispositionTextField.text = @"0";
     startButtonOn = NO;
-    [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self fetchConfig];
-
-    DLog(@"building %@", buildingInfo.address1);
+    BuildingInfo *buildingInfo = self.config.inBuilding;
+    DLog(@"building %@ %@", buildingInfo.address1, buildingInfo.floorHeight);
     NSString *addr = [NSString stringWithFormat:@"%@\n%@\n%@", buildingInfo.address1, buildingInfo.address2, buildingInfo.address3];
     self.addressTextView.text = addr;
 }
@@ -62,11 +53,14 @@
     }
 }
 
+
 # pragma mark -
 # pragma mark UI Action functions
 
 - (IBAction)startButtonTouched:(id)sender {
     DLog(@"startbutton touched state: %@", startButtonOn ? @"YES" : @"NO");
+    [self playClickSound];
+    
     UIButton *button = (UIButton *)sender;
     if (startButtonOn == YES) {
         DLog(@"stop pushed");
@@ -93,6 +87,31 @@
 
 - (void)updateCurrentDisplacement:(NSNumber *)currentDisplacement {
     self.curDispositionTextField.text = [NSString stringWithFormat:@"%@", [self.distanceFormatter stringFromNumber:currentDisplacement]];
+}
+
+- (void)dismissKeyboard {
+    [self.view endEditing:YES];
+}
+
+- (IBAction)currentFloorChanged:(id)sender {
+    DLog(@"changed to %@", self.curFloorTextField.text);
+    [self.delegate currentFloorChanged:self];
+}
+
+- (void)playClickSound {
+    SystemSoundID soundID;
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"click" ofType:@"wav"];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    AudioServicesCreateSystemSoundID ((__bridge CFURLRef)url, &soundID);
+    AudioServicesPlaySystemSound(soundID);
+}
+
+# pragma mark -
+# pragma mark UI Textfield delegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end;

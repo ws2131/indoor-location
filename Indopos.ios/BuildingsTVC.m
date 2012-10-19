@@ -16,6 +16,10 @@
 @synthesize delegate;
 @synthesize selectedBuilding;
 
+
+# pragma mark -
+# pragma mark View
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -26,23 +30,6 @@
     [self setupFetchedResultsController];
 
 }
-
-
-#pragma mark - CoreData related
-
-- (void)setupFetchedResultsController {
-    NSString *entityName = @"BuildingInfo";
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"address1"
-                                                                                     ascending:YES
-                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext
-                                                                          sectionNameKeyPath:nil cacheName:nil];
-    [self performFetch];
-}
-
-
-#pragma mark - Table view delegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -65,6 +52,36 @@
     self.selectedBuilding = [self.fetchedResultsController objectAtIndexPath:indexPath];
     DLog(@"selected %@", self.selectedBuilding.address1);
     [self.delegate buildingWasSelectedOnBuildingsTVC:self];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.tableView beginUpdates];
+        
+        BuildingInfo *buildingInfo = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        DLog(@"deleting (%@)", buildingInfo.address1);
+        [self.managedObjectContext deleteObject:buildingInfo];
+        [self.managedObjectContext save:nil];
+        
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self performFetch];
+        
+        [self.tableView endUpdates];
+    }
+}
+
+
+#pragma mark - CoreData related
+
+- (void)setupFetchedResultsController {
+    NSString *entityName = @"BuildingInfo";
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"address1"
+                                                                                     ascending:YES
+                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext
+                                                                          sectionNameKeyPath:nil cacheName:nil];
+    [self performFetch];
 }
 
 @end

@@ -17,22 +17,12 @@
 @synthesize fetchedResultsController = _fetchedResultsController;
 @synthesize distanceFormatter;
 
-- (void)setupFetchedResultsController {
-    NSString *entityName = @"History";
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
-    //request.predicate = [NSPredicate predicateWithFormat:@"Role.name = Blah"];
-    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"time"
-                                                                                     ascending:YES
-                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext
-                                                                          sectionNameKeyPath:nil cacheName:nil];
-    [self performFetch];
-}
+# pragma mark -
+# pragma mark View
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -80,6 +70,10 @@
     }
 }
 
+
+# pragma mark -
+# pragma mark UI Action functions
+
 - (IBAction)deleteAll:(id)sender {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete All" message:@"Do you want to delete all history?"
                                                     delegate:self cancelButtonTitle:@"No" otherButtonTitles:nil];
@@ -91,6 +85,22 @@
     if (buttonIndex == 1) {
         [self removeAllHistory];
     }
+}
+
+
+# pragma mark -
+# pragma mark Private functions
+
+- (void)setupFetchedResultsController {
+    NSString *entityName = @"History";
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+    //request.predicate = [NSPredicate predicateWithFormat:@"Role.name = Blah"];
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"time"
+                                                                                     ascending:YES
+                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext
+                                                                          sectionNameKeyPath:nil cacheName:nil];
+    [self performFetch];
 }
 
 - (void)removeAllHistory {
