@@ -9,9 +9,12 @@
 #import "Logger.h"
 #import "SettingTVC.h"
 #import "AppDelegate.h"
+#import "BuildingsTVC.h"
 
 @implementation SettingTVC
 
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize config;
 @synthesize buildingInfo;
 
 # pragma mark -
@@ -52,6 +55,19 @@
     DLog(@"buidlingInfo saved");
     [self dismissKeyboard];
 
+    // address1 is key
+    NSString *msg = nil;
+    if ([self.buildingInfo.address1 isEqualToString:self.address1TextField.text]) {
+        // update
+        msg = @"Updated.";
+    } else {
+        // insert
+        msg = @"Inserted.";
+        self.buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
+                                                          inManagedObjectContext:self.buildingInfo.managedObjectContext];
+        self.config.inBuilding = self.buildingInfo;
+    }
+
     self.buildingInfo.floorOfEntry = [NSNumber numberWithInteger:[self.floorOfEntryTextField.text integerValue]];
     self.buildingInfo.floorHeight = [NSNumber numberWithFloat:[self.floorHeightTextfield.text floatValue]];
     self.buildingInfo.lobbyHeight = [NSNumber numberWithFloat:[self.lobbyHeightTextField.text floatValue]];
@@ -59,11 +75,10 @@
     self.buildingInfo.address1 = self.address1TextField.text;
     self.buildingInfo.address2 = self.address2TextField.text;
     self.buildingInfo.address3 = self.address3TextField.text;
+    [self.managedObjectContext save:nil];
     
-    [self.buildingInfo.managedObjectContext save:nil];
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Setting is saved."
-                                                    delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:msg
+                                                   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
 }
 
@@ -75,6 +90,23 @@
 - (IBAction)exportMeasurement:(id)sender {
     DLog(@"export pushed");
     [(AppDelegate *)[UIApplication sharedApplication].delegate exportMeasurement];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"Predefined Buildings Segue"]) {
+        BuildingsTVC *buildingsTVC = segue.destinationViewController;
+        buildingsTVC.selectedBuilding = self.buildingInfo;
+        buildingsTVC.managedObjectContext = self.managedObjectContext;
+        buildingsTVC.delegate = self;
+    }
+}
+
+- (void)buildingWasSelectedOnBuildingsTVC:(BuildingsTVC *)controller {
+    DLog(@"predefined building selected %@", controller.selectedBuilding.address1);
+    self.buildingInfo = controller.selectedBuilding;
+    self.config.inBuilding = self.buildingInfo;
+    [self.managedObjectContext save:nil];
+    [controller.navigationController popViewControllerAnimated:YES];
 }
 
 @end

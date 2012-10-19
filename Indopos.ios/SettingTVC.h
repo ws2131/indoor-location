@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import "BuildingInfo.h"
+#import "BuildingsTVC.h"
 
-@interface SettingTVC : UITableViewController
+@interface SettingTVC : UITableViewController<BuildingsTVCDelegate>
 
+@property (strong, nonatomic) Config *config;
 @property (strong, nonatomic) BuildingInfo *buildingInfo;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @property (strong, nonatomic) IBOutlet UITextField *floorOfEntryTextField;
 @property (strong, nonatomic) IBOutlet UITextField *floorHeightTextfield;

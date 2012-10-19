@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		710864311630B15400998FDD /* BuildingsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 710864301630B15400998FDD /* BuildingsTVC.m */; };
+		710864501630DFA600998FDD /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 7108644F1630DFA600998FDD /* Config.m */; };
+		710864531630DFA700998FDD /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = 710864521630DFA700998FDD /* History.m */; };
+		710864561630DFA800998FDD /* SensorData.m in Sources */ = {isa = PBXBuildFile; fileRef = 710864551630DFA800998FDD /* SensorData.m */; };
+		710864591630DFA800998FDD /* BuildingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 710864581630DFA800998FDD /* BuildingInfo.m */; };
 		7129B7E1161E8B9900743A97 /* MainTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7129B7E0161E8B9900743A97 /* MainTVC.m */; };
 		7129B7F0161EA20700743A97 /* w.png in Resources */ = {isa = PBXBuildFile; fileRef = 7129B7EF161EA20700743A97 /* w.png */; };
 		7129B7F2161EA20F00743A97 /* p.png in Resources */ = {isa = PBXBuildFile; fileRef = 7129B7F1161EA20F00743A97 /* p.png */; };
@@ -32,9 +37,6 @@
 		71D00231162F919500FEB70D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D00230162F919500FEB70D /* Accelerate.framework */; };
 		71E3091D163068320099B29F /* Measurement.m in Sources */ = {isa = PBXBuildFile; fileRef = 71E3091C163068320099B29F /* Measurement.m */; };
 		71E3092016309E080099B29F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71E3091F16309E080099B29F /* CoreLocation.framework */; };
-		71E3093A1630A4F80099B29F /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = 71E309391630A4F70099B29F /* History.m */; };
-		71E3093D1630A4F90099B29F /* SensorData.m in Sources */ = {isa = PBXBuildFile; fileRef = 71E3093C1630A4F90099B29F /* SensorData.m */; };
-		71E309401630A4FA0099B29F /* BuildingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 71E3093F1630A4FA0099B29F /* BuildingInfo.m */; };
 		71F77D72162DFEFB0064C1B7 /* FileHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F77D71162DFEFB0064C1B7 /* FileHandler.m */; };
 		71F77D7D162E0C0F0064C1B7 /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F77D7C162E0C0F0064C1B7 /* CHCSVParser.m */; };
 		71F77D82162E0CEA0064C1B7 /* NSArray+CHCSVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F77D7F162E0CEA0064C1B7 /* NSArray+CHCSVAdditions.m */; };
@@ -45,6 +47,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7108642F1630B15400998FDD /* BuildingsTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildingsTVC.h; sourceTree = "<group>"; };
+		710864301630B15400998FDD /* BuildingsTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildingsTVC.m; sourceTree = "<group>"; };
+		7108644E1630DFA600998FDD /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		7108644F1630DFA600998FDD /* Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Config.m; sourceTree = "<group>"; };
+		710864511630DFA700998FDD /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
+		710864521630DFA700998FDD /* History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = History.m; sourceTree = "<group>"; };
+		710864541630DFA700998FDD /* SensorData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorData.h; sourceTree = "<group>"; };
+		710864551630DFA800998FDD /* SensorData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorData.m; sourceTree = "<group>"; };
+		710864571630DFA800998FDD /* BuildingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildingInfo.h; sourceTree = "<group>"; };
+		710864581630DFA800998FDD /* BuildingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildingInfo.m; sourceTree = "<group>"; };
 		711EE469162DFDEC001DDBC6 /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
 		7129B7DF161E8B9900743A97 /* MainTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTVC.h; sourceTree = "<group>"; };
 		7129B7E0161E8B9900743A97 /* MainTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTVC.m; sourceTree = "<group>"; };
@@ -83,13 +95,7 @@
 		71E3091B163068320099B29F /* Measurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Measurement.h; sourceTree = "<group>"; };
 		71E3091C163068320099B29F /* Measurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Measurement.m; sourceTree = "<group>"; };
 		71E3091F16309E080099B29F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		71E309371630A4C50099B29F /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
-		71E309381630A4F70099B29F /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
-		71E309391630A4F70099B29F /* History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = History.m; sourceTree = "<group>"; };
-		71E3093B1630A4F90099B29F /* SensorData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorData.h; sourceTree = "<group>"; };
-		71E3093C1630A4F90099B29F /* SensorData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorData.m; sourceTree = "<group>"; };
-		71E3093E1630A4F90099B29F /* BuildingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildingInfo.h; sourceTree = "<group>"; };
-		71E3093F1630A4FA0099B29F /* BuildingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildingInfo.m; sourceTree = "<group>"; };
+		71E309371630A4C50099B29F /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
 		71F77D70162DFEFB0064C1B7 /* FileHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileHandler.h; sourceTree = "<group>"; };
 		71F77D71162DFEFB0064C1B7 /* FileHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHandler.m; sourceTree = "<group>"; };
 		71F77D7A162E0BED0064C1B7 /* CHCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCSV.h; sourceTree = "<group>"; };
@@ -165,25 +171,29 @@
 			children = (
 				71E309411630A65F0099B29F /* CoreDataTVC */,
 				71F77D97162E2FE90064C1B7 /* CHCSVParser */,
-				712EA9C5161E682500C047E3 /* Logger.h */,
 				712EA998161E56A500C047E3 /* MainStoryboard.storyboard */,
 				712EA9BF161E66BA00C047E3 /* Model.xcdatamodeld */,
-				71E3093E1630A4F90099B29F /* BuildingInfo.h */,
-				71E3093F1630A4FA0099B29F /* BuildingInfo.m */,
-				71E3093B1630A4F90099B29F /* SensorData.h */,
-				71E3093C1630A4F90099B29F /* SensorData.m */,
-				71E309381630A4F70099B29F /* History.h */,
-				71E309391630A4F70099B29F /* History.m */,
+				710864571630DFA800998FDD /* BuildingInfo.h */,
+				710864581630DFA800998FDD /* BuildingInfo.m */,
+				710864541630DFA700998FDD /* SensorData.h */,
+				710864551630DFA800998FDD /* SensorData.m */,
+				710864511630DFA700998FDD /* History.h */,
+				710864521630DFA700998FDD /* History.m */,
+				7108644E1630DFA600998FDD /* Config.h */,
+				7108644F1630DFA600998FDD /* Config.m */,
+				712EA9C5161E682500C047E3 /* Logger.h */,
 				71E3091B163068320099B29F /* Measurement.h */,
 				71E3091C163068320099B29F /* Measurement.m */,
 				712EA98F161E56A500C047E3 /* AppDelegate.h */,
 				712EA990161E56A500C047E3 /* AppDelegate.m */,
 				7129B7DF161E8B9900743A97 /* MainTVC.h */,
 				7129B7E0161E8B9900743A97 /* MainTVC.m */,
-				71D00215162F78BD00FEB70D /* HistoryTVC.h */,
-				71D00216162F78BD00FEB70D /* HistoryTVC.m */,
 				712EA9B6161E644500C047E3 /* SettingTVC.h */,
 				712EA9B7161E644500C047E3 /* SettingTVC.m */,
+				71D00215162F78BD00FEB70D /* HistoryTVC.h */,
+				71D00216162F78BD00FEB70D /* HistoryTVC.m */,
+				7108642F1630B15400998FDD /* BuildingsTVC.h */,
+				710864301630B15400998FDD /* BuildingsTVC.m */,
 				71F77D70162DFEFB0064C1B7 /* FileHandler.h */,
 				71F77D71162DFEFB0064C1B7 /* FileHandler.m */,
 				712EA987161E56A500C047E3 /* Supporting Files */,
@@ -322,9 +332,11 @@
 				71F77D9A162E33860064C1B7 /* ElevatorModule.m in Sources */,
 				71D00217162F78BD00FEB70D /* HistoryTVC.m in Sources */,
 				71E3091D163068320099B29F /* Measurement.m in Sources */,
-				71E3093A1630A4F80099B29F /* History.m in Sources */,
-				71E3093D1630A4F90099B29F /* SensorData.m in Sources */,
-				71E309401630A4FA0099B29F /* BuildingInfo.m in Sources */,
+				710864311630B15400998FDD /* BuildingsTVC.m in Sources */,
+				710864501630DFA600998FDD /* Config.m in Sources */,
+				710864531630DFA700998FDD /* History.m in Sources */,
+				710864561630DFA800998FDD /* SensorData.m in Sources */,
+				710864591630DFA800998FDD /* BuildingInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

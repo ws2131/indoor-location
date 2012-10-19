@@ -13,25 +13,44 @@
 @implementation MainTVC
 
 @synthesize managedObjectContext = _managedObjectContext;
-@synthesize buildingInfo;
+@synthesize fetchedResultsController = _fetchedResultsController;
+
 @synthesize distanceFormatter;
 @synthesize delegate;
+
+- (void)fetchConfig {
+    NSString *entityName = @"Config";
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"test"
+                                                                                     ascending:YES
+                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:self.managedObjectContext
+                                                                          sectionNameKeyPath:nil cacheName:nil];
+    [self.fetchedResultsController performFetch:nil];
+    config = [[self.fetchedResultsController fetchedObjects] objectAtIndex:0];
+    buildingInfo = config.inBuilding;
+    DLog(@"building %@", buildingInfo.address1);
+}
 
 # pragma mark -
 # pragma mark View
 
 - (void)viewDidLoad
 {
-    self.curFloorTextField.text = [self.buildingInfo.floorOfEntry stringValue];
+    [self fetchConfig];
+    DLog(@"building %@", buildingInfo.address1);
+    self.curFloorTextField.text = [buildingInfo.floorOfEntry stringValue];
     self.curDispositionTextField.text = @"0";
     startButtonOn = NO;
-    
     [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSString *addr = [NSString stringWithFormat:@"%@\n%@\n%@", self.buildingInfo.address1, self.buildingInfo.address2, self.buildingInfo.address3];
+    [self fetchConfig];
+
+    DLog(@"building %@", buildingInfo.address1);
+    NSString *addr = [NSString stringWithFormat:@"%@\n%@\n%@", buildingInfo.address1, buildingInfo.address2, buildingInfo.address3];
     self.addressTextView.text = addr;
 }
 
@@ -74,7 +93,6 @@
 
 - (void)updateCurrentDisplacement:(NSNumber *)currentDisplacement {
     self.curDispositionTextField.text = [NSString stringWithFormat:@"%@", [self.distanceFormatter stringFromNumber:currentDisplacement]];
-
 }
 
 @end;

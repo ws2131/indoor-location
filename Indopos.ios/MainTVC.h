@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Config.h"
 #import "BuildingInfo.h"
 
 @class MainTVC;
@@ -18,10 +19,12 @@
 
 @interface MainTVC : UITableViewController {
     BOOL startButtonOn;
+    Config *config;
+    BuildingInfo *buildingInfo;
 }
 
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (strong, nonatomic) BuildingInfo *buildingInfo;
 @property (strong, nonatomic) NSNumberFormatter *distanceFormatter;
 
 @property (nonatomic, weak) id <MainTVCDelegate> delegate;
@@ -33,4 +36,5 @@
 
 - (void)updateCurrentFloor:(NSNumber *)currentFloor;
 - (void)updateCurrentDisplacement:(NSNumber *)currentDisplacement;
+
 @end

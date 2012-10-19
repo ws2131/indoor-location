@@ -8,6 +8,11 @@
         <attribute name="floorOfEntry" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="lobbyHeight" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="numOfLandings" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="heldBy" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Config" inverseName="inBuilding" inverseEntity="Config" syncable="YES"/>
+    </entity>
+    <entity name="Config" representedClassName="Config" syncable="YES">
+        <attribute name="test" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="inBuilding" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BuildingInfo" inverseName="heldBy" inverseEntity="BuildingInfo" syncable="YES"/>
     </entity>
     <entity name="History" representedClassName="History" syncable="YES">
         <attribute name="displacement" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
@@ -33,8 +38,9 @@
         <attribute name="time" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="BuildingInfo" positionX="160" positionY="192" width="128" height="150"/>
-        <element name="History" positionX="160" positionY="192" width="128" height="105"/>
-        <element name="SensorData" positionX="160" positionY="192" width="128" height="270"/>
+        <element name="BuildingInfo" positionX="160" positionY="192" width="128" height="163"/>
+        <element name="History" positionX="457" positionY="522" width="128" height="105"/>
+        <element name="SensorData" positionX="162" positionY="450" width="128" height="270"/>
+        <element name="Config" positionX="628" positionY="261" width="128" height="73"/>
     </elements>
 </model>

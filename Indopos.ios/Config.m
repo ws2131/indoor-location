@@ -1,19 +1,18 @@
 //
-//  History.m
+//  Config.m
 //  Indopos.ios
 //
 //  Created by Wonsang Song on 10/18/12.
 //  Copyright (c) 2012 Wonsang Song. All rights reserved.
 //
 
-#import "History.h"
+#import "Config.h"
+#import "BuildingInfo.h"
 
 
-@implementation History
+@implementation Config
 
-@dynamic displacement;
-@dynamic duration;
-@dynamic floor;
-@dynamic time;
+@dynamic test;
+@dynamic inBuilding;
 
 @end

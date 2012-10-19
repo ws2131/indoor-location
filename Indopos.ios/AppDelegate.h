@@ -11,6 +11,7 @@
 #import <CoreMotion/CoreMotion.h>
 #import <CoreLocation/CoreLocation.h>
 
+#import "Config.h"
 #import "BuildingInfo.h"
 #import "FileHandler.h"
 #import "MainTVC.h"
@@ -35,6 +36,8 @@
 }
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (strong, nonatomic) Config *config;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;

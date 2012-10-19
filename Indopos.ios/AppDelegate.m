@@ -39,13 +39,28 @@
     [[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
     motionManager.deviceMotionUpdateInterval = interval;
     
-    [self setupFetchedResultsController];
+    [self setupFetchedResultsControllerForBuildingInfo];
     if (![[self.fetchedResultsController fetchedObjects] count] > 0) {
         DLog(@"DB is empty, default values will be inserted.");
         [self importCoreDataDefaultBuildingInfo];
     } else {
         DLog(@"DB has values.");
-        buildingInfo = [[self.fetchedResultsController fetchedObjects] objectAtIndex:0];
+    }
+    [self setupFetchedResultsControllerForBuildingInfo];
+    buildingInfo = [[self.fetchedResultsController fetchedObjects] objectAtIndex:0];
+    
+    [self setupFetchedResultsControllerForConfig];
+    if (![[self.fetchedResultsController fetchedObjects] count] > 0) {
+        DLog(@"Config is empty, default values will be inserted.");
+        self.config = [NSEntityDescription insertNewObjectForEntityForName:@"Config"
+                                               inManagedObjectContext:self.managedObjectContext];
+        self.config.inBuilding = buildingInfo;
+        [self.managedObjectContext save:nil];
+    } else {
+        DLog(@"Config has values.");
+        self.config = [[self.fetchedResultsController fetchedObjects] objectAtIndex:0];
+        buildingInfo = self.config.inBuilding;
+        DLog(@"building: %@", buildingInfo.address1);
     }
     
     dateFormatter = [[NSDateFormatter alloc] init];
@@ -64,13 +79,14 @@
     
     MainTVC *mainTVC = (MainTVC *)mainTVCnav.topViewController;
     mainTVC.managedObjectContext = self.managedObjectContext;
-    mainTVC.buildingInfo = buildingInfo;
     mainTVC.distanceFormatter = distanceFormatter;
     mainTVC.delegate = self;
     
     SettingTVC *settingTVC = (SettingTVC *)settingTVCnav.topViewController;
+    settingTVC.managedObjectContext = self.managedObjectContext;
     settingTVC.buildingInfo = buildingInfo;
- 
+    settingTVC.config = self.config;
+
     currentDisplacement = [NSNumber numberWithDouble:0.0];
     currentFloor = buildingInfo.floorOfEntry;
     
@@ -211,7 +227,7 @@
 # pragma mark -
 # pragma mark Private functions
 
-- (void)setupFetchedResultsController {
+- (void)setupFetchedResultsControllerForBuildingInfo {
     NSString *entityName = @"BuildingInfo";
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
     request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"address1"
@@ -232,13 +248,47 @@
     buildingInfo.address1 = @"CEPSR";
     buildingInfo.address2 = @"530 W 120 ST";
     buildingInfo.address3 = @"New York, NY 10027";
-    buildingInfo.floorOfEntry = [NSNumber numberWithInt:1];
-    buildingInfo.floorHeight = [NSNumber numberWithFloat:4.4];
-    buildingInfo.lobbyHeight = [NSNumber numberWithFloat:4.4];
+    buildingInfo.floorOfEntry = [NSNumber numberWithInt:4];
+    buildingInfo.floorHeight = [NSNumber numberWithFloat:4.6];
+    buildingInfo.lobbyHeight = [NSNumber numberWithFloat:4.6];
+    buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
+    [self.managedObjectContext save:nil];
+
+    buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
+                                                 inManagedObjectContext:self.managedObjectContext];
+    buildingInfo.address1 = @"Mudd";
+    buildingInfo.address2 = @"500 W 120 ST";
+    buildingInfo.address3 = @"New York, NY 10027";
+    buildingInfo.floorOfEntry = [NSNumber numberWithInt:4];
+    buildingInfo.floorHeight = [NSNumber numberWithFloat:3.7];
+    buildingInfo.lobbyHeight = [NSNumber numberWithFloat:3.7];
     buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
     [self.managedObjectContext save:nil];
     
+    buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
+                                                 inManagedObjectContext:self.managedObjectContext];
+    buildingInfo.address1 = @"Pupin";
+    buildingInfo.address2 = @"550 W 120 ST";
+    buildingInfo.address3 = @"New York, NY 10027";
+    buildingInfo.floorOfEntry = [NSNumber numberWithInt:5];
+    buildingInfo.floorHeight = [NSNumber numberWithFloat:3.5];
+    buildingInfo.lobbyHeight = [NSNumber numberWithFloat:3.5];
+    buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
+    [self.managedObjectContext save:nil];
     DLog(@"Importing Core Data Default Values for BuildingInfo Completed!");
+}
+
+- (void)setupFetchedResultsControllerForConfig {
+    NSString *entityName = @"Config";
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"test"
+                                                                                     ascending:YES
+                                                                                      selector:@selector(localizedCaseInsensitiveCompare:)]];
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+                                                                        managedObjectContext:self.managedObjectContext
+                                                                          sectionNameKeyPath:nil
+                                                                                   cacheName:nil];
+    [self.fetchedResultsController performFetch:nil];
 }
 
 
@@ -352,6 +402,7 @@
 
 - (void)startButtonPushed:(MainTVC *)controller {
     
+    DLog(@"buildingInfo: %@", self.config.inBuilding.address1);
     measurement = [[Measurement alloc] init];
     
     /*
@@ -406,10 +457,12 @@
     [locationManager stopUpdatingHeading];
     
     DLog(@"number of measurements: %d", [measurement.sensorDataArray count]);
+    DLog(@"buildingInfo: %@", self.config.inBuilding.address1);
+
     if ([measurement.sensorDataArray count] > 0) {
         
         ElevatorModule *elevatorModule = [[ElevatorModule alloc] initWithData:measurement];
-        elevatorModule.buildingInfo = buildingInfo;
+        elevatorModule.buildingInfo = self.config.inBuilding;
         
         [elevatorModule run];
         
@@ -435,7 +488,7 @@
 
 - (void)refreshButtonPushed:(MainTVC *)controller {
     currentDisplacement = [NSNumber numberWithDouble:0.0];
-    currentFloor = buildingInfo.floorOfEntry;
+    currentFloor = self.config.inBuilding.floorOfEntry;
     
     [controller updateCurrentDisplacement:currentDisplacement];
     [controller updateCurrentFloor:currentFloor];

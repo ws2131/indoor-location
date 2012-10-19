@@ -13,8 +13,8 @@
 @interface History : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * displacement;
+@property (nonatomic, retain) NSNumber * duration;
 @property (nonatomic, retain) NSNumber * floor;
 @property (nonatomic, retain) NSDate * time;
-@property (nonatomic, retain) NSNumber * duration;
 
 @end

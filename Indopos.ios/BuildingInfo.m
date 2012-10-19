@@ -7,6 +7,7 @@
 //
 
 #import "BuildingInfo.h"
+#import "Config.h"
 
 
 @implementation BuildingInfo
@@ -18,5 +19,6 @@
 @dynamic floorOfEntry;
 @dynamic lobbyHeight;
 @dynamic numOfLandings;
+@dynamic heldBy;
 
 @end

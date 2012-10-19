@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class Config;
 
 @interface BuildingInfo : NSManagedObject
 
@@ -19,5 +20,6 @@
 @property (nonatomic, retain) NSNumber * floorOfEntry;
 @property (nonatomic, retain) NSNumber * lobbyHeight;
 @property (nonatomic, retain) NSNumber * numOfLandings;
+@property (nonatomic, retain) Config *heldBy;
 
 @end
