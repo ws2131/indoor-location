@@ -10,6 +10,7 @@
 #import "Logger.h"
 #import "MainTVC.h"
 #import "SettingTVC.h"
+#import "DebugTVC.h"
 #import "SensorData.h"
 #import "ElevatorModule.h"
 #import "History.h"
@@ -74,6 +75,7 @@
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
     UINavigationController *mainTVCnav = [[tabBarController viewControllers] objectAtIndex:0];
     UINavigationController *settingTVCnav = [[tabBarController viewControllers] objectAtIndex:1];
+    UINavigationController *debugTVCnav = [[tabBarController viewControllers] objectAtIndex:2];
     
     MainTVC *mainTVC = (MainTVC *)mainTVCnav.topViewController;
     mainTVC.managedObjectContext = self.managedObjectContext;
@@ -84,6 +86,10 @@
     SettingTVC *settingTVC = (SettingTVC *)settingTVCnav.topViewController;
     settingTVC.managedObjectContext = self.managedObjectContext;
     settingTVC.config = self.config;
+
+    DebugTVC *debugTVC = (DebugTVC *)debugTVCnav.topViewController;
+    debugTVC.managedObjectContext = self.managedObjectContext;
+    debugTVC.fileHandler = fileHandler;
 
     currentDisplacement = [NSNumber numberWithDouble:0.0];
     currentFloor = buildingInfo.floorOfEntry;
@@ -352,10 +358,10 @@
     for (NSManagedObject * history in histories) {
         [self.managedObjectContext deleteObject:history];
     }
-    [self.managedObjectContext save:nil];
+    [self.managedObjectContext save:nil];    
 }
 
-- (void)exportMeasurement {
+- (void)dumpMeasurement {
     if ([measurement.sensorDataArray count] == 0) {
         DLog(@"measurement empty");
         return;
@@ -392,6 +398,15 @@
                          [data.headingAccuracy doubleValue]];
         [fileHandler writeToFile:str];
     }
+}
+
+- (void)exportMeasurement {
+    if ([measurement.sensorDataArray count] == 0) {
+        DLog(@"measurement empty");
+        return;
+    }
+    
+    [self dumpMeasurement];
     [fileHandler sendFileTo:ACC_UPLOAD_URL];
 }
 
@@ -489,6 +504,9 @@
     
     // for debug
     //[self exportMeasurement];
+    [self dumpMeasurement];
+    [fileHandler backupFile];
+    [fileHandler deleteFile];
 }
 
 - (void)refreshButtonPushed:(MainTVC *)controller {

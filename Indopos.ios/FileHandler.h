@@ -34,5 +34,7 @@
 - (void)sendFileTo:(NSString *)url;
 
 - (NSArray *)loadFromFile:(NSString *)fileName;
+- (void)backupFile;
+- (void)sendFileAllTo:(NSString *)url;
 
 @end

@@ -166,29 +166,80 @@
 }
 
 - (void)deleteAll {
+    int num = 0;
     NSArray * files = [self.fileManager contentsOfDirectoryAtPath:self.fileDir error:nil];
-    NSLog(@"%d\n", files.count);
     for (int i = 0; i < files.count; i++) {
         NSString *file = (NSString *)[files objectAtIndex:i];
         if ([file hasPrefix:@"accel"]) {
             NSString *path = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", file]];
             [self.fileManager removeItemAtPath:path error:nil];
+            num++;
         }
     }
+    DLog(@"%d\n", num);
 }
 
 - (NSString *)getNumFiles {
+    int num = 0;
     NSArray * files = [self.fileManager contentsOfDirectoryAtPath:self.fileDir error:nil];
-    NSString *num = [NSString stringWithFormat:@"%d", files.count];
-    return num;
+    for (int i = 0; i < files.count; i++) {
+        NSString *file = (NSString *)[files objectAtIndex:i];
+        if ([file hasPrefix:@"accel"]) {
+            num++;
+        }
+    }
+    return [NSString stringWithFormat:@"%d", num];
 }
-
 
 - (NSArray *)loadFromFile:(NSString *)fileName_ {
     NSString *filePath_ = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.txt", fileName_]];
     NSString *content = [NSString stringWithContentsOfFile:filePath_ encoding:NSASCIIStringEncoding error:nil];
     NSArray *fields = [content CSVComponents];
     return fields;
+}
+
+- (void)backupFile {
+    NSDate *date = [NSDate date];
+    NSString *targetFileName = [NSString stringWithFormat:@"%@.%@.txt", self.fileName, [self.dateFormatter stringFromDate:date]];
+
+    NSString *copyPath = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", targetFileName]];
+    DLog(@"path: %@", copyPath);
+    [self.fileManager copyItemAtPath:self.filePath toPath:copyPath error:nil];
+}
+
+- (void)sendFileAllTo:(NSString *)targetURL {
+
+    NSArray * files = [self.fileManager contentsOfDirectoryAtPath:self.fileDir error:nil];
+    for (int i = 0; i < files.count; i++) {
+        NSString *file = (NSString *)[files objectAtIndex:i];
+        if ([file hasPrefix:@"accel"]) {
+            NSString *path = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", file]];
+            NSURL * theURL = [NSURL URLWithString:targetURL];
+        
+            NSMutableURLRequest *postRequest = [[NSMutableURLRequest alloc] initWithURL:theURL];
+        
+            //adding header information:
+            [postRequest setHTTPMethod:@"POST"];
+        
+            NSString *stringBoundary = @"0xKhTmLbOuNdArY";
+            NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",stringBoundary];
+            [postRequest addValue:contentType forHTTPHeaderField: @"Content-Type"];
+        
+            //setting up the body:
+            NSMutableData *postBody = [NSMutableData data];
+            [postBody appendData:[[NSString stringWithFormat:@"--%@\r\n",stringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+            [postBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uploadFile\"; filename=\"%@\"\r\n", file] dataUsingEncoding:NSUTF8StringEncoding]];
+            [postBody appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+            [postBody appendData:[NSData dataWithContentsOfFile:path]];
+            [postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",stringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+            [postRequest setHTTPBody:postBody];
+        
+            NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:postRequest delegate:self];
+            if (theConnection == nil) {
+                NSLog(@"send error");
+            }
+        }
+    }
 }
 
 @end
