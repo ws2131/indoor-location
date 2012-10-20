@@ -2,11 +2,12 @@
 //  SensorData.m
 //  Indopos.ios
 //
-//  Created by Wonsang Song on 10/18/12.
+//  Created by Wonsang Song on 10/19/12.
 //  Copyright (c) 2012 Wonsang Song. All rights reserved.
 //
 
 #import "SensorData.h"
+#import "Measurement.h"
 
 
 @implementation SensorData
@@ -26,5 +27,6 @@
 @dynamic m32;
 @dynamic m33;
 @dynamic time;
+@dynamic inMeasurement;
 
 @end

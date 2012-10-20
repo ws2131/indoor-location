@@ -2,7 +2,7 @@
 //  History.h
 //  Indopos.ios
 //
-//  Created by Wonsang Song on 10/18/12.
+//  Created by Wonsang Song on 10/19/12.
 //  Copyright (c) 2012 Wonsang Song. All rights reserved.
 //
 

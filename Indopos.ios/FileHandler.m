@@ -198,48 +198,41 @@
     return fields;
 }
 
-- (void)backupFile {
-    NSDate *date = [NSDate date];
-    NSString *targetFileName = [NSString stringWithFormat:@"%@.%@.txt", self.fileName, [self.dateFormatter stringFromDate:date]];
-
+- (void)backupFileTo:(NSString *)targetFileName {
     NSString *copyPath = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", targetFileName]];
     DLog(@"path: %@", copyPath);
     [self.fileManager copyItemAtPath:self.filePath toPath:copyPath error:nil];
 }
 
-- (void)sendFileAllTo:(NSString *)targetURL {
+- (void)deleteFileWithName:(NSString *)targetFileName {
+    NSString *path = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", targetFileName]];
+    DLog(@"path: %@", path);    
+    [self.fileManager removeItemAtPath:path error:nil];
+}
 
-    NSArray * files = [self.fileManager contentsOfDirectoryAtPath:self.fileDir error:nil];
-    for (int i = 0; i < files.count; i++) {
-        NSString *file = (NSString *)[files objectAtIndex:i];
-        if ([file hasPrefix:@"accel"]) {
-            NSString *path = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", file]];
-            NSURL * theURL = [NSURL URLWithString:targetURL];
-        
-            NSMutableURLRequest *postRequest = [[NSMutableURLRequest alloc] initWithURL:theURL];
-        
-            //adding header information:
-            [postRequest setHTTPMethod:@"POST"];
-        
-            NSString *stringBoundary = @"0xKhTmLbOuNdArY";
-            NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",stringBoundary];
-            [postRequest addValue:contentType forHTTPHeaderField: @"Content-Type"];
-        
-            //setting up the body:
-            NSMutableData *postBody = [NSMutableData data];
-            [postBody appendData:[[NSString stringWithFormat:@"--%@\r\n",stringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-            [postBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uploadFile\"; filename=\"%@\"\r\n", file] dataUsingEncoding:NSUTF8StringEncoding]];
-            [postBody appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-            [postBody appendData:[NSData dataWithContentsOfFile:path]];
-            [postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",stringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-            [postRequest setHTTPBody:postBody];
-        
-            NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:postRequest delegate:self];
-            if (theConnection == nil) {
-                NSLog(@"send error");
-            }
-        }
-    }
+- (void)sendFile:(NSString *)targetFileName withURL:(NSString *)targetURL {
+
+    NSString *path = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", targetFileName]];
+    NSURL * theURL = [NSURL URLWithString:targetURL];
+    
+    NSMutableURLRequest *postRequest = [[NSMutableURLRequest alloc] initWithURL:theURL];
+    
+    //adding header information:
+    [postRequest setHTTPMethod:@"POST"];
+    
+    NSString *stringBoundary = @"0xKhTmLbOuNdArY";
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",stringBoundary];
+    [postRequest addValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    //setting up the body:
+    NSMutableData *postBody = [NSMutableData data];
+    [postBody appendData:[[NSString stringWithFormat:@"--%@\r\n",stringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uploadFile\"; filename=\"%@\"\r\n", targetFileName] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postBody appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [postBody appendData:[NSData dataWithContentsOfFile:path]];
+    [postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",stringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postRequest setHTTPBody:postBody];
+    [NSURLConnection sendSynchronousRequest:postRequest returningResponse:nil error:nil];
 }
 
 @end

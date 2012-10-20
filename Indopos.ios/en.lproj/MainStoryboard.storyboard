@@ -613,16 +613,16 @@
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="# of files :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Yl-yS-QTB">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="# of Measurements :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Yl-yS-QTB">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="117" id="VWn-Ls-wh5"/>
+                                                        <constraint firstAttribute="width" constant="166" id="uIJ-jb-l0C"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qVa-j9-Okf">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="101" id="l7j-8B-1zf"/>
+                                                        <constraint firstAttribute="width" constant="80" id="873-Kb-GKg"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -634,12 +634,44 @@
                                         <constraints>
                                             <constraint firstItem="8Yl-yS-QTB" firstAttribute="leading" secondItem="Seb-4R-uTz" secondAttribute="leading" constant="31" id="4K0-Ws-2DY"/>
                                             <constraint firstItem="qVa-j9-Okf" firstAttribute="baseline" secondItem="8Yl-yS-QTB" secondAttribute="baseline" type="default" id="4hZ-B8-aSP"/>
-                                            <constraint firstItem="8Yl-yS-QTB" firstAttribute="centerY" secondItem="Seb-4R-uTz" secondAttribute="centerY" type="default" id="KDU-lk-QcB"/>
-                                            <constraint firstAttribute="trailing" secondItem="qVa-j9-Okf" secondAttribute="trailing" constant="56" id="Q9d-H4-fgm"/>
+                                            <constraint firstItem="qVa-j9-Okf" firstAttribute="leading" secondItem="8Yl-yS-QTB" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="4oq-0y-Xvy"/>
+                                            <constraint firstItem="qVa-j9-Okf" firstAttribute="centerY" secondItem="Seb-4R-uTz" secondAttribute="centerY" type="default" id="GQ2-QU-Kfq"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="INc-V0-aFe">
+                                        <rect key="frame" x="0.0" y="91" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="# of SensorData :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SWg-AK-KTB">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="166" id="Axn-h4-fKc"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ekA-zS-Zu3">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="80" id="DO7-Je-QSs"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="ekA-zS-Zu3" firstAttribute="leading" secondItem="SWg-AK-KTB" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="9fE-1v-Tkm"/>
+                                            <constraint firstItem="SWg-AK-KTB" firstAttribute="leading" secondItem="INc-V0-aFe" secondAttribute="leading" constant="31" id="S9m-2p-NMg"/>
+                                            <constraint firstItem="SWg-AK-KTB" firstAttribute="top" secondItem="INc-V0-aFe" secondAttribute="top" constant="11" id="lhg-eQ-j9c"/>
+                                            <constraint firstItem="ekA-zS-Zu3" firstAttribute="baseline" secondItem="SWg-AK-KTB" secondAttribute="baseline" type="default" id="pkS-lb-fP0"/>
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="hqO-c8-Hdg">
-                                        <rect key="frame" x="0.0" y="91" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="135" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
@@ -647,14 +679,14 @@
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="# of history :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJP-Jt-yym">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="112" id="erj-dZ-ywE"/>
+                                                        <constraint firstAttribute="width" constant="164" id="RQg-Bm-jP5"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nwf-c4-NSa">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="101" id="tdE-RJ-2B2"/>
+                                                        <constraint firstAttribute="width" constant="82" id="9u9-mN-fd4"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -667,7 +699,7 @@
                                             <constraint firstItem="VJP-Jt-yym" firstAttribute="top" secondItem="hqO-c8-Hdg" secondAttribute="top" constant="11" id="93d-De-6o5"/>
                                             <constraint firstItem="VJP-Jt-yym" firstAttribute="leading" secondItem="hqO-c8-Hdg" secondAttribute="leading" constant="31" id="Dok-Lb-7Ap"/>
                                             <constraint firstItem="Nwf-c4-NSa" firstAttribute="baseline" secondItem="VJP-Jt-yym" secondAttribute="baseline" type="default" id="XeZ-UF-CmW"/>
-                                            <constraint firstAttribute="trailing" secondItem="Nwf-c4-NSa" secondAttribute="trailing" constant="56" id="awq-ob-MCm"/>
+                                            <constraint firstItem="Nwf-c4-NSa" firstAttribute="leading" secondItem="VJP-Jt-yym" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="lb6-4r-mBh"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
@@ -675,7 +707,7 @@
                             <tableViewSection headerTitle="" id="RXH-y5-BVa">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="cYj-s9-ohz">
-                                        <rect key="frame" x="0.0" y="156" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="200" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -684,9 +716,10 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1A0-0e-W2C">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="300" id="Deo-Rr-Jll"/>
+                                                        <constraint firstAttribute="height" constant="49" id="Xls-3e-Y9S"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal" title="Send All Files">
+                                                    <state key="normal" title="Send All Measurements">
                                                         <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
@@ -701,23 +734,28 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="1A0-0e-W2C" firstAttribute="centerX" secondItem="cYj-s9-ohz" secondAttribute="centerX" type="default" id="Fxx-ec-h5u"/>
-                                            <constraint firstItem="1A0-0e-W2C" firstAttribute="top" secondItem="cYj-s9-ohz" secondAttribute="top" constant="1" id="LWc-Kh-xyK"/>
+                                            <constraint firstItem="1A0-0e-W2C" firstAttribute="centerX" secondItem="cYj-s9-ohz" secondAttribute="centerX" type="default" id="jKb-bS-KAA"/>
+                                            <constraint firstItem="1A0-0e-W2C" firstAttribute="top" secondItem="cYj-s9-ohz" secondAttribute="top" constant="-2" id="oZi-8u-FxS"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="bPa-go-EXc">
-                                        <rect key="frame" x="0.0" y="201" width="320" height="44"/>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="" id="wG9-HT-3iz">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="iC1-8d-ewD">
+                                        <rect key="frame" x="0.0" y="266" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="69G-WY-bse">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qCz-34-V8V">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="300" id="EAR-az-hWE"/>
+                                                        <constraint firstAttribute="width" constant="300" id="LXJ-uN-5d9"/>
+                                                        <constraint firstAttribute="height" constant="48" id="mMF-ZT-bQv"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal" title="Remove All Files">
+                                                    <state key="normal" title="Remove All Measurements">
                                                         <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
@@ -725,27 +763,32 @@
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="deleteAllFiles:" destination="SSn-fr-KDu" eventType="touchDown" id="TFU-z3-zSN"/>
+                                                        <action selector="deleteAllMeasurements:" destination="SSn-fr-KDu" eventType="touchDown" id="tAp-2d-HrB"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="69G-WY-bse" firstAttribute="centerX" secondItem="bPa-go-EXc" secondAttribute="centerX" type="default" id="Q4f-xp-RbZ"/>
-                                            <constraint firstItem="69G-WY-bse" firstAttribute="top" secondItem="bPa-go-EXc" secondAttribute="top" type="default" id="aNt-Q3-MrP"/>
+                                            <constraint firstItem="qCz-34-V8V" firstAttribute="centerY" secondItem="iC1-8d-ewD" secondAttribute="centerY" type="default" id="8pv-k7-5a6"/>
+                                            <constraint firstItem="qCz-34-V8V" firstAttribute="centerX" secondItem="iC1-8d-ewD" secondAttribute="centerX" type="default" id="PQc-dO-FXh"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="hIA-Sg-3hS">
-                                        <rect key="frame" x="0.0" y="245" width="320" height="45"/>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="" id="SGh-vH-qMR">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="dxs-Lc-YHf">
+                                        <rect key="frame" x="0.0" y="332" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="13F-zb-xWb">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="300" id="fBt-ai-hOn"/>
+                                                        <constraint firstAttribute="height" constant="48" id="30I-f2-1s1"/>
+                                                        <constraint firstAttribute="width" constant="300" id="U85-Kh-bJe"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <state key="normal" title="Remove All Histories">
@@ -763,8 +806,8 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="13F-zb-xWb" firstAttribute="top" secondItem="hIA-Sg-3hS" secondAttribute="top" type="default" id="PZU-Ox-yYc"/>
-                                            <constraint firstItem="13F-zb-xWb" firstAttribute="centerX" secondItem="hIA-Sg-3hS" secondAttribute="centerX" type="default" id="y4P-Df-j7R"/>
+                                            <constraint firstItem="13F-zb-xWb" firstAttribute="centerX" secondItem="dxs-Lc-YHf" secondAttribute="centerX" type="default" id="4yE-f3-Ndz"/>
+                                            <constraint firstItem="13F-zb-xWb" firstAttribute="bottom" secondItem="dxs-Lc-YHf" secondAttribute="bottom" type="default" id="d0t-og-deE"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
@@ -777,8 +820,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="zgM-fW-NVd"/>
                     <connections>
-                        <outlet property="fileNumLabel" destination="qVa-j9-Okf" id="XDg-Yx-aJs"/>
                         <outlet property="historyNumLabel" destination="Nwf-c4-NSa" id="8E8-nP-iAY"/>
+                        <outlet property="measurementNumLabel" destination="qVa-j9-Okf" id="noM-ds-Gfn"/>
+                        <outlet property="sensorDataNumLabel" destination="ekA-zS-Zu3" id="Zci-yN-hbQ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ceD-uv-RPZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -870,18 +914,16 @@
         <class className="DebugTVC" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DebugTVC.h"/>
             <relationships>
-                <relationship kind="action" name="deleteAllFiles:"/>
                 <relationship kind="action" name="deleteAllHistories:"/>
+                <relationship kind="action" name="deleteAllMeasurements:"/>
                 <relationship kind="action" name="sendAllFiles:"/>
-                <relationship kind="outlet" name="fileNumLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="historyNumLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="measurementNumLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="sensorDataNumLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
         <class className="HistoryTVC" superclassName="CoreDataTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/HistoryTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="deleteAll:"/>
-            </relationships>
         </class>
         <class className="MainTVC" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainTVC.h"/>
@@ -901,9 +943,6 @@
         <class className="SettingTVC" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingTVC.h"/>
             <relationships>
-                <relationship kind="action" name="exportMeasurement:"/>
-                <relationship kind="action" name="resetHistory:"/>
-                <relationship kind="action" name="save:"/>
                 <relationship kind="outlet" name="address1TextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="address2TextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="address3TextField" candidateClass="UITextField"/>

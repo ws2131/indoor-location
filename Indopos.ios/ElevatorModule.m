@@ -17,20 +17,19 @@
 @implementation ElevatorModule
 
 - (void)run {
-    NSArray *measurements = self.measurement.sensorDataArray;
-    int len = [measurements count];
-    
+    int len = [self.measurement.hasSensorData count];
+    DLog(@"len: %d", len);
     NSMutableArray *a_x = [[NSMutableArray alloc] initWithCapacity:len];
     NSMutableArray *a_y = [[NSMutableArray alloc] initWithCapacity:len];
     NSMutableArray *a_z = [[NSMutableArray alloc] initWithCapacity:len];
     NSMutableArray *times = [[NSMutableArray alloc] initWithCapacity:len];
-    for (SensorData *sensorData in measurements) {
+    
+    for (SensorData *sensorData in self.measurement.hasSensorData) {
         [a_x addObject:sensorData.a_x];
         [a_y addObject:sensorData.a_y];
         [a_z addObject:sensorData.a_z];
         [times addObject:sensorData.time];
     }
-    
     int index = 0;
     if (len > 100) {
         index = 100;
@@ -116,7 +115,8 @@
     }
     NSArray *d_adjusted = [super getDisplacement:times withAccel:a_adjusted withVelocity:v_adjusted];
     //[self printDoubleArray:d_adjusted];
-    
+
+    DLog(@"d_adjusted: %@", [d_adjusted objectAtIndex:(len - 1)]);
     self.movedDisplacement = [d_adjusted objectAtIndex:(len - 1)];
     int tmp = round([self.movedDisplacement doubleValue] / [self.buildingInfo.floorHeight doubleValue]);
     self.movedFloor = [NSNumber numberWithInt:tmp];
