@@ -32,8 +32,8 @@
         <attribute name="time" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="BuildingInfo" positionX="160" positionY="192" width="128" height="150"/>
-        <element name="History" positionX="160" positionY="192" width="128" height="90"/>
-        <element name="SensorData" positionX="160" positionY="192" width="128" height="270"/>
+        <element name="BuildingInfo" positionX="124" positionY="237" width="128" height="150"/>
+        <element name="History" positionX="394" positionY="297" width="128" height="90"/>
+        <element name="SensorData" positionX="610" positionY="198" width="128" height="270"/>
     </elements>
 </model>

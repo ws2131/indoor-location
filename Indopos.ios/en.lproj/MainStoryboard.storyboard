@@ -616,7 +616,7 @@
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="# of Measurements :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Yl-yS-QTB">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="# of Files :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Yl-yS-QTB">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="166" id="uIJ-jb-l0C"/>
                                                     </constraints>
@@ -641,40 +641,8 @@
                                             <constraint firstItem="qVa-j9-Okf" firstAttribute="centerY" secondItem="Seb-4R-uTz" secondAttribute="centerY" type="default" id="GQ2-QU-Kfq"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="INc-V0-aFe">
-                                        <rect key="frame" x="0.0" y="91" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="0.0" width="300" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="# of SensorData :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SWg-AK-KTB">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="166" id="Axn-h4-fKc"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ekA-zS-Zu3">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="80" id="DO7-Je-QSs"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="ekA-zS-Zu3" firstAttribute="leading" secondItem="SWg-AK-KTB" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="9fE-1v-Tkm"/>
-                                            <constraint firstItem="SWg-AK-KTB" firstAttribute="leading" secondItem="INc-V0-aFe" secondAttribute="leading" constant="31" id="S9m-2p-NMg"/>
-                                            <constraint firstItem="SWg-AK-KTB" firstAttribute="top" secondItem="INc-V0-aFe" secondAttribute="top" constant="11" id="lhg-eQ-j9c"/>
-                                            <constraint firstItem="ekA-zS-Zu3" firstAttribute="baseline" secondItem="SWg-AK-KTB" secondAttribute="baseline" type="default" id="pkS-lb-fP0"/>
-                                        </constraints>
-                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="hqO-c8-Hdg">
-                                        <rect key="frame" x="0.0" y="135" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="91" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="0.0" width="300" height="43"/>
@@ -709,36 +677,35 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="" id="RXH-y5-BVa">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="cYj-s9-ohz">
-                                        <rect key="frame" x="0.0" y="200" width="320" height="46"/>
+                                    <tableViewCell contentMode="scaleAspectFit" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="44" id="cYj-s9-ohz">
+                                        <rect key="frame" x="0.0" y="156" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1A0-0e-W2C">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKA-IL-LiP">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="300" id="Deo-Rr-Jll"/>
-                                                        <constraint firstAttribute="height" constant="49" id="Xls-3e-Y9S"/>
+                                                        <constraint firstAttribute="width" constant="300" id="vl7-A5-E9a"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal" title="Send All Measurements">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                                    <state key="normal" title="Send all files">
+                                                        <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="highlighted">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="sendAllFiles:" destination="SSn-fr-KDu" eventType="touchDown" id="pzf-m7-S29"/>
+                                                        <action selector="sendAllFiles:" destination="SSn-fr-KDu" eventType="touchDown" id="LoK-PZ-khz"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="1A0-0e-W2C" firstAttribute="centerX" secondItem="cYj-s9-ohz" secondAttribute="centerX" type="default" id="jKb-bS-KAA"/>
-                                            <constraint firstItem="1A0-0e-W2C" firstAttribute="top" secondItem="cYj-s9-ohz" secondAttribute="top" constant="-2" id="oZi-8u-FxS"/>
+                                            <constraint firstItem="SKA-IL-LiP" firstAttribute="centerX" secondItem="cYj-s9-ohz" secondAttribute="centerX" type="default" id="ZD9-5f-gRF"/>
+                                            <constraint firstItem="SKA-IL-LiP" firstAttribute="centerY" secondItem="cYj-s9-ohz" secondAttribute="centerY" type="default" id="h6k-qd-Egs"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
@@ -746,35 +713,34 @@
                             <tableViewSection headerTitle="" id="wG9-HT-3iz">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="iC1-8d-ewD">
-                                        <rect key="frame" x="0.0" y="266" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="222" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qCz-34-V8V">
+                                                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h3c-HO-QQq">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="300" id="LXJ-uN-5d9"/>
-                                                        <constraint firstAttribute="height" constant="48" id="mMF-ZT-bQv"/>
+                                                        <constraint firstAttribute="width" constant="300" id="C4c-eh-jPH"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal" title="Remove All Measurements">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                                    <state key="normal" title="Delete all files">
+                                                        <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="highlighted">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="deleteAllMeasurements:" destination="SSn-fr-KDu" eventType="touchDown" id="tAp-2d-HrB"/>
+                                                        <action selector="deleteAllFiles:" destination="SSn-fr-KDu" eventType="touchDown" id="jck-PQ-ewQ"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="qCz-34-V8V" firstAttribute="centerY" secondItem="iC1-8d-ewD" secondAttribute="centerY" type="default" id="8pv-k7-5a6"/>
-                                            <constraint firstItem="qCz-34-V8V" firstAttribute="centerX" secondItem="iC1-8d-ewD" secondAttribute="centerX" type="default" id="PQc-dO-FXh"/>
+                                            <constraint firstItem="h3c-HO-QQq" firstAttribute="centerY" secondItem="iC1-8d-ewD" secondAttribute="centerY" type="default" id="NCN-6y-UFy"/>
+                                            <constraint firstItem="h3c-HO-QQq" firstAttribute="centerX" secondItem="iC1-8d-ewD" secondAttribute="centerX" type="default" id="zE1-7D-baT"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
@@ -782,35 +748,34 @@
                             <tableViewSection headerTitle="" id="SGh-vH-qMR">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="dxs-Lc-YHf">
-                                        <rect key="frame" x="0.0" y="332" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="288" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="13F-zb-xWb">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKe-kM-x2H">
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="48" id="30I-f2-1s1"/>
-                                                        <constraint firstAttribute="width" constant="300" id="U85-Kh-bJe"/>
+                                                        <constraint firstAttribute="width" constant="300" id="zmF-ew-LzC"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal" title="Remove All Histories">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                                    <state key="normal" title="Delete all histories">
+                                                        <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <state key="highlighted">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="deleteAllHistories:" destination="SSn-fr-KDu" eventType="touchDown" id="NZF-Hz-tOW"/>
+                                                        <action selector="deleteAllHistories:" destination="SSn-fr-KDu" eventType="touchDown" id="H4b-HG-miw"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="13F-zb-xWb" firstAttribute="centerX" secondItem="dxs-Lc-YHf" secondAttribute="centerX" type="default" id="4yE-f3-Ndz"/>
-                                            <constraint firstItem="13F-zb-xWb" firstAttribute="bottom" secondItem="dxs-Lc-YHf" secondAttribute="bottom" type="default" id="d0t-og-deE"/>
+                                            <constraint firstItem="HKe-kM-x2H" firstAttribute="centerY" secondItem="dxs-Lc-YHf" secondAttribute="centerY" type="default" id="0HL-sr-WVw"/>
+                                            <constraint firstItem="HKe-kM-x2H" firstAttribute="centerX" secondItem="dxs-Lc-YHf" secondAttribute="centerX" type="default" id="Sbo-Vs-wgJ"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
@@ -823,9 +788,8 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="zgM-fW-NVd"/>
                     <connections>
+                        <outlet property="fileNumLabel" destination="qVa-j9-Okf" id="GaD-8L-Mrd"/>
                         <outlet property="historyNumLabel" destination="Nwf-c4-NSa" id="8E8-nP-iAY"/>
-                        <outlet property="measurementNumLabel" destination="qVa-j9-Okf" id="noM-ds-Gfn"/>
-                        <outlet property="sensorDataNumLabel" destination="ekA-zS-Zu3" id="Zci-yN-hbQ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ceD-uv-RPZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -917,12 +881,11 @@
         <class className="DebugTVC" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DebugTVC.h"/>
             <relationships>
+                <relationship kind="action" name="deleteAllFiles:"/>
                 <relationship kind="action" name="deleteAllHistories:"/>
-                <relationship kind="action" name="deleteAllMeasurements:"/>
                 <relationship kind="action" name="sendAllFiles:"/>
+                <relationship kind="outlet" name="fileNumLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="historyNumLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="measurementNumLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="sensorDataNumLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
         <class className="HistoryTVC" superclassName="CoreDataTableViewController">

@@ -25,7 +25,6 @@
 
     FileHandler *fileHandler;
     Measurement *measurement;
-    NSMutableArray *sensorMeasurements;
 
     NSNumber *currentFloor;
     NSNumber *currentDisplacement;
@@ -46,8 +45,6 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 - (void)resetHistory;
-- (void)resetMeasurement;
-- (void)resetSensorData;
 - (void)exportMeasurement;
 
 @end

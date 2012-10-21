@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#define ACC_UPLOAD_URL @"http://ng911dev1.cs.columbia.edu/iLM/acc/upload.php"
+#define FILE_PREFIX @"accel"
+
 @class FileHandler;
 @protocol FileHandlerDelegate <NSObject>
 - (void)fileUploadSucceeded:(FileHandler *)handler;
@@ -24,18 +27,19 @@
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, weak) id <FileHandlerDelegate> delegate;
 
+- (id)init;
 - (id)initWithName:(NSString *)fileName;
+- (void)setFileName:(NSString *)fileName;
+
 - (NSString *)getFileContent;
 - (void)writeToFile:(NSString *)data;
 - (void)deleteFile;
-- (void)deleteAll;
 - (NSString *)getFileSize;
 - (NSString *)getNumFiles;
-- (void)sendFileTo:(NSString *)url;
+- (void)sendFile;
 
+- (void)deleteAll;
 - (NSArray *)loadFromFile:(NSString *)fileName;
-- (void)backupFileTo:(NSString *)fileName;
-- (void)deleteFileWithName:(NSString *)fileName;
-- (void)sendFile:(NSString *)fileName withURL:(NSString *)url;
+- (void)sendAll;
 
 @end

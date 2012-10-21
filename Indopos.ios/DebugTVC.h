@@ -17,7 +17,6 @@
 @property (strong, nonatomic) FileHandler *fileHandler;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
-@property (strong, nonatomic) IBOutlet UILabel *measurementNumLabel;
+@property (strong, nonatomic) IBOutlet UILabel *fileNumLabel;
 @property (strong, nonatomic) IBOutlet UILabel *historyNumLabel;
-@property (strong, nonatomic) IBOutlet UILabel *sensorDataNumLabel;
 @end

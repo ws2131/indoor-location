@@ -17,14 +17,14 @@
 @implementation ElevatorModule
 
 - (void)run {
-    int len = [self.measurement.hasSensorData count];
+    int len = [self.measurement.measurements count];
     DLog(@"len: %d", len);
     NSMutableArray *a_x = [[NSMutableArray alloc] initWithCapacity:len];
     NSMutableArray *a_y = [[NSMutableArray alloc] initWithCapacity:len];
     NSMutableArray *a_z = [[NSMutableArray alloc] initWithCapacity:len];
     NSMutableArray *times = [[NSMutableArray alloc] initWithCapacity:len];
     
-    for (SensorData *sensorData in self.measurement.hasSensorData) {
+    for (SensorData *sensorData in self.measurement.measurements) {
         [a_x addObject:sensorData.a_x];
         [a_y addObject:sensorData.a_y];
         [a_z addObject:sensorData.a_z];

@@ -2,31 +2,30 @@
 //  SensorData.m
 //  Indopos.ios
 //
-//  Created by Wonsang Song on 10/19/12.
+//  Created by Wonsang Song on 10/21/12.
 //  Copyright (c) 2012 Wonsang Song. All rights reserved.
 //
 
 #import "SensorData.h"
-#import "Measurement.h"
-
 
 @implementation SensorData
 
-@dynamic a_x;
-@dynamic a_y;
-@dynamic a_z;
-@dynamic heading;
-@dynamic headingAccuracy;
-@dynamic m11;
-@dynamic m12;
-@dynamic m13;
-@dynamic m21;
-@dynamic m22;
-@dynamic m23;
-@dynamic m31;
-@dynamic m32;
-@dynamic m33;
-@dynamic time;
-@dynamic inMeasurement;
+
+@synthesize a_x;
+@synthesize a_y;
+@synthesize a_z;
+@synthesize heading;
+@synthesize headingAccuracy;
+@synthesize m11;
+@synthesize m12;
+@synthesize m13;
+@synthesize m21;
+@synthesize m22;
+@synthesize m23;
+@synthesize m31;
+@synthesize m32;
+@synthesize m33;
+@synthesize time;
+@synthesize date;
 
 @end
