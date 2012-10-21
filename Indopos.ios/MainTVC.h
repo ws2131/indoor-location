@@ -32,8 +32,12 @@
 @property (strong, nonatomic) IBOutlet UITextField *curDispositionTextField;
 @property (strong, nonatomic) IBOutlet UITextView *addressTextView;
 @property (strong, nonatomic) IBOutlet UIButton *startUIButton;
+@property (strong, nonatomic) IBOutlet UILabel *progressUILabel;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
 - (void)updateCurrentFloor:(NSNumber *)currentFloor;
 - (void)updateCurrentDisplacement:(NSNumber *)currentDisplacement;
+- (void)startActivityIndicator;
+- (void)stopActivityIndicator;
 
 @end

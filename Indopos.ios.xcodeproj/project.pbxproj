@@ -34,6 +34,7 @@
 		71D0022F162F917600FEB70D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D0022E162F917600FEB70D /* CoreMotion.framework */; };
 		71D00231162F919500FEB70D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D00230162F919500FEB70D /* Accelerate.framework */; };
 		71E3092016309E080099B29F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71E3091F16309E080099B29F /* CoreLocation.framework */; };
+		71F6663616344D4B0021C4A5 /* ConcurrentOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F6663516344D4B0021C4A5 /* ConcurrentOperation.m */; };
 		71F77D72162DFEFB0064C1B7 /* FileHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F77D71162DFEFB0064C1B7 /* FileHandler.m */; };
 		71F77D7D162E0C0F0064C1B7 /* CHCSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F77D7C162E0C0F0064C1B7 /* CHCSVParser.m */; };
 		71F77D82162E0CEA0064C1B7 /* NSArray+CHCSVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F77D7F162E0CEA0064C1B7 /* NSArray+CHCSVAdditions.m */; };
@@ -92,6 +93,8 @@
 		71D00230162F919500FEB70D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		71E3091F16309E080099B29F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		71E309371630A4C50099B29F /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
+		71F6663416344D4B0021C4A5 /* ConcurrentOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcurrentOperation.h; sourceTree = "<group>"; };
+		71F6663516344D4B0021C4A5 /* ConcurrentOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConcurrentOperation.m; sourceTree = "<group>"; };
 		71F77D70162DFEFB0064C1B7 /* FileHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileHandler.h; sourceTree = "<group>"; };
 		71F77D71162DFEFB0064C1B7 /* FileHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHandler.m; sourceTree = "<group>"; };
 		71F77D7A162E0BED0064C1B7 /* CHCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCSV.h; sourceTree = "<group>"; };
@@ -110,7 +113,7 @@
 		71FD2A641631FECF00A8D948 /* DebugTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugTVC.h; sourceTree = "<group>"; };
 		71FD2A651631FECF00A8D948 /* DebugTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebugTVC.m; sourceTree = "<group>"; };
 		71FD2A681631FF9D00A8D948 /* d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = d.png; sourceTree = "<group>"; };
-		71FD2A6A1632204700A8D948 /* Model 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Model 5.xcdatamodel"; sourceTree = "<group>"; };
+		71FD2A6A1632204700A8D948 /* Model 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 5.xcdatamodel"; sourceTree = "<group>"; };
 		71FD2A89163228AB00A8D948 /* SensorData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorData.h; sourceTree = "<group>"; };
 		71FD2A8A163228AB00A8D948 /* SensorData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorData.m; sourceTree = "<group>"; };
 		71FD2A8C163228AB00A8D948 /* BuildingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildingInfo.h; sourceTree = "<group>"; };
@@ -217,6 +220,8 @@
 				71F77D94162E2FD80064C1B7 /* AnalysisModule.m */,
 				71F77D98162E33850064C1B7 /* ElevatorModule.h */,
 				71F77D99162E33850064C1B7 /* ElevatorModule.m */,
+				71F6663416344D4B0021C4A5 /* ConcurrentOperation.h */,
+				71F6663516344D4B0021C4A5 /* ConcurrentOperation.m */,
 			);
 			path = Indopos.ios;
 			sourceTree = "<group>";
@@ -356,6 +361,7 @@
 				71FD2A91163228AC00A8D948 /* Config.m in Sources */,
 				71FD2A94163228AC00A8D948 /* History.m in Sources */,
 				71FD2A97163228AD00A8D948 /* Measurement.m in Sources */,
+				71F6663616344D4B0021C4A5 /* ConcurrentOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

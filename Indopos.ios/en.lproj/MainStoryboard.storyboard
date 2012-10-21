@@ -25,7 +25,6 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Floor : " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ham-bL-FRM">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="53" id="awD-NU-Ks4"/>
-                                                        <constraint firstAttribute="height" constant="21" id="zVC-wj-RqA"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -43,14 +42,17 @@
                                                         <outlet property="delegate" destination="5VU-Tp-WPC" id="PuQ-oV-Ogr"/>
                                                     </connections>
                                                 </textField>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="riO-fg-QiO"/>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
                                             <constraint firstItem="og0-p4-4Ah" firstAttribute="baseline" secondItem="ham-bL-FRM" secondAttribute="baseline" type="default" id="KK0-Fz-4n5"/>
+                                            <constraint firstItem="riO-fg-QiO" firstAttribute="top" secondItem="ham-bL-FRM" secondAttribute="top" type="default" id="Vfo-LK-p7z"/>
                                             <constraint firstItem="ham-bL-FRM" firstAttribute="leading" secondItem="dkC-zI-tya" secondAttribute="leading" constant="30" id="jpl-13-HT4"/>
-                                            <constraint firstItem="ham-bL-FRM" firstAttribute="centerY" secondItem="dkC-zI-tya" secondAttribute="centerY" type="default" id="lM9-Oj-EnR"/>
-                                            <constraint firstItem="og0-p4-4Ah" firstAttribute="top" secondItem="dkC-zI-tya" secondAttribute="top" constant="6" id="lXf-BB-D4c"/>
+                                            <constraint firstItem="og0-p4-4Ah" firstAttribute="top" secondItem="dkC-zI-tya" secondAttribute="top" constant="7" id="n3x-Fd-XYV"/>
+                                            <constraint firstItem="riO-fg-QiO" firstAttribute="centerY" secondItem="ham-bL-FRM" secondAttribute="centerY" type="default" id="r2K-ZC-0G2"/>
+                                            <constraint firstAttribute="trailing" secondItem="riO-fg-QiO" secondAttribute="trailing" constant="59" id="uud-vt-D0v"/>
                                             <constraint firstItem="og0-p4-4Ah" firstAttribute="leading" secondItem="dkC-zI-tya" secondAttribute="leading" constant="159" id="vOM-LQ-itn"/>
                                         </constraints>
                                     </tableViewCell>
@@ -206,6 +208,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="riO-fg-QiO" id="HqZ-I5-cJc"/>
                         <outlet property="addressTextView" destination="Khl-61-NcN" id="zvx-o4-ECP"/>
                         <outlet property="curDispositionTextField" destination="yco-9V-lpQ" id="ye6-DW-gmA"/>
                         <outlet property="curFloorTextField" destination="og0-p4-4Ah" id="mOi-tW-2tD"/>
@@ -931,9 +934,11 @@
                 <relationship kind="action" name="currentFloorChanged:"/>
                 <relationship kind="action" name="refresh:"/>
                 <relationship kind="action" name="startButtonTouched:"/>
+                <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="addressTextView" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="curDispositionTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="curFloorTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="progressUILabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="startUIButton" candidateClass="UIButton"/>
             </relationships>
         </class>

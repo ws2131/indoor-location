@@ -58,23 +58,47 @@
 # pragma mark UI Action functions
 
 - (IBAction)startButtonTouched:(id)sender {
+
     DLog(@"startbutton touched state: %@", startButtonOn ? @"YES" : @"NO");
     [self playClickSound];
     
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+
     UIButton *button = (UIButton *)sender;
     if (startButtonOn == YES) {
         DLog(@"stop pushed");
         startButtonOn = NO;
         [button setTitle:@"Start" forState:UIControlStateNormal];
         //[button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        [self.delegate stopButtonPushed:self];
+        //[self.delegate stopButtonPushed:self];
+        
+        [self startActivityIndicator];
+        
+        NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(sendStopPushed) object:nil];
+        [queue addOperation:op];
+        //[self.delegate stopButtonPushed:self];
+
     } else {
         DLog(@"start pushed");
         startButtonOn = YES;
         [button setTitle:@"Stop" forState:UIControlStateNormal];
         //[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [self.delegate startButtonPushed:self];
+        //[self.delegate startButtonPushed:self];
+        NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(sendStartPushed) object:nil];
+        [queue addOperation:op];
     }
+    DLog(@"startButtonTouched done");
+
+}
+
+- (void)sendStartPushed {
+    DLog(@"sendStartPushed called");
+    [self.delegate startButtonPushed:self];
+}
+
+- (void)sendStopPushed {
+    DLog(@"sendStopPushed called");
+    [self.delegate stopButtonPushed:self];
 }
 
 - (IBAction)refresh:(id)sender {
@@ -104,6 +128,14 @@
     NSURL *url = [NSURL fileURLWithPath:path];
     AudioServicesCreateSystemSoundID ((__bridge CFURLRef)url, &soundID);
     AudioServicesPlaySystemSound(soundID);
+}
+
+- (void)startActivityIndicator {
+    [self.activityIndicatorView startAnimating];
+}
+
+- (void)stopActivityIndicator {
+    [self.activityIndicatorView stopAnimating];
 }
 
 # pragma mark -

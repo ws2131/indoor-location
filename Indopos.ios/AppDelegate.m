@@ -34,7 +34,6 @@
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     motionManager = [[CMMotionManager alloc] init];
-    [[UIAccelerometer sharedAccelerometer] setDelegate:self];
     
     NSTimeInterval interval = 1.0 / FREQUENCY;
     [[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
@@ -452,7 +451,7 @@
     measurement = [NSEntityDescription insertNewObjectForEntityForName:@"Measurement" inManagedObjectContext:self.managedObjectContext];
     sensorMeasurements = [[NSMutableArray alloc] initWithCapacity:400];
     
-#if TARGET_IPHONE_SIMULATOR
+//#if TARGET_IPHONE_SIMULATOR
     
     // simulate measurements from csv file
     NSArray *array = [fileHandler loadFromFile:@"test"];    
@@ -482,17 +481,17 @@
     }
     measurement.end_ti = [NSNumber numberWithDouble:30.];
 
-#else
+//#else
+//    [[UIAccelerometer sharedAccelerometer] setDelegate:self];
+//    [motionManager startDeviceMotionUpdates];
+//    [locationManager startUpdatingHeading];
+//    measurement.startDate = [NSDate date];
     
-    measurement.startDate = [NSDate date];
-    
-#endif
+//#endif
     
     measurement.start_ti = [NSNumber numberWithDouble:0.];
     measurement.frequency = [NSNumber numberWithInt:FREQUENCY];
-
-    [motionManager startDeviceMotionUpdates];
-    [locationManager startUpdatingHeading];
+    DLog(@"startButtonPushed done");
 }
 
 - (void)stopButtonPushed:(MainTVC *)controller {
@@ -501,10 +500,13 @@
     
     //measurement.hasSensorData = [NSOrderedSet orderedSetWithArray:sensorMeasurements];
     measurement.endDate = [NSDate date];
-    [measurement.managedObjectContext save:nil];
+    //[measurement.managedObjectContext save:nil];
 
-    [motionManager stopDeviceMotionUpdates];
-    [locationManager stopUpdatingHeading];
+//#if TARGET_IPHONE_SIMULATOR
+//#else
+//    [motionManager stopDeviceMotionUpdates];
+//    [locationManager stopUpdatingHeading];
+//#endif
     
     DLog(@"number of measurements: %d", [measurement.hasSensorData count]);
     DLog(@"buildingInfo: %@", self.config.inBuilding.address1);
@@ -534,6 +536,9 @@
     
     // for debug
     //[self exportMeasurement];
+    
+    [controller stopActivityIndicator];
+    DLog(@"stopButtonPushed done");
 }
 
 - (void)refreshButtonPushed:(MainTVC *)controller {
