@@ -75,7 +75,7 @@
     UINavigationController *settingTVCnav = [[tabBarController viewControllers] objectAtIndex:1];
     UINavigationController *debugTVCnav = [[tabBarController viewControllers] objectAtIndex:2];
     
-    MainTVC *mainTVC = (MainTVC *)mainTVCnav.topViewController;
+    mainTVC = (MainTVC *)mainTVCnav.topViewController;
     mainTVC.managedObjectContext = self.managedObjectContext;
     mainTVC.distanceFormatter = distanceFormatter;
     mainTVC.config = self.config;
@@ -295,7 +295,7 @@
 }
 
 - (void)initFile {
-    NSString *fname = [NSString stringWithFormat:@"%@.%@", FILE_PREFIX, [dateFormatter stringFromDate:measurement.startDate]];
+    NSString *fname = [NSString stringWithFormat:@"%@.%@.txt", FILE_PREFIX, [dateFormatter stringFromDate:measurement.startDate]];
     [fileHandler setFileName:fname];
     [fileHandler writeToFile:[NSString stringWithFormat:@"start, %@, %@\n",
                               [dateFormatter stringFromDate:measurement.startDate], measurement.frequency]];
@@ -361,6 +361,7 @@
         sensorData.m33 = [NSNumber numberWithDouble:cmRotationMatrix.m33];
         [measurement.measurements addObject:sensorData];
         [self writeToFile:sensorData];
+        [mainTVC updateCounter:sensorData.time];
     }
 }
 
@@ -421,7 +422,7 @@
 #if TARGET_IPHONE_SIMULATOR
     
     // simulate measurements from csv file
-    NSArray *array = [fileHandler loadFromFile:@"test"];    
+    NSArray *array = [fileHandler loadFromFile:@"test.txt"];
     NSString *ts = [[array objectAtIndex:0] objectAtIndex:1];
     //measurement.startDate = [dateFormatter dateFromString:ts];
     for (int i = [array count] -1; i > 0; i--) {
@@ -508,6 +509,7 @@
     
     [controller updateCurrentDisplacement:currentDisplacement];
     [controller updateCurrentFloor:currentFloor];
+    [controller updateCounter:[NSNumber numberWithInt:0]];
 }
 
 - (void)currentFloorChanged:(MainTVC *)controller {

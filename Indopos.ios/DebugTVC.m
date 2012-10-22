@@ -11,8 +11,7 @@
 #import "Logger.h"
 #import "Measurement.h"
 #import "SensorData.h"
-
-#define ACC_UPLOAD_URL @"http://ng911dev1.cs.columbia.edu/iLM/acc/upload.php"
+#import "FileTVC.h"
 
 @implementation DebugTVC
 
@@ -58,6 +57,13 @@
 - (IBAction)deleteAllHistories:(id)sender {
     [(AppDelegate *)[UIApplication sharedApplication].delegate resetHistory];
     [self update];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"File Segue"]) {
+        FileTVC *fileTVC = segue.destinationViewController;
+        fileTVC.fileHandler = self.fileHandler;
+    }
 }
 
 @end

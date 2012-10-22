@@ -92,6 +92,10 @@
     self.curDispositionTextField.text = [NSString stringWithFormat:@"%@", [self.distanceFormatter stringFromNumber:currentDisplacement]];
 }
 
+- (void)updateCounter:(NSNumber *)curCounter {
+    self.counterUILabel.text = [NSString stringWithFormat:@"%d", [curCounter intValue]];
+}
+
 - (void)dismissKeyboard {
     [self.view endEditing:YES];
 }

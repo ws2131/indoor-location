@@ -184,12 +184,24 @@
                                                         <action selector="startButtonTouched:" destination="5VU-Tp-WPC" eventType="touchDown" id="rg4-6M-fDs"/>
                                                     </connections>
                                                 </button>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SeW-Sa-TJX">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="42" id="4Hq-iB-iZC"/>
+                                                        <constraint firstAttribute="height" constant="21" id="ztK-QY-fBS"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
                                             <constraint firstItem="gGh-Kp-oY1" firstAttribute="centerX" secondItem="3vC-BD-MgB" secondAttribute="centerX" type="default" id="EbT-vX-reI"/>
+                                            <constraint firstItem="SeW-Sa-TJX" firstAttribute="top" secondItem="3vC-BD-MgB" secondAttribute="top" constant="22" id="H6F-jG-DHq"/>
                                             <constraint firstItem="gGh-Kp-oY1" firstAttribute="top" secondItem="3vC-BD-MgB" secondAttribute="top" type="default" id="jIM-to-jsp"/>
+                                            <constraint firstItem="SeW-Sa-TJX" firstAttribute="baseline" secondItem="gGh-Kp-oY1" secondAttribute="baseline" type="default" id="tsi-mq-Rso"/>
+                                            <constraint firstAttribute="trailing" secondItem="SeW-Sa-TJX" secondAttribute="trailing" constant="29" id="z3m-aA-6Mh"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
@@ -210,6 +222,7 @@
                     <connections>
                         <outlet property="activityIndicatorView" destination="riO-fg-QiO" id="HqZ-I5-cJc"/>
                         <outlet property="addressTextView" destination="Khl-61-NcN" id="zvx-o4-ECP"/>
+                        <outlet property="counterUILabel" destination="SeW-Sa-TJX" id="aYG-DJ-V6u"/>
                         <outlet property="curDispositionTextField" destination="yco-9V-lpQ" id="ye6-DW-gmA"/>
                         <outlet property="curFloorTextField" destination="og0-p4-4Ah" id="mOi-tW-2tD"/>
                     </connections>
@@ -609,11 +622,11 @@
                         <sections>
                             <tableViewSection headerTitle="File info" id="cr3-BX-wHS">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Seb-4R-uTz">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Seb-4R-uTz">
                                         <rect key="frame" x="0.0" y="46" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <rect key="frame" x="10" y="1" width="280" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="# of Files :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Yl-yS-QTB">
@@ -640,6 +653,9 @@
                                             <constraint firstItem="qVa-j9-Okf" firstAttribute="leading" secondItem="8Yl-yS-QTB" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="4oq-0y-Xvy"/>
                                             <constraint firstItem="qVa-j9-Okf" firstAttribute="centerY" secondItem="Seb-4R-uTz" secondAttribute="centerY" type="default" id="GQ2-QU-Kfq"/>
                                         </constraints>
+                                        <connections>
+                                            <segue destination="Y9P-Xt-7cU" kind="push" identifier="File Segue" id="ETn-Bz-vu2"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="hqO-c8-Hdg">
                                         <rect key="frame" x="0.0" y="91" width="320" height="45"/>
@@ -796,6 +812,36 @@
             </objects>
             <point key="canvasLocation" x="1445" y="648"/>
         </scene>
+        <!--FileTVC-->
+        <scene sceneID="zz5-w3-guJ">
+            <objects>
+                <tableViewController id="Y9P-Xt-7cU" customClass="FileTVC" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="EVE-Pc-m6V">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="File Cell" id="vlU-9n-hqD">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Y9P-Xt-7cU" id="d1t-YK-dGU"/>
+                            <outlet property="delegate" destination="Y9P-Xt-7cU" id="MRu-uO-vfE"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Qdf-Vq-VqX"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X6v-MX-UJf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1880" y="640"/>
+        </scene>
         <!--BuildingsTVC - Buildings-->
         <scene sceneID="oC8-H8-mJX">
             <objects>
@@ -871,56 +917,6 @@
         <image name="p.png" width="26" height="26"/>
         <image name="w.png" width="26" height="26"/>
     </resources>
-    <classes>
-        <class className="BuildingsTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/BuildingsTVC.h"/>
-        </class>
-        <class className="CoreDataTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
-        </class>
-        <class className="DebugTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DebugTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="deleteAllFiles:"/>
-                <relationship kind="action" name="deleteAllHistories:"/>
-                <relationship kind="action" name="sendAllFiles:"/>
-                <relationship kind="outlet" name="fileNumLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="historyNumLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="HistoryTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/HistoryTVC.h"/>
-        </class>
-        <class className="MainTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="currentFloorChanged:"/>
-                <relationship kind="action" name="refresh:"/>
-                <relationship kind="action" name="startButtonTouched:"/>
-                <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="addressTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="curDispositionTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="curFloorTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="progressUILabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="startUIButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="SettingTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingTVC.h"/>
-            <relationships>
-                <relationship kind="outlet" name="address1TextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="address2TextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="address3TextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="floorHeightTextfield" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="floorOfEntryTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="lobbyHeightTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="numOfLandingsTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

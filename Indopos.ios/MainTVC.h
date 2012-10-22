@@ -34,10 +34,11 @@
 @property (strong, nonatomic) IBOutlet UIButton *startUIButton;
 @property (strong, nonatomic) IBOutlet UILabel *progressUILabel;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+@property (strong, nonatomic) IBOutlet UILabel *counterUILabel;
 
 - (void)updateCurrentFloor:(NSNumber *)currentFloor;
 - (void)updateCurrentDisplacement:(NSNumber *)currentDisplacement;
 - (void)startActivityIndicator;
 - (void)stopActivityIndicator;
-
+- (void)updateCounter:(NSNumber *)curCounter;
 @end

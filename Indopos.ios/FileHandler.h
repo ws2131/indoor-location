@@ -41,5 +41,6 @@
 - (void)deleteAll;
 - (NSArray *)loadFromFile:(NSString *)fileName;
 - (void)sendAll;
-
+- (NSArray *)getAll;
+- (int)getFileSizeFromFile:(NSString *)fileName;
 @end

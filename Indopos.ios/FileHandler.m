@@ -29,15 +29,13 @@
     self = [self init];
     if (self) {
         self.fileName = fileName_;
-        self.filePath = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.txt", self.fileName]];
-        DLog(@"path: %@", filePath);
     }
     return self;
 }
 
 - (void)setFileName:(NSString *)fileName_ {
     fileName = fileName_;
-    self.filePath = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.txt", self.fileName]];
+    self.filePath = [self.fileDir stringByAppendingPathComponent:self.fileName];
     DLog(@"path: %@", filePath);
 }
 
@@ -170,8 +168,7 @@
 - (void)deleteAll {
     int num = 0;
     NSArray * files = [self.fileManager contentsOfDirectoryAtPath:self.fileDir error:nil];
-    for (int i = 0; i < files.count; i++) {
-        NSString *file = (NSString *)[files objectAtIndex:i];
+    for (NSString *file in files) {
         if ([file hasPrefix:FILE_PREFIX]) {
             NSString *path = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", file]];
             [self.fileManager removeItemAtPath:path error:nil];
@@ -184,8 +181,7 @@
 - (NSString *)getNumFiles {
     int num = 0;
     NSArray * files = [self.fileManager contentsOfDirectoryAtPath:self.fileDir error:nil];
-    for (int i = 0; i < files.count; i++) {
-        NSString *file = (NSString *)[files objectAtIndex:i];
+    for (NSString *file in files) {
         if ([file hasPrefix:FILE_PREFIX]) {
             num++;
         }
@@ -194,7 +190,7 @@
 }
 
 - (NSArray *)loadFromFile:(NSString *)fileName_ {
-    NSString *filePath_ = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.txt", fileName_]];
+    NSString *filePath_ = [self.fileDir stringByAppendingPathComponent:fileName_];
     NSString *content = [NSString stringWithContentsOfFile:filePath_ encoding:NSASCIIStringEncoding error:nil];
     NSArray *fields = [content CSVComponents];
     return fields;
@@ -204,8 +200,7 @@
     int count = 0;
     NSURL * theURL = [NSURL URLWithString:ACC_UPLOAD_URL];
     NSArray * files = [self.fileManager contentsOfDirectoryAtPath:self.fileDir error:nil];
-    for (int i = 0; i < files.count; i++) {
-        NSString *file = (NSString *)[files objectAtIndex:i];
+    for (NSString *file in files) {
         if ([file hasPrefix:FILE_PREFIX]) {
             
             NSString *path = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", file]];
@@ -227,7 +222,11 @@
             [postBody appendData:[NSData dataWithContentsOfFile:path]];
             [postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",stringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
             [postRequest setHTTPBody:postBody];
-            [NSURLConnection sendSynchronousRequest:postRequest returningResponse:nil error:nil];
+            
+            NSURLResponse *response = nil;
+            [NSURLConnection sendSynchronousRequest:postRequest returningResponse:&response error:nil];
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            DLog(@"filename: %@ status: %d", path, httpResponse.statusCode);
             count++;
         }
     }
@@ -235,6 +234,27 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:str message:nil
                                                    delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
+}
+
+- (NSArray *)getAll {
+    NSMutableArray *fileNames = [[NSMutableArray alloc] initWithCapacity:10];
+    NSArray * files = [self.fileManager contentsOfDirectoryAtPath:self.fileDir error:nil];
+    for (NSString *file in files) {
+        if ([file hasPrefix:FILE_PREFIX]) {
+            [fileNames addObject:file];
+        }
+    }
+    return fileNames;
+}
+
+- (int)getFileSizeFromFile:(NSString *)fileName_ {
+    NSString *filePath_ = [self.fileDir stringByAppendingPathComponent:fileName_];
+    NSDictionary *fileAttributes = [self.fileManager attributesOfItemAtPath:filePath_ error:nil];
+    if (fileAttributes) {
+        return [[fileAttributes objectForKey:@"NSFileSize"] integerValue];
+    } else {
+        return 0;
+    }
 }
 
 @end

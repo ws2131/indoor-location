@@ -32,6 +32,8 @@
     CMMotionManager *motionManager;
     CLLocationManager *locationManager;
     CLHeading *currentHeading;
+    
+    MainTVC *mainTVC;
 }
 
 @property (strong, nonatomic) UIWindow *window;
