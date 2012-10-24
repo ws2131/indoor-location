@@ -22,8 +22,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    [self.tableView addGestureRecognizer:tgr];
+    // Since this conflicts with segues to predefined building, we added tap gesture recognizer in IB
+    // and connect it with UILabels instead.
+    //UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    //[self.tableView addGestureRecognizer:tgr];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -89,7 +91,8 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"Predefined Buildings Segue"]) {
+    DLog(@"%@", segue.identifier);
+    if ([segue.identifier isEqualToString:@"Predefined Buildings Segue1"] || [segue.identifier isEqualToString:@"Predefined Buildings Segue2"]) {
         BuildingsTVC *buildingsTVC = segue.destinationViewController;
         buildingsTVC.managedObjectContext = self.managedObjectContext;
         buildingsTVC.delegate = self;
@@ -105,6 +108,10 @@
 
 - (void)dismissKeyboard {
     [self.view endEditing:YES];
+}
+
+- (IBAction)viewTapped:(UIGestureRecognizer *)sender {
+    [self dismissKeyboard];
 }
 
 

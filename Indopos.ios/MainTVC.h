@@ -41,4 +41,5 @@
 - (void)startActivityIndicator;
 - (void)stopActivityIndicator;
 - (void)updateCounter:(NSNumber *)curCounter;
+
 @end

@@ -26,11 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // This conflicts with history view button!
-    //UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    //[self.tableView addGestureRecognizer:tgr];
-    
+
     BuildingInfo *buildingInfo = self.config.inBuilding;
     self.curFloorTextField.text = [buildingInfo.floorOfEntry stringValue];
     self.curDispositionTextField.text = @"0";
@@ -46,7 +42,8 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"History Segue"]) {
+    DLog(@"%@", segue.identifier);
+    if ([segue.identifier isEqualToString:@"History Segue1"] || [segue.identifier isEqualToString:@"History Segue2"]) {
         HistoryTVC *historyTVC = segue.destinationViewController;
         historyTVC.managedObjectContext = self.managedObjectContext;
         historyTVC.distanceFormatter = self.distanceFormatter;
@@ -120,6 +117,11 @@
 - (void)stopActivityIndicator {
     [self.activityIndicatorView stopAnimating];
 }
+
+- (IBAction)viewTapped:(UIGestureRecognizer *)sender {
+    [self dismissKeyboard];
+}
+
 
 # pragma mark -
 # pragma mark UI Textfield delegate
