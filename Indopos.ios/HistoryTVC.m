@@ -51,6 +51,7 @@
                       [history.floor stringValue],
                       [distanceFormatter stringFromNumber:history.displacement]];
     cell.textLabel.text = text;
+    cell.detailTextLabel.text = history.address;
     return cell;
 }
 

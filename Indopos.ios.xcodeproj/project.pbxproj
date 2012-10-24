@@ -28,6 +28,7 @@
 		712EA9C1161E66BA00C047E3 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 712EA9BF161E66BA00C047E3 /* Model.xcdatamodeld */; };
 		716F5C48162F5F3300E29525 /* cs-logo-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 716F5C46162F5F3300E29525 /* cs-logo-57x57.png */; };
 		716F5C49162F5F3300E29525 /* cs-logo-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = 716F5C47162F5F3300E29525 /* cs-logo-114x114.png */; };
+		719BEB1A163781C100EE6D7C /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = 719BEB19163781C100EE6D7C /* History.m */; };
 		71C315FE1634809F000AE876 /* BuildingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C315FD1634809F000AE876 /* BuildingInfo.m */; };
 		71CD0AB31631E19A00A8A185 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CD0AB21631E19A00A8A185 /* AudioToolbox.framework */; };
 		71CD0AB61631E32500A8A185 /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = 71CD0AB51631E32500A8A185 /* click.wav */; };
@@ -48,7 +49,6 @@
 		71FD2A661631FECF00A8D948 /* DebugTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 71FD2A651631FECF00A8D948 /* DebugTVC.m */; };
 		71FD2A691631FF9D00A8D948 /* d.png in Resources */ = {isa = PBXBuildFile; fileRef = 71FD2A681631FF9D00A8D948 /* d.png */; };
 		71FD2A91163228AC00A8D948 /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 71FD2A90163228AC00A8D948 /* Config.m */; };
-		71FD2A94163228AC00A8D948 /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = 71FD2A93163228AC00A8D948 /* History.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +84,8 @@
 		712EA9C5161E682500C047E3 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
 		716F5C46162F5F3300E29525 /* cs-logo-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cs-logo-57x57.png"; sourceTree = "<group>"; };
 		716F5C47162F5F3300E29525 /* cs-logo-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cs-logo-114x114.png"; sourceTree = "<group>"; };
+		719BEB18163781C100EE6D7C /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
+		719BEB19163781C100EE6D7C /* History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = History.m; sourceTree = "<group>"; };
 		71C315FC1634809F000AE876 /* BuildingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildingInfo.h; sourceTree = "<group>"; };
 		71C315FD1634809F000AE876 /* BuildingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildingInfo.m; sourceTree = "<group>"; };
 		71CD0AB21631E19A00A8A185 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -123,8 +125,6 @@
 		71FD2A6A1632204700A8D948 /* Model 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 5.xcdatamodel"; sourceTree = "<group>"; };
 		71FD2A8F163228AC00A8D948 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		71FD2A90163228AC00A8D948 /* Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Config.m; sourceTree = "<group>"; };
-		71FD2A92163228AC00A8D948 /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
-		71FD2A93163228AC00A8D948 /* History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = History.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,10 +191,10 @@
 				71F77D97162E2FE90064C1B7 /* CHCSVParser */,
 				712EA998161E56A500C047E3 /* MainStoryboard.storyboard */,
 				712EA9BF161E66BA00C047E3 /* Model.xcdatamodeld */,
+				719BEB18163781C100EE6D7C /* History.h */,
+				719BEB19163781C100EE6D7C /* History.m */,
 				71C315FC1634809F000AE876 /* BuildingInfo.h */,
 				71C315FD1634809F000AE876 /* BuildingInfo.m */,
-				71FD2A92163228AC00A8D948 /* History.h */,
-				71FD2A93163228AC00A8D948 /* History.m */,
 				71FD2A8F163228AC00A8D948 /* Config.h */,
 				71FD2A90163228AC00A8D948 /* Config.m */,
 				71F6663F163464240021C4A5 /* Measurement.h */,
@@ -358,11 +358,11 @@
 				710864311630B15400998FDD /* BuildingsTVC.m in Sources */,
 				71FD2A661631FECF00A8D948 /* DebugTVC.m in Sources */,
 				71FD2A91163228AC00A8D948 /* Config.m in Sources */,
-				71FD2A94163228AC00A8D948 /* History.m in Sources */,
 				71F66641163464250021C4A5 /* Measurement.m in Sources */,
 				71F66644163464370021C4A5 /* SensorData.m in Sources */,
 				71C315FE1634809F000AE876 /* BuildingInfo.m in Sources */,
 				71DADCC21635E4CC00D23F9C /* FileTVC.m in Sources */,
+				719BEB1A163781C100EE6D7C /* History.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -262,12 +262,12 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B5w-fB-Ild">
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O1Z-BW-CKF">
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
@@ -974,9 +974,6 @@
         </class>
         <class className="HistoryTVC" superclassName="CoreDataTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/HistoryTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="deleteAll:"/>
-            </relationships>
         </class>
         <class className="MainTVC" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainTVC.h"/>
@@ -1000,10 +997,6 @@
         <class className="SettingTVC" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingTVC.h"/>
             <relationships>
-                <relationship kind="action" name="exportMeasurement:"/>
-                <relationship kind="action" name="resetHistory:"/>
-                <relationship kind="action" name="save:"/>
-                <relationship kind="action" name="viewTapped:" candidateClass="UIGestureRecognizer"/>
                 <relationship kind="outlet" name="address1TextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="address2TextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="address3TextField" candidateClass="UITextField"/>

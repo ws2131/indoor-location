@@ -497,6 +497,7 @@
         newHistory.floor = currentFloor;
         newHistory.displacement = currentDisplacement;
         newHistory.duration = [NSNumber numberWithDouble:([measurement.end_ti doubleValue] - [measurement.start_ti doubleValue])];
+        newHistory.address = self.config.inBuilding.address1;
         [newHistory.managedObjectContext save:nil];
     }
     [controller stopActivityIndicator];
