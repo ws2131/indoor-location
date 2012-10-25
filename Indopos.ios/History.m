@@ -2,7 +2,7 @@
 //  History.m
 //  Indopos.ios
 //
-//  Created by Wonsang Song on 10/23/12.
+//  Created by Wonsang Song on 10/25/12.
 //  Copyright (c) 2012 Wonsang Song. All rights reserved.
 //
 
@@ -11,10 +11,11 @@
 
 @implementation History
 
+@dynamic address;
 @dynamic displacement;
 @dynamic duration;
-@dynamic floor;
+@dynamic endFloor;
 @dynamic time;
-@dynamic address;
+@dynamic startFloor;
 
 @end

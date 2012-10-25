@@ -45,10 +45,11 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     History *history = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    NSString *text = [NSString stringWithFormat:@"%@ [%d],  floor: %@,  (%@ m)",
+    NSString *text = [NSString stringWithFormat:@"%@ [%ds], floor: %@->%@, (%@m)",
                       [dateFormatter stringFromDate:history.time],
                       [history.duration intValue],
-                      [history.floor stringValue],
+                      [history.startFloor stringValue],
+                      [history.endFloor stringValue],
                       [distanceFormatter stringFromNumber:history.displacement]];
     cell.textLabel.text = text;
     cell.detailTextLabel.text = history.address;

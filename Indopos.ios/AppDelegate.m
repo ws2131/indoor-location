@@ -294,12 +294,16 @@
     [self.fetchedResultsController performFetch:nil];
 }
 
-- (void)initFile {
+- (void)startFile {
     NSString *fname = [NSString stringWithFormat:@"%@.%@.txt", FILE_PREFIX, [dateFormatter stringFromDate:measurement.startDate]];
     [fileHandler setFileName:fname];
     [fileHandler writeToFile:[NSString stringWithFormat:@"start, %@, %@\n",
                               [dateFormatter stringFromDate:measurement.startDate], measurement.frequency]];
     [fileHandler writeToFile:@"timestamp, sec, floor, state, x, y, z, lpf.x, lpf.y, lpf.z, hpf.x, hpf.y, hpf.z, a1, a2, a3, v1, v2, v3, d1, d2, d3, gx, gy, gz, ax, ay, az, a_adj, v_adj, d_adj, v_gap, v_max, curFloor, temp, pressure, altitude, heading, roll, pitch, yaw, rr.x, rr.y, rr.z, m11, m12, m13, m21, m22, m23, m31, m32, m33, heading_acc\n"];
+}
+
+- (void)endFile:(History *)history {
+    [fileHandler writeToFile:[NSString stringWithFormat:@"%@-%@-%@\n", history.address, history.startFloor, history.endFloor]];
 }
 
 - (void)writeToFile:(SensorData *)data {
@@ -417,7 +421,10 @@
     measurement = [[Measurement alloc] init];
     measurement.measurements = [[NSMutableArray alloc] initWithCapacity:400];
     measurement.startDate = [NSDate date];
-    [self initFile];
+    measurement.start_ti = [NSNumber numberWithDouble:0.];
+    measurement.frequency = [NSNumber numberWithInt:FREQUENCY];
+    
+    [self startFile];
 
 #if TARGET_IPHONE_SIMULATOR
     
@@ -457,9 +464,6 @@
     
 #endif
     
-    measurement.start_ti = [NSNumber numberWithDouble:0.];
-    measurement.frequency = [NSNumber numberWithInt:FREQUENCY];
-    
     DLog(@"startButtonPushed done");
 }
 
@@ -485,20 +489,23 @@
         [elevatorModule run];
         
         double displacement = [elevatorModule.movedDisplacement doubleValue] + [currentDisplacement doubleValue];
-        int floor = [currentFloor intValue] + [elevatorModule.movedFloor intValue];
+        int startFloor = [currentFloor intValue];
+        int endFloor = [currentFloor intValue] + [elevatorModule.movedFloor intValue];
         currentDisplacement = [NSNumber numberWithDouble:displacement];
-        currentFloor = [NSNumber numberWithInt:floor];
+        currentFloor = [NSNumber numberWithInt:endFloor];
         
         [controller updateCurrentDisplacement:currentDisplacement];
         [controller updateCurrentFloor:currentFloor];
         
         History *newHistory = [NSEntityDescription insertNewObjectForEntityForName:@"History" inManagedObjectContext:self.managedObjectContext];
         newHistory.time = [NSDate date];
-        newHistory.floor = currentFloor;
+        newHistory.startFloor = [NSNumber numberWithInt:startFloor];
+        newHistory.endFloor = currentFloor;
         newHistory.displacement = currentDisplacement;
         newHistory.duration = [NSNumber numberWithDouble:([measurement.end_ti doubleValue] - [measurement.start_ti doubleValue])];
         newHistory.address = self.config.inBuilding.address1;
         [newHistory.managedObjectContext save:nil];
+        [self endFile:newHistory];
     }
     [controller stopActivityIndicator];
     DLog(@"stopButtonPushed done");
