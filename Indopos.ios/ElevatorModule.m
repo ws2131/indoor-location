@@ -11,9 +11,6 @@
 #import "ElevatorModule.h"
 #import "SensorData.h"
 
-#define CUTOFFPOINT 2
-#define GRAVITY 9.8
-
 @implementation ElevatorModule
 
 - (void)run {
@@ -75,25 +72,45 @@
         [a_linear addObject:[NSNumber numberWithDouble:tmp]];
     }
     DLog(@"a_linear(end): %f", [[a_linear objectAtIndex:len-1] doubleValue]);
+    //[self printArray:a_linear];
+
     
+    // error correction
+    NSMutableArray *a_adjusted = [[NSMutableArray alloc] initWithArray:a_linear copyItems:YES];
+    for (int i = 0; i < freq; i++) {
+        [a_adjusted replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0.0]];
+    }
+    for (int i = len - freq - 1; i < len; i++) {
+        [a_adjusted replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0.0]];
+    }
+
     int offset = 0.5 * freq;
     int last_index = 0;
     DLog(@"offset: %d", offset);
-    NSMutableArray *a_adjusted = [[NSMutableArray alloc] initWithArray:a_linear copyItems:YES];
     for (int i = 0; i < len; i++) {
         if ([[a_adjusted objectAtIndex:i] doubleValue] == 0.0) {
             if (i - last_index < offset) {
-                for (int j = last_index; j < i; j++) {
+                for (int j = last_index; j <= i; j++) {
                     [a_adjusted replaceObjectAtIndex:j withObject:[NSNumber numberWithDouble:0.0]];
                 }
             }
             last_index = i;
         }
     }
-    //[self printDoubleArray:a_adjusted];
 
+    int s = 0;
+    NSArray *stat = [self generateState:a_adjusted withTime:times withFrequency:freq];
+    for (int i = 0; i < [stat count]; i++) {
+        s = s + [[stat objectAtIndex:i] intValue];
+    }
+    DLog(@"stat sum: %d", s);
+    //[self printArray:stat];
+
+    a_adjusted = [self filterForElevator:a_adjusted withState:stat];
+    
+    
     NSMutableArray *v_adjusted = [self getVelocity:times withAccel:a_adjusted];
-    //[self printDoubleArray:v_adjusted];
+    //[self printArray:v_adjusted];
     double v_max = [self getAbsoluteMax:v_adjusted];
     double v_gap = 0.0;
     DLog(@"v_max: %f", v_max);
@@ -114,7 +131,7 @@
         }
     }
     NSArray *d_adjusted = [super getDisplacement:times withAccel:a_adjusted withVelocity:v_adjusted];
-    //[self printDoubleArray:d_adjusted];
+    //[self printArray:d_adjusted];
 
     DLog(@"d_adjusted: %@", [d_adjusted objectAtIndex:(len - 1)]);
     self.movedDisplacement = [d_adjusted objectAtIndex:(len - 1)];
