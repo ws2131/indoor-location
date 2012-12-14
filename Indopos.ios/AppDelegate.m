@@ -37,6 +37,7 @@
     NSTimeInterval interval = 1.0 / FREQUENCY;
     [[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
     motionManager.deviceMotionUpdateInterval = interval;
+    motionManager.magnetometerUpdateInterval = interval;
     
     [self setupFetchedResultsControllerForBuildingInfo];
     if (![[self.fetchedResultsController fetchedObjects] count] > 0) {
@@ -299,7 +300,7 @@
     [fileHandler setFileName:fname];
     [fileHandler writeToFile:[NSString stringWithFormat:@"start, %@, %@\n",
                               [dateFormatter stringFromDate:measurement.startDate], measurement.frequency]];
-    [fileHandler writeToFile:@"timestamp, sec, floor, state, x, y, z, lpf.x, lpf.y, lpf.z, hpf.x, hpf.y, hpf.z, a1, a2, a3, v1, v2, v3, d1, d2, d3, gx, gy, gz, ax, ay, az, a_adj, v_adj, d_adj, v_gap, v_max, curFloor, temp, pressure, altitude, heading, roll, pitch, yaw, rr.x, rr.y, rr.z, m11, m12, m13, m21, m22, m23, m31, m32, m33, heading_acc\n"];
+    [fileHandler writeToFile:@"timestamp, sec, floor, state, x, y, z, lpf.x, lpf.y, lpf.z, hpf.x, hpf.y, hpf.z, a1, a2, a3, v1, v2, v3, d1, d2, d3, gx, gy, gz, ax, ay, az, a_adj, v_adj, d_adj, v_gap, v_max, curFloor, temp, pressure, altitude, heading, roll, pitch, yaw, rr.x, rr.y, rr.z, m11, m12, m13, m21, m22, m23, m31, m32, m33, heading_acc, m_x, m_y, m_z\n"];
 }
 
 - (void)endFile:(History *)history {
@@ -307,7 +308,7 @@
 }
 
 - (void)writeToFile:(SensorData *)data {
-    NSString *str = [NSString stringWithFormat:@"%@, %lf, %d, %d, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %d, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf\n",
+    NSString *str = [NSString stringWithFormat:@"%@, %lf, %d, %d, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %d, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf\n",
                      [dateFormatter stringFromDate:data.date],
                      [data.time doubleValue],
                      0, 0,
@@ -328,7 +329,8 @@
                      [data.m11 doubleValue], [data.m12 doubleValue], [data.m13 doubleValue],
                      [data.m21 doubleValue], [data.m22 doubleValue], [data.m23 doubleValue],
                      [data.m31 doubleValue], [data.m32 doubleValue], [data.m33 doubleValue],
-                     [data.headingAccuracy doubleValue]];
+                     [data.headingAccuracy doubleValue],
+                     [data.m_x doubleValue], [data.m_y doubleValue], [data.m_z doubleValue]];
     [fileHandler writeToFile:str];
 }
 
@@ -346,6 +348,8 @@
         measurement.end_ti = [NSNumber numberWithDouble:acceleration.timestamp];
         
         CMRotationMatrix cmRotationMatrix = motionManager.deviceMotion.attitude.rotationMatrix;
+        CMMagneticField magneticField = motionManager.magnetometerData.magneticField;
+        
         SensorData *sensorData = [[SensorData alloc] init];
         sensorData.date = [NSDate date];
         sensorData.time = [NSNumber numberWithDouble:(acceleration.timestamp - [measurement.start_ti doubleValue])];
@@ -363,6 +367,9 @@
         sensorData.m31 = [NSNumber numberWithDouble:cmRotationMatrix.m31];
         sensorData.m32 = [NSNumber numberWithDouble:cmRotationMatrix.m32];
         sensorData.m33 = [NSNumber numberWithDouble:cmRotationMatrix.m33];
+        sensorData.m_x = [NSNumber numberWithDouble:magneticField.x];
+        sensorData.m_y = [NSNumber numberWithDouble:magneticField.y];
+        sensorData.m_z = [NSNumber numberWithDouble:magneticField.z];
         [measurement.measurements addObject:sensorData];
         [self writeToFile:sensorData];
         [mainTVC updateCounter:sensorData.time];
@@ -460,6 +467,7 @@
 #else
     [[UIAccelerometer sharedAccelerometer] setDelegate:self];
     [motionManager startDeviceMotionUpdates];
+    [motionManager startMagnetometerUpdates];
     [locationManager startUpdatingHeading];
     
 #endif
@@ -475,6 +483,7 @@
 #if TARGET_IPHONE_SIMULATOR
 #else
     [motionManager stopDeviceMotionUpdates];
+    [motionManager stopMagnetometerUpdates];
     [locationManager stopUpdatingHeading];
 #endif
     

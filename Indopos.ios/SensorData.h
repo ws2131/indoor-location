@@ -24,6 +24,9 @@
 @property (nonatomic, retain) NSNumber *m31;
 @property (nonatomic, retain) NSNumber *m32;
 @property (nonatomic, retain) NSNumber *m33;
+@property (nonatomic, retain) NSNumber *m_x;
+@property (nonatomic, retain) NSNumber *m_y;
+@property (nonatomic, retain) NSNumber *m_z;
 @property (nonatomic, retain) NSNumber *time;
 @property (nonatomic, retain) NSDate *date;
 

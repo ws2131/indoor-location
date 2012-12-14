@@ -25,6 +25,9 @@
 @synthesize m31;
 @synthesize m32;
 @synthesize m33;
+@synthesize m_x;
+@synthesize m_y;
+@synthesize m_z;
 @synthesize time;
 @synthesize date;
 

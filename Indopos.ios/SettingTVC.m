@@ -24,6 +24,7 @@
     [super viewDidLoad];
     // Since this conflicts with segues to predefined building, we added tap gesture recognizer in IB
     // and connect it with UILabels instead.
+    // UIlabel and it's cell should be 'user interaction enabled'.
     //UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     //[self.tableView addGestureRecognizer:tgr];
 }

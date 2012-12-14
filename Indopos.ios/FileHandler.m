@@ -42,6 +42,13 @@
 - (NSString *)getFileContent {
     NSString *myData = [NSString stringWithContentsOfFile:self.filePath encoding:NSASCIIStringEncoding error:nil];
     return myData;
+/*
+    NSData *fileContents = nil;
+    NSFileHandle *aHandle = [NSFileHandle fileHandleForReadingAtPath:self.filePath];
+    if (aHandle)
+        fileContents = [aHandle readDataToEndOfFile];
+    return [[NSString alloc] initWithData:fileContents encoding:NSASCIIStringEncoding];
+*/
 }
 
 - (void)writeToFile:(NSString *)data {
@@ -231,6 +238,53 @@
         }
     }
     NSString *str = [NSString stringWithFormat:@"%d files uploaded.", count];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:str message:nil
+                                                   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+}
+
+- (void)sendLast {
+    int count = 0;
+    NSURL * theURL = [NSURL URLWithString:ACC_UPLOAD_URL];
+    NSArray * files = [self.fileManager contentsOfDirectoryAtPath:self.fileDir error:nil];
+    NSString *lastFileName = nil;
+    NSString *lastFilePath = nil;
+    
+    for (NSString *file in files) {
+        if ([file hasPrefix:FILE_PREFIX]) {
+            lastFileName = file;
+            lastFilePath = [self.fileDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", file]];
+        }
+    }
+    if (lastFileName == nil) {
+        return;
+    }
+    
+    NSMutableURLRequest *postRequest = [[NSMutableURLRequest alloc] initWithURL:theURL];
+    
+    //adding header information:
+    [postRequest setHTTPMethod:@"POST"];
+    
+    NSString *stringBoundary = @"0xKhTmLbOuNdArY";
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",stringBoundary];
+    [postRequest addValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    //setting up the body:
+    NSMutableData *postBody = [NSMutableData data];
+    [postBody appendData:[[NSString stringWithFormat:@"--%@\r\n",stringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uploadFile\"; filename=\"%@\"\r\n", lastFileName] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postBody appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [postBody appendData:[NSData dataWithContentsOfFile:lastFilePath]];
+    [postBody appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",stringBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [postRequest setHTTPBody:postBody];
+    
+    NSURLResponse *response = nil;
+    [NSURLConnection sendSynchronousRequest:postRequest returningResponse:&response error:nil];
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+    DLog(@"filename: %@ status: %d", lastFilePath, httpResponse.statusCode);
+    count++;
+    
+    NSString *str = @"last files uploaded.";
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:str message:nil
                                                    delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
