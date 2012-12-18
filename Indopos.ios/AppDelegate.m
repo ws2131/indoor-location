@@ -13,6 +13,8 @@
 #import "DebugTVC.h"
 #import "SensorData.h"
 #import "ElevatorModule.h"
+#import "StairwayModule.h"
+
 #import "History.h"
 #import "Measurement.h"
 
@@ -454,9 +456,21 @@
         if ([fields count] >= 7) {
             SensorData *sensorData = [[SensorData alloc] init];
             sensorData.time = [NSNumber numberWithDouble:[[fields objectAtIndex:1] doubleValue]];
-            sensorData.a_x = [NSNumber numberWithDouble:[[fields objectAtIndex:4] doubleValue]];
-            sensorData.a_y = [NSNumber numberWithDouble:[[fields objectAtIndex:5] doubleValue]];
-            sensorData.a_z = [NSNumber numberWithDouble:[[fields objectAtIndex:6] doubleValue]];
+            sensorData.a_x = [NSNumber numberWithDouble:[[fields objectAtIndex:4] doubleValue] * GRAVITY];
+            sensorData.a_y = [NSNumber numberWithDouble:[[fields objectAtIndex:5] doubleValue] * GRAVITY];
+            sensorData.a_z = [NSNumber numberWithDouble:[[fields objectAtIndex:6] doubleValue] * GRAVITY];
+            sensorData.heading = [NSNumber numberWithDouble:[[fields objectAtIndex:37] doubleValue]];
+            sensorData.headingAccuracy = [NSNumber numberWithDouble:[[fields objectAtIndex:53] doubleValue]];
+            sensorData.m11 = [NSNumber numberWithDouble:[[fields objectAtIndex:44] doubleValue]];
+            sensorData.m12 = [NSNumber numberWithDouble:[[fields objectAtIndex:45] doubleValue]];
+            sensorData.m13 = [NSNumber numberWithDouble:[[fields objectAtIndex:46] doubleValue]];
+            sensorData.m21 = [NSNumber numberWithDouble:[[fields objectAtIndex:47] doubleValue]];
+            sensorData.m22 = [NSNumber numberWithDouble:[[fields objectAtIndex:48] doubleValue]];
+            sensorData.m23 = [NSNumber numberWithDouble:[[fields objectAtIndex:49] doubleValue]];
+            sensorData.m31 = [NSNumber numberWithDouble:[[fields objectAtIndex:50] doubleValue]];
+            sensorData.m32 = [NSNumber numberWithDouble:[[fields objectAtIndex:51] doubleValue]];
+            sensorData.m33 = [NSNumber numberWithDouble:[[fields objectAtIndex:52] doubleValue]];
+
             sensorData.date = [NSDate date];
             [measurement.measurements addObject:sensorData];
             [self writeToFile:sensorData];
@@ -492,14 +506,21 @@
 
     if ([measurement.measurements count] > 0) {
         
-        ElevatorModule *elevatorModule = [[ElevatorModule alloc] initWithData:measurement];
-        elevatorModule.buildingInfo = self.config.inBuilding;
+        //ElevatorModule *elevatorModule = [[ElevatorModule alloc] initWithData:measurement];
+        //elevatorModule.buildingInfo = self.config.inBuilding;
+        StairwayModule *stairwayModule = [[StairwayModule alloc] initWithData:measurement];
+        stairwayModule.buildingInfo = self.config.inBuilding;
+        [stairwayModule run];
+        //[elevatorModule run];
         
-        [elevatorModule run];
-        
-        double displacement = [elevatorModule.movedDisplacement doubleValue] + [currentDisplacement doubleValue];
+        //double displacement = [elevatorModule.movedDisplacement doubleValue] + [currentDisplacement doubleValue];
         int startFloor = [currentFloor intValue];
-        int endFloor = [currentFloor intValue] + [elevatorModule.movedFloor intValue];
+        //int endFloor = [currentFloor intValue] + [elevatorModule.movedFloor intValue];
+        //currentDisplacement = [NSNumber numberWithDouble:displacement];
+        //currentFloor = [NSNumber numberWithInt:endFloor];
+        double displacement = 0;
+        double floors = [stairwayModule.movedFloor doubleValue];
+        int endFloor = [currentFloor intValue] + floors;
         currentDisplacement = [NSNumber numberWithDouble:displacement];
         currentFloor = [NSNumber numberWithInt:endFloor];
         
