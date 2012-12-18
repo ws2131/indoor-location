@@ -215,6 +215,37 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="" id="Jeg-WZ-fn7">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="44" id="iMn-C7-CDN">
+                                        <rect key="frame" x="0.0" y="380" width="320" height="46"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="tOI-x1-unA">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="300" id="g7p-6c-EAt"/>
+                                                    </constraints>
+                                                    <segments>
+                                                        <segment title="Elevator"/>
+                                                        <segment title="Stairway"/>
+                                                    </segments>
+                                                    <connections>
+                                                        <action selector="selectedActivity:" destination="5VU-Tp-WPC" eventType="valueChanged" id="9xI-Fz-RtY"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="tOI-x1-unA" firstAttribute="top" secondItem="iMn-C7-CDN" secondAttribute="top" constant="1" id="AQ8-hk-UM6"/>
+                                            <constraint firstItem="tOI-x1-unA" firstAttribute="centerX" secondItem="iMn-C7-CDN" secondAttribute="centerX" type="default" id="EL8-ng-GNr"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="5VU-Tp-WPC" id="nzc-r5-wP8"/>
@@ -999,15 +1030,20 @@
         </class>
         <class className="HistoryTVC" superclassName="CoreDataTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/HistoryTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="deleteAll:"/>
+            </relationships>
         </class>
         <class className="MainTVC" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainTVC.h"/>
             <relationships>
                 <relationship kind="action" name="currentFloorChanged:"/>
                 <relationship kind="action" name="refresh:"/>
+                <relationship kind="action" name="selectedActivity:"/>
                 <relationship kind="action" name="startButtonTouched:"/>
                 <relationship kind="action" name="viewTapped:" candidateClass="UIGestureRecognizer"/>
                 <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="activitySegmentedControl" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="addressTextView" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="counterUILabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="curDispositionTextField" candidateClass="UITextField"/>
@@ -1022,6 +1058,10 @@
         <class className="SettingTVC" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingTVC.h"/>
             <relationships>
+                <relationship kind="action" name="exportMeasurement:"/>
+                <relationship kind="action" name="resetHistory:"/>
+                <relationship kind="action" name="save:"/>
+                <relationship kind="action" name="viewTapped:" candidateClass="UIGestureRecognizer"/>
                 <relationship kind="outlet" name="address1TextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="address2TextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="address3TextField" candidateClass="UITextField"/>

@@ -17,6 +17,7 @@
 @synthesize config;
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize distanceFormatter;
+@synthesize floorFormatter;
 @synthesize delegate;
 
 
@@ -81,8 +82,19 @@
     [self.delegate refreshButtonPushed:self];
 }
 
+- (IBAction)selectedActivity:(id)sender {
+    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+    if (segmentedControl.selectedSegmentIndex == 0) {
+        // elevator
+        [self.delegate activityChanged:self selectedActivity:elevator];
+    } else if (segmentedControl.selectedSegmentIndex == 1) {
+        // stairway
+        [self.delegate activityChanged:self selectedActivity:stairway];
+    }
+}
+
 - (void)updateCurrentFloor:(NSNumber *)currentFloor {
-    self.curFloorTextField.text = [NSString stringWithFormat:@"%d", [currentFloor intValue]];
+    self.curFloorTextField.text = [NSString stringWithFormat:@"%@", [self.floorFormatter stringFromNumber:currentFloor]];
 }
 
 - (void)updateCurrentDisplacement:(NSNumber *)currentDisplacement {

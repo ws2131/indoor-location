@@ -70,6 +70,10 @@
     [distanceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     [distanceFormatter setMaximumFractionDigits:1];
     
+    floorFormatter = [[NSNumberFormatter alloc] init];
+    [floorFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [floorFormatter setMaximumFractionDigits:1];
+    
     fileHandler = [[FileHandler alloc] init];
     fileHandler.dateFormatter = dateFormatter;
     
@@ -81,6 +85,7 @@
     mainTVC = (MainTVC *)mainTVCnav.topViewController;
     mainTVC.managedObjectContext = self.managedObjectContext;
     mainTVC.distanceFormatter = distanceFormatter;
+    mainTVC.floorFormatter = floorFormatter;
     mainTVC.config = self.config;
     mainTVC.delegate = self;
     
@@ -96,6 +101,7 @@
     currentDisplacement = [NSNumber numberWithDouble:0.0];
     currentFloor = buildingInfo.floorOfEntry;
     
+    currentActivity = elevator;
     return YES;
 }
 
@@ -437,8 +443,15 @@
 
 #if TARGET_IPHONE_SIMULATOR
     
+    NSString *file_name = nil;
+    if (currentActivity == elevator) {
+        file_name = @"elevator.txt";
+    } else if (currentActivity == stairway) {
+        file_name = @"stairway.txt";
+    }
+    DLog(@"file_name: %@", file_name);
     // simulate measurements from csv file
-    NSArray *array = [fileHandler loadFromFile:@"test.txt"];
+    NSArray *array = [fileHandler loadFromFile:file_name];
     NSString *ts = [[array objectAtIndex:0] objectAtIndex:1];
     //measurement.startDate = [dateFormatter dateFromString:ts];
     for (int i = [array count] -1; i > 0; i--) {
@@ -505,24 +518,28 @@
     DLog(@"buildingInfo: %@", self.config.inBuilding.address1);
 
     if ([measurement.measurements count] > 0) {
+        AnalysisModule *analysisModule = nil;
+        if (currentActivity == elevator) {
+            analysisModule = [[ElevatorModule alloc] initWithData:measurement];
+
+        } else if (currentActivity == stairway) {
+            analysisModule = [[StairwayModule alloc] initWithData:measurement];
+        }
         
-        //ElevatorModule *elevatorModule = [[ElevatorModule alloc] initWithData:measurement];
-        //elevatorModule.buildingInfo = self.config.inBuilding;
-        StairwayModule *stairwayModule = [[StairwayModule alloc] initWithData:measurement];
-        stairwayModule.buildingInfo = self.config.inBuilding;
-        [stairwayModule run];
-        //[elevatorModule run];
+        analysisModule.buildingInfo = self.config.inBuilding;
+        [analysisModule run];
+
+        double displacement = [analysisModule.movedDisplacement doubleValue];
+        double floors = [analysisModule.movedFloor doubleValue];
+
+        double startFloor = [currentFloor doubleValue];
+        double startDisp = [currentDisplacement doubleValue];
         
-        //double displacement = [elevatorModule.movedDisplacement doubleValue] + [currentDisplacement doubleValue];
-        int startFloor = [currentFloor intValue];
-        //int endFloor = [currentFloor intValue] + [elevatorModule.movedFloor intValue];
-        //currentDisplacement = [NSNumber numberWithDouble:displacement];
-        //currentFloor = [NSNumber numberWithInt:endFloor];
-        double displacement = 0;
-        double floors = [stairwayModule.movedFloor doubleValue];
-        int endFloor = [currentFloor intValue] + floors;
-        currentDisplacement = [NSNumber numberWithDouble:displacement];
-        currentFloor = [NSNumber numberWithInt:endFloor];
+        double endFloor = startFloor + floors;
+        double endDisp = startDisp + displacement;
+        
+        currentDisplacement = [NSNumber numberWithDouble:endDisp];
+        currentFloor = [NSNumber numberWithDouble:endFloor];
         
         [controller updateCurrentDisplacement:currentDisplacement];
         [controller updateCurrentFloor:currentFloor];
@@ -552,6 +569,11 @@
 
 - (void)currentFloorChanged:(MainTVC *)controller {
     currentFloor = [NSNumber numberWithInt:[controller.curFloorTextField.text integerValue]];
+}
+
+- (void)activityChanged:(MainTVC *)controller selectedActivity:(ActivityType)activity {
+    currentActivity = activity;
+    DLog(@"currentActivity: %d", currentActivity);
 }
 
 @end

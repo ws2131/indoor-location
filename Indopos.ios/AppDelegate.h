@@ -22,7 +22,8 @@
     
     NSDateFormatter *dateFormatter;
     NSNumberFormatter *distanceFormatter;
-
+    NSNumberFormatter *floorFormatter;
+    
     FileHandler *fileHandler;
     Measurement *measurement;
 
@@ -34,6 +35,8 @@
     CLHeading *currentHeading;
     
     MainTVC *mainTVC;
+    
+    ActivityType currentActivity;
 }
 
 @property (strong, nonatomic) UIWindow *window;

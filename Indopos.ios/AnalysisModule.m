@@ -162,7 +162,6 @@
         sum += [[accel objectAtIndex:i] doubleValue];
     }
     double a_gravity = sum / (len - freq);
-    DLog(@"a_gravity: %f", a_gravity);
     for (int i = 0; i < len; i++) {
         double tmp = [[accel objectAtIndex:i] doubleValue] - a_gravity;
         [result addObject:[NSNumber numberWithDouble:tmp]];

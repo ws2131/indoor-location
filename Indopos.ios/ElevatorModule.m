@@ -44,8 +44,9 @@
     
     double dist = [[d_v objectAtIndex:len - 1] doubleValue] - [[d_v objectAtIndex:0] doubleValue];
     self.movedDisplacement = [NSNumber numberWithDouble:dist];
-    int tmp = round([self.movedDisplacement doubleValue] / [self.buildingInfo.floorHeight doubleValue]);
-    self.movedFloor = [NSNumber numberWithInt:tmp];
+    double floors = round([self.movedDisplacement doubleValue] / [self.buildingInfo.floorHeight doubleValue]);
+    self.movedFloor = [NSNumber numberWithDouble:floors];
+    DLog(@"moved dist: %f, floor: %f", dist, floors);
 }
 
 @end

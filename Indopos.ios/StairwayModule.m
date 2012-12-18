@@ -77,7 +77,7 @@
     NSMutableArray *steps = [[NSMutableArray alloc] initWithCapacity:len];
     NSMutableArray *step_amp = [[NSMutableArray alloc] initWithCapacity:step_num];
     NSMutableArray *step_heading = [[NSMutableArray alloc] initWithCapacity:step_num];
-    NSMutableArray *step_heading_accuracy = [[NSMutableArray alloc] initWithCapacity:step_num];
+    //NSMutableArray *step_heading_accuracy = [[NSMutableArray alloc] initWithCapacity:step_num];
     NSMutableArray *step_d = [[NSMutableArray alloc] initWithCapacity:step_num];
     int step_index = -1;
     for (int i = 0; i < len; i++) {
@@ -220,11 +220,6 @@
     [step_stat replaceObjectAtIndex:step_num - 1 withObject:[NSNumber numberWithInt:1]];
     NSMutableArray *step_stat_out = [[NSMutableArray alloc] initWithArray:step_stat copyItems:YES];
     NSMutableArray *step_direction = [self zerosWithInt:step_num];
-    
-    DLog(@"step_d_zupt: %d", [step_d_zupt count]);
-    DLog(@"step_stat_by_all: %d", [step_stat_by_all count]);
-    DLog(@"step_stat_out: %d", [step_stat_out count]);
-    DLog(@"step_direction: %d", [step_direction count]);
 
     for (int i = 0; i < step_num - 1; i++) {
 
@@ -314,7 +309,6 @@
         }
     }
     DLog(@"moved floor: %f", cur_floor);
-    [self printArray:step_stat];
 
     self.movedDisplacement = [NSNumber numberWithDouble:0.0];
     self.movedFloor = [NSNumber numberWithDouble:cur_floor];
