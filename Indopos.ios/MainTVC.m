@@ -90,6 +90,9 @@
     } else if (segmentedControl.selectedSegmentIndex == 1) {
         // stairway
         [self.delegate activityChanged:self selectedActivity:stairway];
+    } else if (segmentedControl.selectedSegmentIndex == 2) {
+        // stairway
+        [self.delegate activityChanged:self selectedActivity:escalator];
     }
 }
 

@@ -302,16 +302,17 @@
     }
     step_stat = step_stat_out;
     
-    double cur_floor = 0;
+    double moved_floors = 0;
     for (int i = 0; i < step_num - 1; i++) {
         if ([[step_stat objectAtIndex:i] intValue] == 1 && [[step_stat objectAtIndex:i + 1] intValue] == 0) {
-            cur_floor += ([[step_direction objectAtIndex:i + 1] intValue] / [self.buildingInfo.numOfLandings doubleValue]);
+            moved_floors += ([[step_direction objectAtIndex:i + 1] intValue] / [self.buildingInfo.numOfLandings doubleValue]);
         }
     }
-    DLog(@"moved floor: %f", cur_floor);
+    double moved_dist = moved_floors * [self.buildingInfo.floorHeight doubleValue];
+    self.movedDisplacement = [NSNumber numberWithDouble:moved_dist];
+    self.movedFloor = [NSNumber numberWithDouble:moved_floors];
+    DLog(@"moved dist: %f, floor: %f", moved_dist, moved_floors);
 
-    self.movedDisplacement = [NSNumber numberWithDouble:0.0];
-    self.movedFloor = [NSNumber numberWithDouble:cur_floor];
 }
 
 @end

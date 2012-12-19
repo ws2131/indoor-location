@@ -231,6 +231,7 @@
                                                     <segments>
                                                         <segment title="Elevator"/>
                                                         <segment title="Stairway"/>
+                                                        <segment title="Escalator"/>
                                                     </segments>
                                                     <connections>
                                                         <action selector="selectedActivity:" destination="5VU-Tp-WPC" eventType="valueChanged" id="9xI-Fz-RtY"/>
@@ -240,8 +241,8 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="tOI-x1-unA" firstAttribute="top" secondItem="iMn-C7-CDN" secondAttribute="top" constant="1" id="AQ8-hk-UM6"/>
                                             <constraint firstItem="tOI-x1-unA" firstAttribute="centerX" secondItem="iMn-C7-CDN" secondAttribute="centerX" type="default" id="EL8-ng-GNr"/>
+                                            <constraint firstItem="tOI-x1-unA" firstAttribute="top" secondItem="iMn-C7-CDN" secondAttribute="top" type="default" id="oE1-YW-nKT"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
@@ -1005,73 +1006,6 @@
         <image name="p.png" width="26" height="26"/>
         <image name="w.png" width="26" height="26"/>
     </resources>
-    <classes>
-        <class className="BuildingsTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/BuildingsTVC.h"/>
-        </class>
-        <class className="CoreDataTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreDataTableViewController.h"/>
-        </class>
-        <class className="DebugTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DebugTVC.h"/>
-            <relationships>
-                <relationship kind="outlet" name="fileNumLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="historyNumLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FileTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FileTVC.h"/>
-        </class>
-        <class className="FileViewVC" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FileViewVC.h"/>
-            <relationships>
-                <relationship kind="outlet" name="fileTextView" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="HistoryTVC" superclassName="CoreDataTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/HistoryTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="deleteAll:"/>
-            </relationships>
-        </class>
-        <class className="MainTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="currentFloorChanged:"/>
-                <relationship kind="action" name="refresh:"/>
-                <relationship kind="action" name="selectedActivity:"/>
-                <relationship kind="action" name="startButtonTouched:"/>
-                <relationship kind="action" name="viewTapped:" candidateClass="UIGestureRecognizer"/>
-                <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="activitySegmentedControl" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="addressTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="counterUILabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="curDispositionTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="curFloorTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="progressUILabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="startUIButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="SettingTVC" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingTVC.h"/>
-            <relationships>
-                <relationship kind="action" name="exportMeasurement:"/>
-                <relationship kind="action" name="resetHistory:"/>
-                <relationship kind="action" name="save:"/>
-                <relationship kind="action" name="viewTapped:" candidateClass="UIGestureRecognizer"/>
-                <relationship kind="outlet" name="address1TextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="address2TextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="address3TextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="floorHeightTextfield" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="floorOfEntryTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="lobbyHeightTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="numOfLandingsTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

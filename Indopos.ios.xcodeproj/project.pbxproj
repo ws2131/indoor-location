@@ -30,6 +30,8 @@
 		712EA9C1161E66BA00C047E3 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 712EA9BF161E66BA00C047E3 /* Model.xcdatamodeld */; };
 		716F5C48162F5F3300E29525 /* cs-logo-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 716F5C46162F5F3300E29525 /* cs-logo-57x57.png */; };
 		716F5C49162F5F3300E29525 /* cs-logo-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = 716F5C47162F5F3300E29525 /* cs-logo-114x114.png */; };
+		71B916A916826B7D0015FCD9 /* EscalatorModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 71B916A816826B7D0015FCD9 /* EscalatorModule.m */; };
+		71B916AD168272AE0015FCD9 /* ActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 71B916AC168272AD0015FCD9 /* ActivityManager.m */; };
 		71C315FE1634809F000AE876 /* BuildingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C315FD1634809F000AE876 /* BuildingInfo.m */; };
 		71CD0AB31631E19A00A8A185 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CD0AB21631E19A00A8A185 /* AudioToolbox.framework */; };
 		71CD0AB61631E32500A8A185 /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = 71CD0AB51631E32500A8A185 /* click.wav */; };
@@ -90,6 +92,10 @@
 		712EA9C5161E682500C047E3 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
 		716F5C46162F5F3300E29525 /* cs-logo-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cs-logo-57x57.png"; path = "../cs-logo-57x57.png"; sourceTree = "<group>"; };
 		716F5C47162F5F3300E29525 /* cs-logo-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cs-logo-114x114.png"; path = "../cs-logo-114x114.png"; sourceTree = "<group>"; };
+		71B916A716826B7D0015FCD9 /* EscalatorModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EscalatorModule.h; sourceTree = "<group>"; };
+		71B916A816826B7D0015FCD9 /* EscalatorModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EscalatorModule.m; sourceTree = "<group>"; };
+		71B916AB168272AD0015FCD9 /* ActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityManager.h; sourceTree = "<group>"; };
+		71B916AC168272AD0015FCD9 /* ActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityManager.m; sourceTree = "<group>"; };
 		71C315FC1634809F000AE876 /* BuildingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildingInfo.h; sourceTree = "<group>"; };
 		71C315FD1634809F000AE876 /* BuildingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildingInfo.m; sourceTree = "<group>"; };
 		71CD0AB21631E19A00A8A185 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -223,10 +229,14 @@
 				712EA987161E56A500C047E3 /* Supporting Files */,
 				71F77D93162E2FD80064C1B7 /* AnalysisModule.h */,
 				71F77D94162E2FD80064C1B7 /* AnalysisModule.m */,
+				71B916A716826B7D0015FCD9 /* EscalatorModule.h */,
+				71B916A816826B7D0015FCD9 /* EscalatorModule.m */,
 				71F77D98162E33850064C1B7 /* ElevatorModule.h */,
 				71F77D99162E33850064C1B7 /* ElevatorModule.m */,
 				712737C0163B649A00068D0D /* StairwayModule.h */,
 				712737C1163B649A00068D0D /* StairwayModule.m */,
+				71B916AB168272AD0015FCD9 /* ActivityManager.h */,
+				71B916AC168272AD0015FCD9 /* ActivityManager.m */,
 			);
 			path = Indopos.ios;
 			sourceTree = "<group>";
@@ -375,6 +385,8 @@
 				71030AD61639C9BA001465E1 /* History.m in Sources */,
 				712737C2163B649A00068D0D /* StairwayModule.m in Sources */,
 				71DCB6081679399D00C52E49 /* FileViewVC.m in Sources */,
+				71B916A916826B7D0015FCD9 /* EscalatorModule.m in Sources */,
+				71B916AD168272AE0015FCD9 /* ActivityManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,7 @@
 #import "SensorData.h"
 #import "ElevatorModule.h"
 #import "StairwayModule.h"
+#import "EscalatorModule.h"
 
 #import "History.h"
 #import "Measurement.h"
@@ -448,6 +449,8 @@
         file_name = @"elevator.txt";
     } else if (currentActivity == stairway) {
         file_name = @"stairway.txt";
+    } else if (currentActivity == escalator) {
+        file_name = @"escalator.txt";
     }
     DLog(@"file_name: %@", file_name);
     // simulate measurements from csv file
@@ -521,9 +524,10 @@
         AnalysisModule *analysisModule = nil;
         if (currentActivity == elevator) {
             analysisModule = [[ElevatorModule alloc] initWithData:measurement];
-
         } else if (currentActivity == stairway) {
             analysisModule = [[StairwayModule alloc] initWithData:measurement];
+        } else if (currentActivity == escalator) {
+            analysisModule = [[EscalatorModule alloc] initWithData:measurement];
         }
         
         analysisModule.buildingInfo = self.config.inBuilding;
