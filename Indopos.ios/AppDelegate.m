@@ -469,9 +469,9 @@
         if ([fields count] >= 7) {
             SensorData *sensorData = [[SensorData alloc] init];
             sensorData.time = [NSNumber numberWithDouble:[[fields objectAtIndex:1] doubleValue]];
-            sensorData.a_x = [NSNumber numberWithDouble:[[fields objectAtIndex:4] doubleValue] * GRAVITY];
-            sensorData.a_y = [NSNumber numberWithDouble:[[fields objectAtIndex:5] doubleValue] * GRAVITY];
-            sensorData.a_z = [NSNumber numberWithDouble:[[fields objectAtIndex:6] doubleValue] * GRAVITY];
+            sensorData.a_x = [NSNumber numberWithDouble:[[fields objectAtIndex:4] doubleValue]];
+            sensorData.a_y = [NSNumber numberWithDouble:[[fields objectAtIndex:5] doubleValue]];
+            sensorData.a_z = [NSNumber numberWithDouble:[[fields objectAtIndex:6] doubleValue]];
             sensorData.heading = [NSNumber numberWithDouble:[[fields objectAtIndex:37] doubleValue]];
             sensorData.headingAccuracy = [NSNumber numberWithDouble:[[fields objectAtIndex:53] doubleValue]];
             sensorData.m11 = [NSNumber numberWithDouble:[[fields objectAtIndex:44] doubleValue]];

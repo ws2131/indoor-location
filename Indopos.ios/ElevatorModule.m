@@ -28,9 +28,9 @@
     NSMutableArray *times = [[NSMutableArray alloc] initWithCapacity:len];
     
     for (SensorData *sensorData in self.measurement.measurements) {
-        [a_x addObject:sensorData.a_x];
-        [a_y addObject:sensorData.a_y];
-        [a_z addObject:sensorData.a_z];
+        [a_x addObject:[NSNumber numberWithDouble:([sensorData.a_x doubleValue] * GRAVITY)]];
+        [a_y addObject:[NSNumber numberWithDouble:([sensorData.a_y doubleValue] * GRAVITY)]];
+        [a_z addObject:[NSNumber numberWithDouble:([sensorData.a_z doubleValue] * GRAVITY)]];
         [times addObject:sensorData.time];
     }
     
