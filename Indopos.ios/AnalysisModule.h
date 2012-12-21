@@ -42,8 +42,17 @@
 
 - (id)initWithData:(Measurement *)data;
 - (int)getFrequency:(NSArray *)time;
+- (int)find:(NSArray *)array startIndex:(int)start_index endIndex:(int)end_index withMode:(NSString *)mode;
+- (double)getAbsolute:(double)value;
+- (double)getAbsoluteMax:(NSArray *)array;
+- (double)diffAngles:(double)a1 withAngle:(double)a2;
+- (double)getAverage:(NSArray *)array from:(int)i1 to:(int)i2;
+- (double)getMax:(NSArray *)array from:(int)i1 to:(int)i2;
+- (NSArray *)getArray:(NSArray *)array from:(int)i1 to:(int)i2;
+- (void)printArray:(NSArray *)array;
 - (NSMutableArray *)zerosWithInt:(int)len;
 - (NSMutableArray *)zerosWithDouble:(int)len;
+
 - (NSMutableArray *)lowPassFilter:(NSArray *)array withAlpha:(double)alpha;
 - (NSMutableArray *)cutOffDecimal:(NSArray *)array withPosition:(int)num;
 - (NSMutableArray *)getVelocity:(NSArray *)time withAccel:(NSArray *)accel;
@@ -63,17 +72,7 @@
 - (NSMutableArray *)getVelocityWithZUPT:(NSArray *)time withAccel:(NSArray *)a_v;
 - (NSMutableArray *)getVelocityWithZUPTForWalking:(NSArray *)time withAccel:(NSArray *)a_v withStat:(NSArray *)time_stat;
 
-- (double)getAbsolute:(double)value;
-- (double)getAbsoluteMax:(NSArray *)array;
-- (double)diffAngles:(double)a1 withAngle:(double)a2;
-- (double)getAverage:(NSArray *)array from:(int)i1 to:(int)i2;
-- (double)getMax:(NSArray *)array from:(int)i1 to:(int)i2;
-- (NSArray *)getArray:(NSArray *)array from:(int)i1 to:(int)i2;
-- (void)printArray:(NSArray *)array;
-- (void)run;
 
-- (NSMutableArray *)generateState:(NSArray *)accel withTime:(NSArray *)time withFrequency:(int) freq;
-- (int)find:(NSArray *)array startIndex:(int)start_index endIndex:(int)end_index withMode:(NSString *)mode;
-- (NSMutableArray *)filterForElevator:(NSMutableArray *)accel withState:(NSArray *)stat;
+- (void)run;
 
 @end

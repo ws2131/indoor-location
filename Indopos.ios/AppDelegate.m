@@ -103,7 +103,7 @@
     currentDisplacement = [NSNumber numberWithDouble:0.0];
     currentFloor = buildingInfo.floorOfEntry;
     
-    currentActivity = elevator;
+    currentActivity = all;
     return YES;
 }
 

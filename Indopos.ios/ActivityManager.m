@@ -239,13 +239,17 @@
     StepResult *velocityResult = [self velocityDetection:times withVelocity:v_walking];
     NSArray *v_amp = velocityResult.a_amp;
     double v_amp_ave = [velocityResult.a_amp_ave doubleValue];
+    
     NSMutableArray *stair_activity = [self zerosWithInt:len];
+    index_prev = -1;
     for (int i = 0; i < len; i++) {
         if ([[v_amp objectAtIndex:i] doubleValue] > v_amp_ave * 2) {
             [stair_activity replaceObjectAtIndex:i withObject:[NSNumber numberWithInt:1]];
-            if (i - index_prev + 1 < freq * MAX_STEP_PERIOD * 100) {
-                for (int j = index_prev; j <= i; j++) {
-                    [stair_activity replaceObjectAtIndex:j withObject:[NSNumber numberWithInt:1]];
+            if (index_prev != -1) {
+                if (i - index_prev + 1 < freq * MAX_STEP_PERIOD * 100) {
+                    for (int j = index_prev; j <= i; j++) {
+                        [stair_activity replaceObjectAtIndex:j withObject:[NSNumber numberWithInt:1]];
+                    }
                 }
             }
             index_prev = i;
@@ -253,6 +257,7 @@
     }
     
     // make activity walking during stairs
+    BOOL contain_elevator = NO;
     for (int i = 0; i < len; i++) {
         if ([[stair_activity objectAtIndex:i] intValue] == 1) {
             start_index = i;
@@ -261,9 +266,19 @@
                 break;
             }
             if (end_index > start_index) {
+                contain_elevator = NO;
                 for (int j = start_index; j <= end_index; j++) {
-                    [activity replaceObjectAtIndex:j withObject:[NSNumber numberWithInt:1]];
+                    if ([[activity objectAtIndex:j] intValue] == 2) {
+                        contain_elevator = YES;
+                        break;
+                    }
                 }
+                if (contain_elevator == NO) {
+                    for (int j = start_index; j <= end_index; j++) {
+                        [activity replaceObjectAtIndex:j withObject:[NSNumber numberWithInt:1]];
+                    }
+                }
+                i = end_index;
             }
         }
     }
@@ -271,7 +286,6 @@
     int el_count = 0;
     start_index = -1;
     double el_dist = 0;
-    NSMutableArray *el_dists = [NSMutableArray arrayWithCapacity:10];
 
     for (int i = 0; i < len - 1; i++) {
         if ([[activity objectAtIndex:i] intValue] != 2 && [[activity objectAtIndex:i + 1] intValue] == 2) {
@@ -281,15 +295,22 @@
                 end_index = i;
                 start_index = start_index - freq;
                 end_index = end_index + freq;
+                if (start_index < 0) {
+                    start_index = 0;
+                }
+                if (end_index > len - 1) {
+                    end_index = len - 1;
+                }
 
                 NSArray *t_set = [self getArray:times from:start_index to:end_index];
                 NSArray *a_set = [self getArray:a_vert_vs from:start_index to:end_index];
 
                 ElevatorModule *elevatorModule = [[ElevatorModule alloc] init];
                 elevatorModule.buildingInfo = self.buildingInfo;
+               
+                DLog(@"%d: %d - %d", el_count + 1, start_index + 1, end_index + 1);
 
                 el_dist = [elevatorModule run:t_set withAccel:a_set];
-                [el_dists addObject:[NSNumber numberWithDouble:el_dist]];
                                
                 History *history = [NSEntityDescription insertNewObjectForEntityForName:@"History" inManagedObjectContext:self.managedObjectContext];
                 history.key = historyKey;
@@ -302,7 +323,6 @@
                 [history.managedObjectContext save:nil];
                 
                 el_count++;
-                DLog(@"%d: %d - %d", el_count, start_index + 1, end_index + 1);
             }
             start_index = -1;
         }
@@ -312,22 +332,22 @@
     int st_count = 0;
     start_index = -1;
     double st_floor = 0;
-    NSMutableArray *st_floors = [NSMutableArray arrayWithCapacity:10];
     
     for (int i = 0; i < len - 1; i++) {
         if (([[activity objectAtIndex:i] intValue] == 1 && [[activity objectAtIndex:i + 1] intValue] == 0 ) || i == len - 2) {
+            int j = 0;
             if (i != len - 2) {
                 upper_bound = MIN(len - 1, i + MAX_STANDING_PERIOD * freq);
-                int j = 0;
-                for (j = i + 1; j <= upper_bound; j++) {
+                for (j = i + 1; j < upper_bound; j++) {
                     if ([[activity objectAtIndex:j] intValue] != 0) {
                         break;
                     }
                 }
-                end_index = round((i + j) / 2);
+                end_index = round((double)((i + j) / 2.0));
             } else {
                 end_index = i + 1;
             }
+            
             if (start_index == -1) {
                 continue;
             }
@@ -345,8 +365,9 @@
             StairwayModule *stairwayModule = [[StairwayModule alloc] init];
             stairwayModule.buildingInfo = self.buildingInfo;
 
-            st_floor = [stairwayModule run:t_set withAccel:a_set withAmp:a_amp_set withHeading:h_set];
-            [st_floors addObject:[NSNumber numberWithDouble:st_floor]];
+            DLog(@"%d: %d - %d", st_count + 1, start_index + 1, end_index + 1);
+
+            st_floor = [stairwayModule run:t_set withAccel:a_set withAmp:a_amp_set withHeading:h_set withIndex:st_count];
             
             History *history = [NSEntityDescription insertNewObjectForEntityForName:@"History" inManagedObjectContext:self.managedObjectContext];
             history.key = historyKey;
@@ -355,12 +376,9 @@
             history.duration = [NSNumber numberWithInt:([[dates objectAtIndex:end_index] timeIntervalSince1970] - [[dates objectAtIndex:start_index] timeIntervalSince1970])];
             history.endFloor = [NSNumber numberWithDouble:st_floor];
             history.displacement = [NSNumber numberWithDouble:0];
-
             [history.managedObjectContext save:nil];
             
             st_count++;
-            DLog(@"%d: %d - %d", st_count, start_index + 1, end_index + 1);
-
             start_index = -1;
         } else if ([[activity objectAtIndex:i] intValue] == 0 && [[activity objectAtIndex:i + 1] intValue] == 1) {
             lower_bound = MAX(0, i - MAX_STANDING_PERIOD * freq);
@@ -370,7 +388,7 @@
                     break;
                 }
             }
-            start_index = round((i + j) / 2);
+            start_index = round((double)((i + j) / 2.0));
         }
     }
     
@@ -404,7 +422,7 @@
             history.startFloor = [NSNumber numberWithDouble:cur_floors];
             if ([history.displacement doubleValue] != 0) {
                 dist = [history.displacement doubleValue];
-                floor = round(dist / [self.buildingInfo.floorHeight doubleValue]);
+                floor = round((double)(dist / [self.buildingInfo.floorHeight doubleValue]));
             }
             if ([history.endFloor doubleValue] != 0) {
                 floor = [history.endFloor doubleValue];

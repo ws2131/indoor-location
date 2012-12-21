@@ -32,6 +32,8 @@
     self.curFloorTextField.text = [buildingInfo.floorOfEntry stringValue];
     self.curDispositionTextField.text = @"0";
     startButtonOn = NO;
+    self.activitySegmentedControl.enabled = NO;
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {

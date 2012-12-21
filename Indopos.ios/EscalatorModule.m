@@ -65,7 +65,7 @@
     NSMutableArray *d_v = [self getDisplacement:times withAccel:a_v withVelocity:v_v];
     
     double moved_dists = [[d_v objectAtIndex:len - 1] doubleValue] - [[d_v objectAtIndex:0] doubleValue];
-    double moved_floors = round(moved_dists / [self.buildingInfo.floorHeight doubleValue]);
+    double moved_floors = round((double)(moved_dists / [self.buildingInfo.floorHeight doubleValue]));
     DLog(@"moved dist: %f, floor: %f", moved_dists, moved_floors);
 
     self.movedDisplacement = [NSNumber numberWithDouble:moved_dists];

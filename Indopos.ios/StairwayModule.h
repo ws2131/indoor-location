@@ -10,6 +10,6 @@
 
 @interface StairwayModule : AnalysisModule
 
--(double)run:(NSArray *)t_set withAccel:(NSArray *)a_set withAmp:(NSArray *)a_amp_set withHeading:(NSArray *)h_set;
+-(double)run:(NSArray *)t_set withAccel:(NSArray *)a_set withAmp:(NSArray *)a_amp_set withHeading:(NSArray *)h_set withIndex:(int)index;
 
 @end

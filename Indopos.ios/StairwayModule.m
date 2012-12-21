@@ -322,7 +322,7 @@
 }
 
 
--(double)run:(NSArray *)times withAccel:(NSArray *)a_vert_rm withAmp:(NSArray *)a_amp withHeading:(NSArray *)heading_lpf {
+-(double)run:(NSArray *)times withAccel:(NSArray *)a_vert_rm withAmp:(NSArray *)a_amp withHeading:(NSArray *)heading_lpf withIndex:(int)index {
     int len = [times count];
     DLog(@"stairway run: %d", len);
     
@@ -330,14 +330,14 @@
         DLog(@"error: less measurement: %d\n", len);
         return 0;
     }
-    
+       
     NSMutableArray *a_linear_rm = [self removeGravity:times withAccel:a_vert_rm];
     NSMutableArray *a_adjusted_rm = [self adjustAccelFromRM:times withAccel:a_linear_rm];
     
     NSMutableArray *a_v = a_adjusted_rm;
     NSMutableArray *v_v = [self getVelocity:times withAccel:a_v];
     NSMutableArray *d_v = [self getDisplacement:times withAccel:a_v withVelocity:v_v];
-        
+    
     int step_num = 0;
     for (int i = 0; i < len; i++) {
         if ([[a_amp objectAtIndex:i] doubleValue] != 0) {
@@ -360,7 +360,7 @@
         [steps addObject:[NSNumber numberWithInt:step_index]];
     }
     
-    if (step_index == -1) {
+    if (step_num == 0) {
         DLog(@"error: no steps: %d\n", step_index);
         return 0;
     }
@@ -369,6 +369,7 @@
     double step_amp_min = [[step_amp valueForKeyPath:@"@min.doubleValue"] doubleValue];
     double step_amp_ave = [[step_amp valueForKeyPath:@"@avg.doubleValue"] doubleValue];
     
+
     // landing detection
     NSMutableArray *step_stat_by_accel = [[NSMutableArray alloc] initWithCapacity:step_num];
     NSMutableArray *step_stat_by_magneto = [[NSMutableArray alloc] initWithCapacity:step_num];
@@ -426,6 +427,11 @@
         }
         [step_stat_by_all addObject:[NSNumber numberWithDouble:(3 * st_ac + 2 * st_ma + st_di) / 5]];
     }
+    
+    if (index == 4) {
+        //[self printArray:step_stat_by_all];
+    }
+    
     
     // adjust landing detection part 1
     for (int i = 0; i < step_num-2; i++) {

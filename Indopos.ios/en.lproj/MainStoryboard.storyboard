@@ -237,7 +237,7 @@
                                                         <action selector="selectedActivity:" destination="5VU-Tp-WPC" eventType="valueChanged" id="9xI-Fz-RtY"/>
                                                     </connections>
                                                 </segmentedControl>
-                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="mJt-KV-Xg6">
+                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mJt-KV-Xg6">
                                                     <connections>
                                                         <action selector="toggleActivity:" destination="5VU-Tp-WPC" eventType="valueChanged" id="5dc-ek-rhu"/>
                                                     </connections>
@@ -1050,6 +1050,9 @@
         </class>
         <class className="HistoryTVC" superclassName="CoreDataTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/HistoryTVC.h"/>
+            <relationships>
+                <relationship kind="action" name="deleteAll:"/>
+            </relationships>
         </class>
         <class className="MainTVC" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainTVC.h"/>
@@ -1077,6 +1080,7 @@
         <class className="SettingTVC" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingTVC.h"/>
             <relationships>
+                <relationship kind="action" name="resetHistory:"/>
                 <relationship kind="outlet" name="address1TextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="address2TextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="address3TextField" candidateClass="UITextField"/>

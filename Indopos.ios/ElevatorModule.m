@@ -37,13 +37,13 @@
     NSMutableArray *a_vert_vs = [self getVertAccelFromVS:times withX:a_x withY:a_y withZ:a_z];
     NSMutableArray *a_linear_vs = [self removeGravity:times withAccel:a_vert_vs];
     NSMutableArray *a_adjusted_vs = [self adjustAccelFromVS:times withAccel:a_linear_vs];
-    
+       
     NSMutableArray *a_v = a_adjusted_vs;
     NSMutableArray *v_v = [self getVelocityWithZUPT:times withAccel:a_v];
     NSMutableArray *d_v = [self getDisplacement:times withAccel:a_v withVelocity:v_v];
     
     double moved_dists = [[d_v objectAtIndex:len - 1] doubleValue] - [[d_v objectAtIndex:0] doubleValue];
-    double moved_floors = round(moved_dists / [self.buildingInfo.floorHeight doubleValue]);
+    double moved_floors = round((double)(moved_dists / [self.buildingInfo.floorHeight doubleValue]));
     DLog(@"moved dist: %f, floor: %f", moved_dists, moved_floors);
     
     self.movedDisplacement = [NSNumber numberWithDouble:moved_dists];
