@@ -10,4 +10,5 @@
 
 @interface ElevatorModule : AnalysisModule
 
+- (double)run:(NSArray *)t withAccel:(NSArray *)a_vert_vs;
 @end

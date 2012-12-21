@@ -96,6 +96,17 @@
     }
 }
 
+- (IBAction)toggleActivity:(id)sender {
+    UISwitch *uiSwitch = (UISwitch *)sender;
+    if (uiSwitch.on == YES) {
+        [self.delegate activityChanged:self selectedActivity:all];
+        self.activitySegmentedControl.enabled = NO;
+    } else {
+        self.activitySegmentedControl.enabled = YES;
+        [self selectedActivity:self.activitySegmentedControl];
+    }
+}
+
 - (void)updateCurrentFloor:(NSNumber *)currentFloor {
     self.curFloorTextField.text = [NSString stringWithFormat:@"%@", [self.floorFormatter stringFromNumber:currentFloor]];
 }

@@ -15,7 +15,7 @@
 
 - (void)run {
     int len = [self.measurement.measurements count];
-    DLog(@"len: %d", len);
+    DLog(@"elevator run: %d", len);
     
     if (len < MIN_MEASUREMENTS) {
         DLog(@"error: less measurement: %d\n", len);
@@ -42,11 +42,34 @@
     NSMutableArray *v_v = [self getVelocityWithZUPT:times withAccel:a_v];
     NSMutableArray *d_v = [self getDisplacement:times withAccel:a_v withVelocity:v_v];
     
-    double dist = [[d_v objectAtIndex:len - 1] doubleValue] - [[d_v objectAtIndex:0] doubleValue];
-    self.movedDisplacement = [NSNumber numberWithDouble:dist];
-    double floors = round([self.movedDisplacement doubleValue] / [self.buildingInfo.floorHeight doubleValue]);
-    self.movedFloor = [NSNumber numberWithDouble:floors];
-    DLog(@"moved dist: %f, floor: %f", dist, floors);
+    double moved_dists = [[d_v objectAtIndex:len - 1] doubleValue] - [[d_v objectAtIndex:0] doubleValue];
+    double moved_floors = round(moved_dists / [self.buildingInfo.floorHeight doubleValue]);
+    DLog(@"moved dist: %f, floor: %f", moved_dists, moved_floors);
+    
+    self.movedDisplacement = [NSNumber numberWithDouble:moved_dists];
+    self.movedFloor = [NSNumber numberWithDouble:moved_floors];
+    self.curDisplacement = [NSNumber numberWithDouble:([self.initialDisplacement doubleValue] + moved_dists)];
+    self.curFloor = [NSNumber numberWithDouble:([self.initialFloor doubleValue] + moved_floors)];
 }
 
+- (double)run:(NSArray *)t withAccel:(NSArray *)a_vert_vs {
+    int len = [t count];
+    DLog(@"elevator run: %d", len);
+        
+    if (len < MIN_MEASUREMENTS) {
+        DLog(@"error: less measurement: %d\n", len);
+        return 0;
+    }
+    
+    NSMutableArray *a_linear_vs = [self removeGravity:t withAccel:a_vert_vs];
+    NSMutableArray *a_adjusted_vs = [self adjustAccelFromVS:t withAccel:a_linear_vs];
+    
+    NSMutableArray *a_v = a_adjusted_vs;
+    NSMutableArray *v_v = [self getVelocityWithZUPT:t withAccel:a_v];
+    NSMutableArray *d_v = [self getDisplacement:t withAccel:a_v withVelocity:v_v];
+    
+    double dist = [[d_v objectAtIndex:len - 1] doubleValue] - [[d_v objectAtIndex:0] doubleValue];
+    DLog(@"moved dist: %f", dist);
+    return dist;
+}
 @end

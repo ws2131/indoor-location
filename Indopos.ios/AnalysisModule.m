@@ -13,13 +13,16 @@
 
 @synthesize buildingInfo;
 @synthesize measurement;
-@synthesize movedFloor;
-@synthesize movedDisplacement;
+@synthesize curFloor;
+@synthesize curDisplacement;
+@synthesize managedObjectContext = _managedObjectContext;
 
 - (id)initWithData:(Measurement *)data {
     self = [super init];
     if (self) {
         self.measurement = data;
+        self.curFloor = 0;
+        self.curDisplacement = 0;
         self.movedFloor = 0;
         self.movedDisplacement = 0;
     }
@@ -118,7 +121,6 @@
     NSMutableArray *result = [NSMutableArray arrayWithCapacity:len];
     
     double alpha = (1.0 / freq) / (1.0 / freq + (1.0 / (freq / 2.0)));
-    DLog(@"freq: %d, alpha: %f", freq, alpha);
     
     NSArray *a_x_lpf = [self lowPassFilter:x withAlpha:alpha];
     NSArray *a_y_lpf = [self lowPassFilter:y withAlpha:alpha];
@@ -183,7 +185,6 @@
     
     int offset = 0.5 * freq;
     int last_index = 0;
-    DLog(@"offset: %d", offset);
     for (int i = 0; i < len; i++) {
         if ([[a_adjusted objectAtIndex:i] doubleValue] == 0.0) {
             if (i - last_index < offset) {
@@ -205,7 +206,7 @@
     return accel;
 }
 
-- (NSMutableArray *)stepDetection:(NSArray *)time withAccel:(NSArray *)accel {
+- (StepResult *)stepDetection:(NSArray *)time withAccel:(NSArray *)accel {
     
     int len = [time count];
     int freq = [self getFrequency:time];
@@ -264,7 +265,7 @@
     
     double a_amp_ave = 0;
     int a_amp_num = 0;
-    int a_amp_gap = 0;
+    double a_amp_gap = 0;
     
     int index_prev = 0;
     int index_next = 0;
@@ -326,7 +327,143 @@
     if (a_amp_ave < MIN_STEP_AMP) {
         a_amp_ave = MIN_STEP_AMP;
     }
-    return a_amp;
+    
+    StepResult *result = [[StepResult alloc] init];
+    result.a_amp_ave = [NSNumber numberWithDouble:a_amp_ave];
+    result.a_amp_num = [NSNumber numberWithInt:a_amp_num];
+    result.a_amp_gap = [NSNumber numberWithDouble:a_amp_gap];
+    result.a_amp = a_amp;
+    result.a_max = a_max;
+    result.a_min = a_min;
+
+    return result;
+}
+
+- (StepResult *)velocityDetection:(NSArray *)time withVelocity:(NSArray *)velocity {
+    
+    int len = [time count];
+    int freq = [self getFrequency:time];
+    
+    NSMutableArray *a_amp = [[NSMutableArray alloc] initWithCapacity:len];
+    NSMutableArray *a_max = [[NSMutableArray alloc] initWithCapacity:len];
+    NSMutableArray *a_min = [[NSMutableArray alloc] initWithCapacity:len];
+    double local_max = -100;
+    double local_min = 100;
+    int local_max_t = 0;
+    int local_min_t = 0;
+    
+    [a_amp addObject:[NSNumber numberWithDouble:0.0]];
+    [a_max addObject:[NSNumber numberWithDouble:0.0]];
+    [a_min addObject:[NSNumber numberWithDouble:0.0]];
+    
+    for (int i = 1; i < len - 1; i++) {
+        
+        [a_amp addObject:[NSNumber numberWithDouble:0.0]];
+        [a_max addObject:[NSNumber numberWithDouble:0.0]];
+        [a_min addObject:[NSNumber numberWithDouble:0.0]];
+        
+        double diff_p = ([[velocity objectAtIndex:i] doubleValue] - [[velocity objectAtIndex:i-1] doubleValue]) /
+        ([[time objectAtIndex:i] doubleValue] - [[time objectAtIndex:i-1] doubleValue]);
+        double diff_n = ([[velocity objectAtIndex:i+1] doubleValue] - [[velocity objectAtIndex:i] doubleValue]) /
+        ([[time objectAtIndex:i+1] doubleValue] - [[time objectAtIndex:i] doubleValue]);
+        if (diff_p > 0 && diff_n <= 0 && [[velocity objectAtIndex:i] doubleValue] >= local_max) {
+            if (local_max != -100) {
+                [a_max replaceObjectAtIndex:local_max_t withObject:[NSNumber numberWithDouble:0.0]];
+            }
+            [a_max replaceObjectAtIndex:i withObject:[velocity objectAtIndex:i]];
+            local_max = [[a_max objectAtIndex:i] doubleValue];
+            local_max_t = i;
+            local_min = 100;
+        } else if (diff_p < 0 && diff_n >= 0 && [[velocity objectAtIndex:i] doubleValue] <= local_min) {
+            if (local_min != 100) {
+                [a_min replaceObjectAtIndex:local_min_t withObject:[NSNumber numberWithDouble:0.0]];
+                [a_amp replaceObjectAtIndex:local_min_t withObject:[NSNumber numberWithDouble:0.0]];
+                if (local_max_t != 0) {
+                    local_max = [[a_max objectAtIndex:local_max_t] doubleValue];
+                }
+            }
+            if (local_max == -100) {
+                continue;
+            }
+            [a_min replaceObjectAtIndex:i withObject:[velocity objectAtIndex:i]];
+            local_min = [[a_min objectAtIndex:i] doubleValue];
+            local_min_t = i;
+            
+            [a_amp replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:[self getAbsolute:(local_max - local_min)]]];
+            local_max = -100;
+        }
+    }
+    [a_amp addObject:[NSNumber numberWithDouble:0.0]];
+    [a_max addObject:[NSNumber numberWithDouble:0.0]];
+    [a_min addObject:[NSNumber numberWithDouble:0.0]];
+    
+    double a_amp_ave = 0;
+    int a_amp_num = 0;
+    double a_amp_gap = 0;
+    
+    int index_prev = 0;
+    int index_next = 0;
+    int index_cur = 0;
+    for (int i = 0; i < len; i++) {
+        index_prev = -1;
+        index_next = -1;
+        
+        if ([[a_amp objectAtIndex:i] doubleValue] != 0) {
+            index_cur = i;
+            for (int j = i - 1; j > 0; j--) {
+                if ([[a_amp objectAtIndex:j] doubleValue] != 0) {
+                    index_prev = j;
+                    break;
+                }
+            }
+            for (int j = i + 1; j < len; j++) {
+                if ([[a_amp objectAtIndex:j] doubleValue] != 0) {
+                    index_next = j;
+                    break;
+                }
+            }
+            if (index_prev == -1 || index_next == -1) {
+                continue;
+            }
+            if (index_cur - index_prev <= index_next - index_cur) {
+                if ((index_cur - index_prev < freq * MIN_STEPS_GAP &&
+                     [[a_amp objectAtIndex:index_prev] doubleValue] > [[a_amp objectAtIndex:index_cur] doubleValue] * 3) ||
+                    index_cur - index_prev > freq * MAX_STEPS_GAP) {
+                    [a_amp replaceObjectAtIndex:index_cur withObject:[NSNumber numberWithDouble:0.0]];
+                }
+            } else {
+                if ((index_next - index_cur < freq * MIN_STEPS_GAP &&
+                     [[a_amp objectAtIndex:index_next] doubleValue] > [[a_amp objectAtIndex:index_cur] doubleValue] * 3) ||
+                    index_next - index_cur > freq * MAX_STEPS_GAP) {
+                    [a_amp replaceObjectAtIndex:index_cur withObject:[NSNumber numberWithDouble:0.0]];
+                }
+            }
+            
+            if ([[a_amp objectAtIndex:i] doubleValue] != 0) {
+                a_amp_ave += [[a_amp objectAtIndex:i] doubleValue];
+                a_amp_num++;
+                a_amp_gap += (i - index_prev);
+            }
+        }
+    }
+    
+    if (a_amp_num != 0) {
+        a_amp_ave /= a_amp_num;
+        a_amp_gap /= a_amp_num;
+    } else {
+        a_amp_ave = 0;
+        a_amp_gap = 0;
+    }
+ 
+    StepResult *result = [[StepResult alloc] init];
+    result.a_amp_ave = [NSNumber numberWithDouble:a_amp_ave];
+    result.a_amp_num = [NSNumber numberWithInt:a_amp_num];
+    result.a_amp_gap = [NSNumber numberWithDouble:a_amp_gap];
+    result.a_amp = a_amp;
+    result.a_max = a_max;
+    result.a_min = a_min;
+    
+    return result;
 }
 
 - (NSMutableArray *)getVelocityWithZUPT:(NSArray *)time withAccel:(NSArray *)a_v {
@@ -433,6 +570,32 @@
         sum += [[array objectAtIndex:i] doubleValue];
     }
     return sum / (i2 - i1 + 1);
+}
+
+- (double)getMax:(NSArray *)array from:(int)i1 to:(int)i2 {
+    double max = DBL_MIN;
+    double value = 0;
+    for (int i = i1; i <= i2; i++) {
+        value = [[array objectAtIndex:i] doubleValue];
+        if (value > max) {
+            max = value;
+        }
+    }
+    return max;
+}
+
+- (NSArray *)getArray:(NSArray *)array from:(int)i1 to:(int)i2 {
+    int len = i2 - i1 + 1;
+    if (len <= 0) {
+        return nil;
+    }
+    int index = i1;
+    NSMutableArray *result = [NSMutableArray arrayWithCapacity:len];
+    for (int i = 0; i < len; i++) {
+        [result addObject:[array objectAtIndex:index]];
+        index++;
+    }
+    return result;
 }
 
 - (void)printArray:(NSArray *)array {

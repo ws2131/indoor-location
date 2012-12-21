@@ -17,6 +17,7 @@ typedef enum {
     elevator = 1,
     stairway,
     escalator,
+    all,
 } ActivityType;
 
 @protocol MainTVCDelegate <NSObject>
@@ -46,6 +47,7 @@ typedef enum {
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 @property (strong, nonatomic) IBOutlet UILabel *counterUILabel;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *activitySegmentedControl;
+@property (strong, nonatomic) IBOutlet UISwitch *activityUISwitch;
 
 - (void)updateCurrentFloor:(NSNumber *)currentFloor;
 - (void)updateCurrentDisplacement:(NSNumber *)currentDisplacement;

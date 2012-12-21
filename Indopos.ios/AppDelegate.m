@@ -15,6 +15,7 @@
 #import "ElevatorModule.h"
 #import "StairwayModule.h"
 #import "EscalatorModule.h"
+#import "ActivityManager.h"
 
 #import "History.h"
 #import "Measurement.h"
@@ -451,6 +452,8 @@
         file_name = @"stairway.txt";
     } else if (currentActivity == escalator) {
         file_name = @"escalator.txt";
+    } else if (currentActivity == all) {
+        file_name = @"combo.txt";
     }
     DLog(@"file_name: %@", file_name);
     // simulate measurements from csv file
@@ -486,13 +489,13 @@
             sensorData.m31 = [NSNumber numberWithDouble:[[fields objectAtIndex:50] doubleValue]];
             sensorData.m32 = [NSNumber numberWithDouble:[[fields objectAtIndex:51] doubleValue]];
             sensorData.m33 = [NSNumber numberWithDouble:[[fields objectAtIndex:52] doubleValue]];
-
-            sensorData.date = [NSDate date];
+            sensorData.date = [dateFormatter dateFromString:[fields objectAtIndex:0]];
             [measurement.measurements addObject:sensorData];
             [self writeToFile:sensorData];
         }
     }
     measurement.end_ti = [NSNumber numberWithDouble:30.];
+    DLog(@"loaded: %d", [measurement.measurements count]);
 
 #else
     [[UIAccelerometer sharedAccelerometer] setDelegate:self];
@@ -528,35 +531,37 @@
             analysisModule = [[StairwayModule alloc] initWithData:measurement];
         } else if (currentActivity == escalator) {
             analysisModule = [[EscalatorModule alloc] initWithData:measurement];
+        } else if (currentActivity == all) {
+            analysisModule = [[ActivityManager alloc] initWithData:measurement];
+            analysisModule.managedObjectContext = self.managedObjectContext;
         }
+        NSNumber *startFloor = currentFloor;
         
         analysisModule.buildingInfo = self.config.inBuilding;
+        analysisModule.dateFormatter = dateFormatter;
+        analysisModule.initialFloor = currentFloor;
+        analysisModule.initialDisplacement = currentDisplacement;
+        
         [analysisModule run];
-
-        double displacement = [analysisModule.movedDisplacement doubleValue];
-        double floors = [analysisModule.movedFloor doubleValue];
-
-        double startFloor = [currentFloor doubleValue];
-        double startDisp = [currentDisplacement doubleValue];
         
-        double endFloor = startFloor + floors;
-        double endDisp = startDisp + displacement;
-        
-        currentDisplacement = [NSNumber numberWithDouble:endDisp];
-        currentFloor = [NSNumber numberWithDouble:endFloor];
+        currentDisplacement = analysisModule.curDisplacement;
+        currentFloor = analysisModule.curFloor;
         
         [controller updateCurrentDisplacement:currentDisplacement];
         [controller updateCurrentFloor:currentFloor];
         
-        History *newHistory = [NSEntityDescription insertNewObjectForEntityForName:@"History" inManagedObjectContext:self.managedObjectContext];
-        newHistory.time = [NSDate date];
-        newHistory.startFloor = [NSNumber numberWithInt:startFloor];
-        newHistory.endFloor = currentFloor;
-        newHistory.displacement = currentDisplacement;
-        newHistory.duration = [NSNumber numberWithDouble:([measurement.end_ti doubleValue] - [measurement.start_ti doubleValue])];
-        newHistory.address = self.config.inBuilding.address1;
-        [newHistory.managedObjectContext save:nil];
-        [self endFile:newHistory];
+        if (currentActivity != all) {
+            History *newHistory = [NSEntityDescription insertNewObjectForEntityForName:@"History" inManagedObjectContext:self.managedObjectContext];
+            newHistory.time = [NSDate date];
+            newHistory.key = newHistory.time;
+            newHistory.startFloor = startFloor;
+            newHistory.endFloor = currentFloor;
+            newHistory.displacement = analysisModule.movedDisplacement;
+            newHistory.duration = [NSNumber numberWithDouble:([measurement.end_ti doubleValue] - [measurement.start_ti doubleValue])];
+            newHistory.address = self.config.inBuilding.address1;
+            [newHistory.managedObjectContext save:nil];
+            [self endFile:newHistory];
+        }
     }
     [controller stopActivityIndicator];
     DLog(@"stopButtonPushed done");

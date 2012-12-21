@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "BuildingInfo.h"
 #import "Measurement.h"
+#import "StepResult.h"
 
 #define CUTOFFPOINT 2
 #define GRAVITY 9.8
@@ -30,8 +31,14 @@
 
 @property (nonatomic, strong) BuildingInfo *buildingInfo;
 @property (nonatomic, strong) Measurement *measurement;
+@property (nonatomic, strong) NSNumber *initialFloor;
+@property (nonatomic, strong) NSNumber *initialDisplacement;
 @property (nonatomic, strong) NSNumber *movedFloor;
 @property (nonatomic, strong) NSNumber *movedDisplacement;
+@property (nonatomic, strong) NSNumber *curFloor;
+@property (nonatomic, strong) NSNumber *curDisplacement;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 - (id)initWithData:(Measurement *)data;
 - (int)getFrequency:(NSArray *)time;
@@ -50,7 +57,8 @@
                                withM31:(NSArray *)m31 withM32:(NSArray *)m32 withM33:(NSArray *)m33;
 - (NSMutableArray *)adjustAccelFromVS:(NSArray *)time withAccel:(NSArray *)accel;
 - (NSMutableArray *)adjustAccelFromRM:(NSArray *)time withAccel:(NSArray *)accel;
-- (NSMutableArray *)stepDetection:(NSArray *)time withAccel:(NSArray *)accel;
+- (StepResult *)stepDetection:(NSArray *)time withAccel:(NSArray *)accel;
+- (StepResult *)velocityDetection:(NSArray *)time withVelocity:(NSArray *)velocity;
 
 - (NSMutableArray *)getVelocityWithZUPT:(NSArray *)time withAccel:(NSArray *)a_v;
 - (NSMutableArray *)getVelocityWithZUPTForWalking:(NSArray *)time withAccel:(NSArray *)a_v withStat:(NSArray *)time_stat;
@@ -59,6 +67,8 @@
 - (double)getAbsoluteMax:(NSArray *)array;
 - (double)diffAngles:(double)a1 withAngle:(double)a2;
 - (double)getAverage:(NSArray *)array from:(int)i1 to:(int)i2;
+- (double)getMax:(NSArray *)array from:(int)i1 to:(int)i2;
+- (NSArray *)getArray:(NSArray *)array from:(int)i1 to:(int)i2;
 - (void)printArray:(NSArray *)array;
 - (void)run;
 
