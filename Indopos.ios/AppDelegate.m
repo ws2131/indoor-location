@@ -289,6 +289,28 @@
     buildingInfo.lobbyHeight = [NSNumber numberWithFloat:3.5];
     buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
     [self.managedObjectContext save:nil];
+    
+    buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
+                                                 inManagedObjectContext:self.managedObjectContext];
+    buildingInfo.address1 = @"Home";
+    buildingInfo.address2 = @"530 W 122 ST";
+    buildingInfo.address3 = @"New York, NY 10027";
+    buildingInfo.floorOfEntry = [NSNumber numberWithInt:1];
+    buildingInfo.floorHeight = [NSNumber numberWithFloat:3.0];
+    buildingInfo.lobbyHeight = [NSNumber numberWithFloat:3.0];
+    buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
+    [self.managedObjectContext save:nil];
+    
+    buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
+                                                 inManagedObjectContext:self.managedObjectContext];
+    buildingInfo.address1 = @"NWB";
+    buildingInfo.address2 = @"560 W 120 ST";
+    buildingInfo.address3 = @"New York, NY 10027";
+    buildingInfo.floorOfEntry = [NSNumber numberWithInt:1];
+    buildingInfo.floorHeight = [NSNumber numberWithFloat:3.65];
+    buildingInfo.lobbyHeight = [NSNumber numberWithFloat:3.65];
+    buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
+    [self.managedObjectContext save:nil];
     DLog(@"Importing Core Data Default Values for BuildingInfo Completed!");
 }
 
