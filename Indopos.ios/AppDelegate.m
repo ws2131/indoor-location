@@ -41,6 +41,7 @@
     NSTimeInterval interval = 1.0 / FREQUENCY;
     [[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
     motionManager.deviceMotionUpdateInterval = interval;
+    motionManager.gyroUpdateInterval = interval;
     motionManager.magnetometerUpdateInterval = interval;
     
     [self setupFetchedResultsControllerForBuildingInfo];
@@ -332,7 +333,7 @@
     [fileHandler setFileName:fname];
     [fileHandler writeToFile:[NSString stringWithFormat:@"start, %@, %@\n",
                               [dateFormatter stringFromDate:measurement.startDate], measurement.frequency]];
-    [fileHandler writeToFile:@"timestamp, sec, floor, state, x, y, z, lpf.x, lpf.y, lpf.z, hpf.x, hpf.y, hpf.z, a1, a2, a3, v1, v2, v3, d1, d2, d3, gx, gy, gz, ax, ay, az, a_adj, v_adj, d_adj, v_gap, v_max, curFloor, temp, pressure, altitude, heading, roll, pitch, yaw, rr.x, rr.y, rr.z, m11, m12, m13, m21, m22, m23, m31, m32, m33, heading_acc, m_x, m_y, m_z\n"];
+    [fileHandler writeToFile:@"timestamp, sec, x, y, z, m11, m12, m13, m21, m22, m23, m31, m32, m33, heading, heading_acc, gr_x, gr_y, gr_z, gm_x, gm_y, gm_z, mr_x, mr_y, mr_z, mm_x, mm_y, mm_z\n"];
 }
 
 - (void)endFile:(History *)history {
@@ -340,29 +341,19 @@
 }
 
 - (void)writeToFile:(SensorData *)data {
-    NSString *str = [NSString stringWithFormat:@"%@, %lf, %d, %d, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %d, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf\n",
+    NSString *str = [NSString stringWithFormat:@"%@, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf\n",
                      [dateFormatter stringFromDate:data.date],
                      [data.time doubleValue],
-                     0, 0,
                      [data.a_x doubleValue], [data.a_y doubleValue], [data.a_z doubleValue],
-                     0., 0., 0.,
-                     0., 0., 0.,
-                     0., 0., 0.,
-                     0., 0., 0.,
-                     0., 0., 0.,
-                     0., 0., 0.,
-                     0., 0., 0.,
-                     0., 0., 0.,
-                     0., 0., 0,
-                     0., 0., 0.,
-                     [data.heading doubleValue],
-                     0., 0., 0.,
-                     0., 0., 0.,
                      [data.m11 doubleValue], [data.m12 doubleValue], [data.m13 doubleValue],
                      [data.m21 doubleValue], [data.m22 doubleValue], [data.m23 doubleValue],
                      [data.m31 doubleValue], [data.m32 doubleValue], [data.m33 doubleValue],
+                     [data.heading doubleValue],
                      [data.headingAccuracy doubleValue],
-                     [data.m_x doubleValue], [data.m_y doubleValue], [data.m_z doubleValue]];
+                     [data.gr_x doubleValue], [data.gr_y doubleValue], [data.gr_z doubleValue],
+                     [data.gm_x doubleValue], [data.gm_y doubleValue], [data.gm_z doubleValue],
+                     [data.mr_x doubleValue], [data.mr_y doubleValue], [data.mr_z doubleValue],
+                     [data.mm_x doubleValue], [data.mm_y doubleValue], [data.mm_z doubleValue]];
     [fileHandler writeToFile:str];
 }
 
@@ -379,8 +370,15 @@
         }
         measurement.end_ti = [NSNumber numberWithDouble:acceleration.timestamp];
         
-        CMRotationMatrix cmRotationMatrix = motionManager.deviceMotion.attitude.rotationMatrix;
-        CMMagneticField magneticField = motionManager.magnetometerData.magneticField;
+        CMRotationMatrix rotationMatrix = motionManager.deviceMotion.attitude.rotationMatrix;
+        CMRotationRate gyroMotion = motionManager.deviceMotion.rotationRate;
+        CMMagneticField magnetoMotion = motionManager.deviceMotion.magneticField.field;
+        
+        CMRotationRate gyroRaw = motionManager.gyroData.rotationRate;
+        CMMagneticField magnetoRaw = motionManager.magnetometerData.magneticField;
+
+        DLog(@"%lf, %lf, %d", magnetoRaw.x, magnetoMotion.x, motionManager.magnetometerAvailable);
+
         
         SensorData *sensorData = [[SensorData alloc] init];
         sensorData.date = [NSDate date];
@@ -388,20 +386,34 @@
         sensorData.a_x = [NSNumber numberWithDouble:acceleration.x];
         sensorData.a_y = [NSNumber numberWithDouble:acceleration.y];
         sensorData.a_z = [NSNumber numberWithDouble:acceleration.z];
+        sensorData.m11 = [NSNumber numberWithDouble:rotationMatrix.m11];
+        sensorData.m12 = [NSNumber numberWithDouble:rotationMatrix.m12];
+        sensorData.m13 = [NSNumber numberWithDouble:rotationMatrix.m13];
+        sensorData.m21 = [NSNumber numberWithDouble:rotationMatrix.m21];
+        sensorData.m22 = [NSNumber numberWithDouble:rotationMatrix.m22];
+        sensorData.m23 = [NSNumber numberWithDouble:rotationMatrix.m23];
+        sensorData.m31 = [NSNumber numberWithDouble:rotationMatrix.m31];
+        sensorData.m32 = [NSNumber numberWithDouble:rotationMatrix.m32];
+        sensorData.m33 = [NSNumber numberWithDouble:rotationMatrix.m33];
         sensorData.heading = [NSNumber numberWithDouble:currentHeading.magneticHeading];
         sensorData.headingAccuracy = [NSNumber numberWithDouble:currentHeading.headingAccuracy];
-        sensorData.m11 = [NSNumber numberWithDouble:cmRotationMatrix.m11];
-        sensorData.m12 = [NSNumber numberWithDouble:cmRotationMatrix.m12];
-        sensorData.m13 = [NSNumber numberWithDouble:cmRotationMatrix.m13];
-        sensorData.m21 = [NSNumber numberWithDouble:cmRotationMatrix.m21];
-        sensorData.m22 = [NSNumber numberWithDouble:cmRotationMatrix.m22];
-        sensorData.m23 = [NSNumber numberWithDouble:cmRotationMatrix.m23];
-        sensorData.m31 = [NSNumber numberWithDouble:cmRotationMatrix.m31];
-        sensorData.m32 = [NSNumber numberWithDouble:cmRotationMatrix.m32];
-        sensorData.m33 = [NSNumber numberWithDouble:cmRotationMatrix.m33];
-        sensorData.m_x = [NSNumber numberWithDouble:magneticField.x];
-        sensorData.m_y = [NSNumber numberWithDouble:magneticField.y];
-        sensorData.m_z = [NSNumber numberWithDouble:magneticField.z];
+        
+        sensorData.gr_x = [NSNumber numberWithDouble:gyroRaw.x];
+        sensorData.gr_y = [NSNumber numberWithDouble:gyroRaw.y];
+        sensorData.gr_z = [NSNumber numberWithDouble:gyroRaw.z];
+        
+        sensorData.gm_x = [NSNumber numberWithDouble:gyroMotion.x];
+        sensorData.gm_y = [NSNumber numberWithDouble:gyroMotion.y];
+        sensorData.gm_z = [NSNumber numberWithDouble:gyroMotion.z];
+        
+        sensorData.mr_x = [NSNumber numberWithDouble:magnetoRaw.x];
+        sensorData.mr_y = [NSNumber numberWithDouble:magnetoRaw.y];
+        sensorData.mr_z = [NSNumber numberWithDouble:magnetoRaw.z];
+        
+        sensorData.mm_x = [NSNumber numberWithDouble:magnetoMotion.x];
+        sensorData.mm_y = [NSNumber numberWithDouble:magnetoMotion.y];
+        sensorData.mm_z = [NSNumber numberWithDouble:magnetoMotion.z];
+        
         [measurement.measurements addObject:sensorData];
         [self writeToFile:sensorData];
         [mainTVC updateCounter:sensorData.time];
@@ -494,24 +506,24 @@
     
     for (int i = 2; i < [array count]; i++) {
         NSArray *fields = [array objectAtIndex:i];
-        if ([fields count] >= 7) {
+        if ([fields count] >= 16) {
             SensorData *sensorData = [[SensorData alloc] init];
-            sensorData.time = [NSNumber numberWithDouble:[[fields objectAtIndex:1] doubleValue]];
-            sensorData.a_x = [NSNumber numberWithDouble:[[fields objectAtIndex:4] doubleValue]];
-            sensorData.a_y = [NSNumber numberWithDouble:[[fields objectAtIndex:5] doubleValue]];
-            sensorData.a_z = [NSNumber numberWithDouble:[[fields objectAtIndex:6] doubleValue]];
-            sensorData.heading = [NSNumber numberWithDouble:[[fields objectAtIndex:37] doubleValue]];
-            sensorData.headingAccuracy = [NSNumber numberWithDouble:[[fields objectAtIndex:53] doubleValue]];
-            sensorData.m11 = [NSNumber numberWithDouble:[[fields objectAtIndex:44] doubleValue]];
-            sensorData.m12 = [NSNumber numberWithDouble:[[fields objectAtIndex:45] doubleValue]];
-            sensorData.m13 = [NSNumber numberWithDouble:[[fields objectAtIndex:46] doubleValue]];
-            sensorData.m21 = [NSNumber numberWithDouble:[[fields objectAtIndex:47] doubleValue]];
-            sensorData.m22 = [NSNumber numberWithDouble:[[fields objectAtIndex:48] doubleValue]];
-            sensorData.m23 = [NSNumber numberWithDouble:[[fields objectAtIndex:49] doubleValue]];
-            sensorData.m31 = [NSNumber numberWithDouble:[[fields objectAtIndex:50] doubleValue]];
-            sensorData.m32 = [NSNumber numberWithDouble:[[fields objectAtIndex:51] doubleValue]];
-            sensorData.m33 = [NSNumber numberWithDouble:[[fields objectAtIndex:52] doubleValue]];
             sensorData.date = [dateFormatter dateFromString:[fields objectAtIndex:0]];
+            sensorData.time = [NSNumber numberWithDouble:[[fields objectAtIndex:1] doubleValue]];
+            sensorData.a_x = [NSNumber numberWithDouble:[[fields objectAtIndex:2] doubleValue]];
+            sensorData.a_y = [NSNumber numberWithDouble:[[fields objectAtIndex:3] doubleValue]];
+            sensorData.a_z = [NSNumber numberWithDouble:[[fields objectAtIndex:4] doubleValue]];
+            sensorData.m11 = [NSNumber numberWithDouble:[[fields objectAtIndex:5] doubleValue]];
+            sensorData.m12 = [NSNumber numberWithDouble:[[fields objectAtIndex:6] doubleValue]];
+            sensorData.m13 = [NSNumber numberWithDouble:[[fields objectAtIndex:7] doubleValue]];
+            sensorData.m21 = [NSNumber numberWithDouble:[[fields objectAtIndex:8] doubleValue]];
+            sensorData.m22 = [NSNumber numberWithDouble:[[fields objectAtIndex:9] doubleValue]];
+            sensorData.m23 = [NSNumber numberWithDouble:[[fields objectAtIndex:10] doubleValue]];
+            sensorData.m31 = [NSNumber numberWithDouble:[[fields objectAtIndex:11] doubleValue]];
+            sensorData.m32 = [NSNumber numberWithDouble:[[fields objectAtIndex:12] doubleValue]];
+            sensorData.m33 = [NSNumber numberWithDouble:[[fields objectAtIndex:13] doubleValue]];
+            sensorData.heading = [NSNumber numberWithDouble:[[fields objectAtIndex:14] doubleValue]];
+            sensorData.headingAccuracy = [NSNumber numberWithDouble:[[fields objectAtIndex:15] doubleValue]];
             [measurement.measurements addObject:sensorData];
             [self writeToFile:sensorData];
         }
@@ -522,6 +534,7 @@
 #else
     [[UIAccelerometer sharedAccelerometer] setDelegate:self];
     [motionManager startDeviceMotionUpdates];
+    [motionManager startGyroUpdates];
     [motionManager startMagnetometerUpdates];
     [locationManager startUpdatingHeading];
     
@@ -538,6 +551,7 @@
 #if TARGET_IPHONE_SIMULATOR
 #else
     [motionManager stopDeviceMotionUpdates];
+    [motionManager stopGyroUpdates];
     [motionManager stopMagnetometerUpdates];
     [locationManager stopUpdatingHeading];
 #endif

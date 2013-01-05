@@ -10,12 +10,13 @@
 
 @implementation SensorData
 
+@synthesize date;
+@synthesize time;
 
 @synthesize a_x;
 @synthesize a_y;
 @synthesize a_z;
-@synthesize heading;
-@synthesize headingAccuracy;
+
 @synthesize m11;
 @synthesize m12;
 @synthesize m13;
@@ -25,10 +26,22 @@
 @synthesize m31;
 @synthesize m32;
 @synthesize m33;
-@synthesize m_x;
-@synthesize m_y;
-@synthesize m_z;
-@synthesize time;
-@synthesize date;
+
+@synthesize heading;
+@synthesize headingAccuracy;
+
+@synthesize gr_x;
+@synthesize gr_y;
+@synthesize gr_z;
+@synthesize gm_x;
+@synthesize gm_y;
+@synthesize gm_z;
+
+@synthesize mr_x;
+@synthesize mr_y;
+@synthesize mr_z;
+@synthesize mm_x;
+@synthesize mm_y;
+@synthesize mm_z;
 
 @end
