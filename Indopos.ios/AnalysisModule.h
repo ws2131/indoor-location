@@ -48,6 +48,7 @@
 - (double)diffAngles:(double)a1 withAngle:(double)a2;
 - (double)getAverage:(NSArray *)array from:(int)i1 to:(int)i2;
 - (double)getMax:(NSArray *)array from:(int)i1 to:(int)i2;
+- (double)getMin:(NSArray *)array from:(int)i1 to:(int)i2;
 - (NSArray *)getArray:(NSArray *)array from:(int)i1 to:(int)i2;
 - (void)printArray:(NSArray *)array;
 - (NSMutableArray *)zerosWithInt:(int)len;
@@ -71,7 +72,7 @@
 
 - (NSMutableArray *)getVelocityWithZUPT:(NSArray *)time withAccel:(NSArray *)a_v;
 - (NSMutableArray *)getVelocityWithZUPTForWalking:(NSArray *)time withAccel:(NSArray *)a_v withStat:(NSArray *)time_stat;
-
+- (NSMutableArray *)adjustStatWithVelocity:(NSMutableArray *)time_stat withAmp:(NSArray *)v_amp withAve:(double)v_amp_ave;
 
 - (void)run;
 

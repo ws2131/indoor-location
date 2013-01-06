@@ -338,6 +338,7 @@
     NSMutableArray *v_v = [self getVelocity:times withAccel:a_v];
     NSMutableArray *d_v = [self getDisplacement:times withAccel:a_v withVelocity:v_v];
     
+    // step counting
     int step_num = 0;
     for (int i = 0; i < len; i++) {
         if ([[a_amp objectAtIndex:i] doubleValue] != 0) {
@@ -364,7 +365,6 @@
         DLog(@"error: no steps: %d\n", step_index);
         return 0;
     }
-    DLog(@"step_num: %d step_index: %d", step_num, step_index);
     double step_amp_max = [[step_amp valueForKeyPath:@"@max.doubleValue"] doubleValue];
     double step_amp_min = [[step_amp valueForKeyPath:@"@min.doubleValue"] doubleValue];
     double step_amp_ave = [[step_amp valueForKeyPath:@"@avg.doubleValue"] doubleValue];
@@ -427,12 +427,7 @@
         }
         [step_stat_by_all addObject:[NSNumber numberWithDouble:(3 * st_ac + 2 * st_ma + st_di) / 5]];
     }
-    
-    if (index == 4) {
-        //[self printArray:step_stat_by_all];
-    }
-    
-    
+        
     // adjust landing detection part 1
     for (int i = 0; i < step_num-2; i++) {
         if ([[step_stat_by_all objectAtIndex:i] doubleValue] * [[step_stat_by_all objectAtIndex:i + 1] doubleValue] <= 0 &&
@@ -444,6 +439,7 @@
         }
     }
     
+    // create step_stat from step_stat_by_all
     NSMutableArray *step_stat = [[NSMutableArray alloc] initWithCapacity:step_num];
     for (int i = 0; i < step_num; i++) {
         if ([[step_stat_by_all objectAtIndex:i] doubleValue] > 0) {
@@ -453,32 +449,9 @@
         }
     }
     
-    int st_index = 0;
-    int st_stat = 0;
-    NSMutableArray *time_stat = [[NSMutableArray alloc] initWithCapacity:len];
-    for (int i = 0; i < len; i++) {
-        st_index = [[steps objectAtIndex:i] intValue];
-        if (st_index > 0 && st_index < step_num - 1) {
-            st_stat = [[step_stat objectAtIndex:st_index] intValue];
-        } else {
-            st_stat = 0;
-        }
-        [time_stat addObject:[NSNumber numberWithInt:st_stat]];
-    }
-    NSMutableArray *v_zupt = [self getVelocityWithZUPTForWalking:times withAccel:a_v withStat:time_stat];
-    NSMutableArray *d_zupt = [self getDisplacement:times withAccel:a_v withVelocity:v_zupt];
-    
-    
-    NSMutableArray *step_v_zupt = [[NSMutableArray alloc] initWithCapacity:step_num];
-    NSMutableArray *step_d_zupt = [[NSMutableArray alloc] initWithCapacity:step_num];
-    
-    for (int i = 0; i < len; i++) {
-        if ([[a_amp objectAtIndex:i] doubleValue] != 0) {
-            [step_v_zupt addObject:[v_zupt objectAtIndex:i]];
-            [step_d_zupt addObject:[d_zupt objectAtIndex:i]];
-        }
-    }
-    
+    NSMutableArray *step_stat_out = [[NSMutableArray alloc] initWithArray:step_stat copyItems:YES];
+    /*
+    // adjust landing detection part 2
     if ([[step_stat objectAtIndex:step_num - 1] intValue] == 0 && [[step_stat objectAtIndex:step_num - 2] intValue] == 1) {
         [step_stat replaceObjectAtIndex:step_num - 2 withObject:[NSNumber numberWithInt:0]];
     }
@@ -494,7 +467,6 @@
     double confidence_cur = 0;
     
     [step_stat replaceObjectAtIndex:step_num - 1 withObject:[NSNumber numberWithInt:1]];
-    NSMutableArray *step_stat_out = [[NSMutableArray alloc] initWithArray:step_stat copyItems:YES];
     NSMutableArray *step_direction = [self zerosWithInt:step_num];
     
     for (int i = 0; i < step_num - 1; i++) {
@@ -555,10 +527,12 @@
     }
     step_stat = step_stat_out;
     [step_stat replaceObjectAtIndex:step_num - 1 withObject:[NSNumber numberWithInt:0]];
+    */
     
     // adjust landing detection part 3
-    start_index = -1;
-    end_index = -1;
+    int start_index = -1;
+    int end_index = -1;
+    int gap = 0;
     step_stat_out = [[NSMutableArray alloc] initWithArray:step_stat copyItems:YES];
     for (int i = 0; i < step_num - 1; i++) {
         if ([[step_stat objectAtIndex:i] intValue] == 0 && [[step_stat objectAtIndex:i + 1] intValue] == 1) {
@@ -578,15 +552,205 @@
     }
     step_stat = step_stat_out;
     
+    //if (index == 4) [self printArray:step_stat];
+
+    // adjust landing detection part 4
+    step_stat_out = [[NSMutableArray alloc] initWithArray:step_stat copyItems:YES];
+    [step_stat replaceObjectAtIndex:step_num - 1 withObject:[NSNumber numberWithInt:1]];
+
+    start_index = -1;
+    end_index = -1;
+    int prev_start_index = -1;
+    int prev_end_index = -1;
+    int next_start_index = -1;
+    int next_end_index = -1;
+    double mean_p;
+    double mean_n;
+    for (int i = 0; i < step_num - 1; i++) {
+        if ([[step_stat objectAtIndex:i] intValue] == 1 && [[step_stat objectAtIndex:i + 1] intValue] == 0) {
+            start_index = i + 1;
+        } else if ([[step_stat objectAtIndex:i] intValue] == 0 && [[step_stat objectAtIndex:i + 1] intValue] == 1) {
+            end_index = i;
+            if (start_index != -1) {
+                for (int j = start_index - 1; j > 0; j--) {
+                    if ([[step_stat objectAtIndex:j] intValue] == 0) {
+                        prev_start_index = j;
+                        break;
+                    }
+                }
+                prev_start_index = prev_start_index + 1;
+                prev_end_index = start_index - 1;
+                
+                for (int j = end_index + 1; j < step_num - 1; j++) {
+                    if ([[step_stat objectAtIndex:j] intValue] == 0) {
+                        next_end_index = j - 1;
+                        break;
+                    }
+                    next_end_index = j;
+                }
+                next_start_index = end_index + 1;
+                
+                if (prev_start_index >= prev_end_index || start_index >= end_index ||
+                    next_start_index >= next_end_index) {
+                    continue;
+                }
+                mean_p = [self getAverage:step_heading from:prev_start_index to:prev_end_index];
+                mean_n = [self getAverage:step_heading from:next_start_index to:next_end_index];
+                
+                if ([self diffAngles:mean_p withAngle:mean_n] < GAMMA) {
+                    if ([self diffAngles:[self getMax:step_heading from:start_index - 1 to:end_index + 1] withAngle:[self getMin:step_heading from:start_index - 1 to:end_index + 1]] < GAMMA) {
+                        for (int j = start_index; j <= end_index; j++) {
+                            [step_stat_out replaceObjectAtIndex:j withObject:[NSNumber numberWithInt: 1]];
+                        }
+                    }
+                }
+
+            }
+            start_index = -1;
+        }
+    }
+    [step_stat replaceObjectAtIndex:step_num - 1 withObject:[NSNumber numberWithInt:0]];
+    step_stat = step_stat_out;
+    
+    // make landing detection in time
+    int st_index = 0;
+    int st_stat = 0;
+    NSMutableArray *time_stat = [[NSMutableArray alloc] initWithCapacity:len];
+    for (int i = 0; i < len; i++) {
+        st_index = [[steps objectAtIndex:i] intValue];
+        if (st_index > 0 && st_index < step_num - 1) {
+            st_stat = [[step_stat objectAtIndex:st_index] intValue];
+        } else {
+            st_stat = 0;
+        }
+        [time_stat addObject:[NSNumber numberWithInt:st_stat]];
+    }
+    
+    // apply ZUPT at landings
+    
+    StepResult *velocityResult = [self velocityDetection:times withVelocity:v_v];
+    NSArray *v_amp = velocityResult.a_amp;
+    double v_amp_ave = [velocityResult.a_amp_ave doubleValue];
+    int len_v_amp = [v_amp count];
+
+    NSMutableArray *time_stat_adj = [self adjustStatWithVelocity:time_stat withAmp:v_amp withAve:v_amp_ave];
+    NSMutableArray *v_zupt = [self getVelocityWithZUPTForWalking:times withAccel:a_v withStat:time_stat_adj];
+    NSMutableArray *d_zupt = [self getDisplacement:times withAccel:a_v withVelocity:v_zupt];
+
+    NSMutableArray *v_amp_highs = [[NSMutableArray alloc] initWithCapacity:len_v_amp];
+    NSMutableArray *v_amp_lows = [[NSMutableArray alloc] initWithCapacity:len_v_amp];
+
+    for (int i = 0; i < len_v_amp; i++) {
+        double value = [[v_amp objectAtIndex:i] doubleValue];
+        if (value != 0) {
+            if (value > v_amp_ave) {
+                [v_amp_highs addObject:[NSNumber numberWithDouble:value]];
+            } else {
+                [v_amp_lows addObject:[NSNumber numberWithDouble:value]];
+            }
+        }
+    }
+    
+    double v_amp_ave_high = [self getAverage:v_amp_highs from:0 to:[v_amp_highs count] - 1];
+    double v_amp_ave_low = [self getAverage:v_amp_lows from:0 to:[v_amp_lows count] - 1];
+    double v_amp_rate = v_amp_ave_high / v_amp_ave_low;
+    
+    DLog(@"v_amp_rate = %f / %f = %f", v_amp_ave_high, v_amp_ave_low, v_amp_rate);
+    if (v_amp_rate < 2) {
+        DLog(@"v_amp_rate is under 2");
+        return 0;
+    } else {
+        DLog(@"v_amp_rate is over 2");
+    }
+
+    NSMutableArray *step_v_zupt = [[NSMutableArray alloc] initWithCapacity:step_num];
+    NSMutableArray *step_d_zupt = [[NSMutableArray alloc] initWithCapacity:step_num];
+    
+    for (int i = 0; i < len; i++) {
+        if ([[a_amp objectAtIndex:i] doubleValue] != 0) {
+            [step_v_zupt addObject:[v_zupt objectAtIndex:i]];
+            [step_d_zupt addObject:[d_zupt objectAtIndex:i]];
+        }
+    }
+    
+    // get direction using vertical velocity
+    NSMutableArray *step_dir_from_velocity = [self zerosWithInt:step_num];
+    start_index = -1;
+    end_index = -1;
+    int ss_index = -1;
+    int ee_index = -1;
+    int cur_dir = 0;
+    double v_cur;
+    double v_prev;
+    [step_stat replaceObjectAtIndex:step_num - 1 withObject:[NSNumber numberWithInt:1]];
+    for (int i = 0; i < step_num - 1; i++) {
+        if ([[step_stat objectAtIndex:i] intValue] == 1 && [[step_stat objectAtIndex:i + 1] intValue] == 0) {
+            start_index = i + 1;
+        } else if ([[step_stat objectAtIndex:i] intValue] == 0 && [[step_stat objectAtIndex:i + 1] intValue] == 1) {
+            end_index = i;
+            if (start_index != -1) {
+                for (int j = start_index - 1; j > 0; j--) {
+                    if ([[step_stat objectAtIndex:j] intValue] == 0) {
+                        ss_index = j;
+                        break;
+                    }
+                }
+                ss_index = ss_index + 1;
+                ee_index = start_index - 1;
+                
+                v_cur = [self getAverage:step_v_zupt from:start_index to:end_index];
+                v_prev = [self getAverage:step_v_zupt from:ss_index to:ee_index];
+                if (v_cur > v_prev) {
+                    cur_dir = -1;
+                } else {
+                    cur_dir = 1;
+                }
+                for (int j = start_index; j <= end_index; j++) {
+                    [step_dir_from_velocity replaceObjectAtIndex:j withObject:[NSNumber numberWithInt: cur_dir]];
+                }
+            }
+        }
+    }
+    [step_stat replaceObjectAtIndex:step_num - 1 withObject:[NSNumber numberWithInt:0]];
+
+    
     double moved_floors = 0;
     double tmp = 0;
     for (int i = 0; i < step_num - 1; i++) {
         if ([[step_stat objectAtIndex:i] intValue] == 1 && [[step_stat objectAtIndex:i + 1] intValue] == 0) {
-            tmp = ([[step_direction objectAtIndex:i + 1] intValue] / [self.buildingInfo.numOfLandings doubleValue]);
-            DLog(@"landing: %d, floor: %f", [[step_direction objectAtIndex:i + 1] intValue], tmp);
+            tmp = ([[step_dir_from_velocity objectAtIndex:i + 1] intValue] / [self.buildingInfo.numOfLandings doubleValue]);
+            DLog(@"landing: %d, floor: %f", [[step_dir_from_velocity objectAtIndex:i + 1] intValue], tmp);
             moved_floors += tmp;
         }
     }
+    
+    // simple adjustment
+    int direction = 0;
+    double ratio_thres = 0;
+    if (moved_floors != 0) {
+        double expected_dist = ABS(moved_floors * [self.buildingInfo.floorHeight doubleValue]);
+        double moved_dist = [[d_zupt objectAtIndex:len - 1] doubleValue] - [[d_zupt objectAtIndex:0] doubleValue];
+        if (moved_dist > 0) {
+            direction = 1;
+        } else {
+            direction = -1;
+        }
+        moved_dist = ABS(moved_dist);
+        double ratio = moved_dist / expected_dist;
+        DLog(@"ratio: %f / %f = %f", moved_dist, expected_dist, ratio);
+        if (direction > 0) {
+            ratio_thres = 0.4;
+        } else {
+            ratio_thres = 0.5;
+        }
+        if (ratio < ratio_thres) {
+            moved_floors = 0;
+            DLog("ratio is under");
+        } else {
+            DLog("ratio is over");
+        }
+    }
+    
     DLog(@"moved floor: %f", moved_floors);
     return moved_floors;
 }

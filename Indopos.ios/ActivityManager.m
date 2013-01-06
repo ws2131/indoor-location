@@ -67,6 +67,7 @@
     double alpha = (1.0 / freq) / (1.0 / freq + (1.0 / (freq / 2.0)));
     NSMutableArray *heading_lpf = [self lowPassFilter:heading withAlpha:alpha];
     
+    // step detection
     StepResult *stepResult = [self stepDetection:times withAccel:a_vert];
     NSArray *a_amp = stepResult.a_amp;
     NSArray *a_max = stepResult.a_max;
@@ -227,18 +228,20 @@
         }
     }
     activity = activity_out;
-    
+
     // stair adjust
-    NSMutableArray *a_walking = [[NSMutableArray alloc] initWithArray:a_vert_rm copyItems:YES];
+    NSMutableArray *a_walking = [[NSMutableArray alloc] initWithArray:a_adjusted_rm copyItems:YES];
     for (int i = 0; i < len; i++) {
         if ([[activity objectAtIndex:i] intValue] == 2) {
             [a_walking replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:0]];
         }
     }
+    
     NSMutableArray *v_walking = [self getVelocity:times withAccel:a_walking];
     StepResult *velocityResult = [self velocityDetection:times withVelocity:v_walking];
     NSArray *v_amp = velocityResult.a_amp;
     double v_amp_ave = [velocityResult.a_amp_ave doubleValue];
+    DLog(@"v_amp_ave: %f", v_amp_ave);
     
     NSMutableArray *stair_activity = [self zerosWithInt:len];
     index_prev = -1;
@@ -246,7 +249,7 @@
         if ([[v_amp objectAtIndex:i] doubleValue] > v_amp_ave * 2) {
             [stair_activity replaceObjectAtIndex:i withObject:[NSNumber numberWithInt:1]];
             if (index_prev != -1) {
-                if (i - index_prev + 1 < freq * MAX_STEP_PERIOD * 100) {
+                if (i - index_prev + 1 < freq * MAX_STEP_PERIOD * 10) {
                     for (int j = index_prev; j <= i; j++) {
                         [stair_activity replaceObjectAtIndex:j withObject:[NSNumber numberWithInt:1]];
                     }
@@ -262,8 +265,10 @@
         if ([[stair_activity objectAtIndex:i] intValue] == 1) {
             start_index = i;
             for (int j = i + 1; j < len; j++) {
-                end_index = j - 1;
-                break;
+                if ([[stair_activity objectAtIndex:j] intValue] == 0) {
+                    end_index = j - 1;
+                    break;
+                }
             }
             if (end_index > start_index) {
                 contain_elevator = NO;
@@ -367,7 +372,7 @@
 
             DLog(@"%d: %d - %d", st_count + 1, start_index + 1, end_index + 1);
 
-            st_floor = [stairwayModule run:t_set withAccel:a_set withAmp:a_amp_set withHeading:h_set withIndex:st_count];
+            st_floor = [stairwayModule run:t_set withAccel:a_set withAmp:a_amp_set withHeading:h_set withIndex:st_count + 1];
             
             History *history = [NSEntityDescription insertNewObjectForEntityForName:@"History" inManagedObjectContext:self.managedObjectContext];
             history.key = historyKey;

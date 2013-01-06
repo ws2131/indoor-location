@@ -99,6 +99,18 @@
     return max;
 }
 
+- (double)getMin:(NSArray *)array from:(int)i1 to:(int)i2 {
+    double min = DBL_MAX;
+    double value = 0;
+    for (int i = i1; i <= i2; i++) {
+        value = [[array objectAtIndex:i] doubleValue];
+        if (value < min) {
+            min = value;
+        }
+    }
+    return min;
+}
+
 - (NSArray *)getArray:(NSArray *)array from:(int)i1 to:(int)i2 {
     int len = i2 - i1 + 1;
     if (len <= 0) {
@@ -201,7 +213,7 @@
     }
     double a_gravity = sum / (len - freq);
     
-    DLog("gravity: %f", a_gravity);
+    //DLog("gravity: %f", a_gravity);
     
     for (int i = 0; i < len; i++) {
         double tmp = [[accel objectAtIndex:i] doubleValue] - a_gravity;
@@ -624,6 +636,89 @@
     }
     [time_stat replaceObjectAtIndex:len - 1 withObject:[NSNumber numberWithInt:0]];
     return v_v_zupt;
+}
+
+- (NSMutableArray *)adjustStatWithVelocity:(NSMutableArray *)time_stat withAmp:(NSArray *)v_amp withAve:(double)v_amp_ave {
+    int len = [time_stat count];
+    
+    int start_index = -1;
+    int end_index = -1;
+    int start_index2 = -1;
+    int end_index2 = -1;
+    
+    NSMutableArray *stat_out = [[NSMutableArray alloc] initWithArray:time_stat copyItems:YES];
+    [time_stat replaceObjectAtIndex:len - 1 withObject:[NSNumber numberWithInt:1]];
+    for (int i = 0; i < len - 1; i++) {
+        if ([[time_stat objectAtIndex:i] intValue] == 1 && [[time_stat objectAtIndex:i + 1] intValue] == 0) {
+            start_index = i + 1;
+        } else if ([[time_stat objectAtIndex:i] intValue] == 0 && [[time_stat objectAtIndex:i + 1] intValue] == 1) {
+            end_index = i;
+            if (start_index != -1) {
+                
+                start_index2 = start_index;
+                end_index2 = end_index;
+                for (int j = start_index - 1; j > 0; j--) {
+                    double value = [[v_amp objectAtIndex:j] doubleValue];
+                    if (value != 0) {
+                        if (value < v_amp_ave * 0.9) {
+                            start_index2 = j;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                if (start_index2 == start_index) {
+                    for (int j = start_index + 1; j < end_index; j++) {
+                        double value = [[v_amp objectAtIndex:j] doubleValue];
+                        if (value != 0) {
+                            if (value > v_amp_ave) {
+                                start_index2 = j;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+                for (int j = end_index + 1; j < len - 1; j++) {
+                    double value = [[v_amp objectAtIndex:j] doubleValue];
+                    if (value != 0) {
+                        if (value < v_amp_ave * 0.9) {
+                            end_index2 = j;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                if (end_index2 == end_index) {
+                    for (int j = end_index - 1; j > start_index; j--) {
+                        double value = [[v_amp objectAtIndex:j] doubleValue];
+                        if (value != 0) {
+                            if (value > v_amp_ave) {
+                                end_index2 = j;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+                for (int j = start_index2; j <= end_index2; j++) {
+                    [stat_out replaceObjectAtIndex:j withObject:[NSNumber numberWithDouble:0]];
+                }
+                if (start_index2 > start_index) {
+                    for (int j = start_index - 1; j <= start_index2 - 1; j++) {
+                        [stat_out replaceObjectAtIndex:j withObject:[NSNumber numberWithDouble:1]];
+                    }
+                }
+                if (end_index2 < end_index) {
+                    for (int j = end_index2 + 1; j <= end_index + 1; j++) {
+                        [stat_out replaceObjectAtIndex:j withObject:[NSNumber numberWithDouble:1]];
+                    }
+                }
+            }
+            start_index = -1;
+        }
+    }
+    return stat_out;
 }
 
 - (void)run {
