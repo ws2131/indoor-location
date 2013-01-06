@@ -50,6 +50,5 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 - (void)resetHistory;
-- (void)exportMeasurement;
 
 @end

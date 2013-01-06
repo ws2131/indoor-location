@@ -56,20 +56,23 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     DLog(@"touch on %d %d", indexPath.section, indexPath.row);
-    if (indexPath.section == 1 && indexPath.row == 0) {
-        [self.fileHandler sendLast];
-    } else if (indexPath.section == 1 && indexPath.row == 1) {
-        [self.fileHandler sendAll];
-    } else if (indexPath.section == 2 && indexPath.row == 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete All" message:@"Do you really want to delete all files?"
-                                                       delegate:self cancelButtonTitle:@"No" otherButtonTitles:nil];
-        [alert addButtonWithTitle:@"Yes"];
-        [alert show];
-    } else if (indexPath.section == 3 && indexPath.row == 0) {
-        [(AppDelegate *)[UIApplication sharedApplication].delegate resetHistory];
-        [self update];
+    if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            [self.fileHandler sendLast];
+        } else if (indexPath.row == 1) {
+            [self.fileHandler sendAll];
+        }
+    } else if (indexPath.section == 2) {
+        if (indexPath.row == 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete All" message:@"Do you really want to delete all files?"
+                                                           delegate:self cancelButtonTitle:@"No" otherButtonTitles:nil];
+            [alert addButtonWithTitle:@"Yes"];
+            [alert show];
+        } else if (indexPath.row == 1) {
+            [(AppDelegate *)[UIApplication sharedApplication].delegate resetHistory];
+            [self update];
+        }
     }
-
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {

@@ -283,11 +283,22 @@
     buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
                                                  inManagedObjectContext:self.managedObjectContext];
     buildingInfo.address1 = @"Pupin";
-    buildingInfo.address2 = @"550 W 120 ST";
+    buildingInfo.address2 = @"538 W 120 ST";
     buildingInfo.address3 = @"New York, NY 10027";
     buildingInfo.floorOfEntry = [NSNumber numberWithInt:5];
     buildingInfo.floorHeight = [NSNumber numberWithFloat:3.5];
     buildingInfo.lobbyHeight = [NSNumber numberWithFloat:3.5];
+    buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
+    [self.managedObjectContext save:nil];
+    
+    buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
+                                                 inManagedObjectContext:self.managedObjectContext];
+    buildingInfo.address1 = @"NWB";
+    buildingInfo.address2 = @"550 W 120 ST";
+    buildingInfo.address3 = @"New York, NY 10027";
+    buildingInfo.floorOfEntry = [NSNumber numberWithInt:1];
+    buildingInfo.floorHeight = [NSNumber numberWithFloat:3.65];
+    buildingInfo.lobbyHeight = [NSNumber numberWithFloat:3.65];
     buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
     [self.managedObjectContext save:nil];
     
@@ -301,17 +312,7 @@
     buildingInfo.lobbyHeight = [NSNumber numberWithFloat:3.0];
     buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
     [self.managedObjectContext save:nil];
-    
-    buildingInfo = [NSEntityDescription insertNewObjectForEntityForName:@"BuildingInfo"
-                                                 inManagedObjectContext:self.managedObjectContext];
-    buildingInfo.address1 = @"NWB";
-    buildingInfo.address2 = @"560 W 120 ST";
-    buildingInfo.address3 = @"New York, NY 10027";
-    buildingInfo.floorOfEntry = [NSNumber numberWithInt:1];
-    buildingInfo.floorHeight = [NSNumber numberWithFloat:3.65];
-    buildingInfo.lobbyHeight = [NSNumber numberWithFloat:3.65];
-    buildingInfo.numOfLandings = [NSNumber numberWithFloat:2.0];
-    [self.managedObjectContext save:nil];
+
     DLog(@"Importing Core Data Default Values for BuildingInfo Completed!");
 }
 
@@ -376,9 +377,6 @@
         
         CMRotationRate gyroRaw = motionManager.gyroData.rotationRate;
         CMMagneticField magnetoRaw = motionManager.magnetometerData.magneticField;
-
-        DLog(@"%lf, %lf, %d", magnetoRaw.x, magnetoMotion.x, motionManager.magnetometerAvailable);
-
         
         SensorData *sensorData = [[SensorData alloc] init];
         sensorData.date = [NSDate date];
@@ -449,14 +447,6 @@
         [self.managedObjectContext deleteObject:history];
     }
     [self.managedObjectContext save:nil];    
-}
-
-- (void)exportMeasurement {
-    if ([measurement.measurements count] == 0) {
-        DLog(@"measurement empty");
-        return;
-    }
-    [fileHandler sendFile];
 }
 
 

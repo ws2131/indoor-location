@@ -86,11 +86,6 @@
     [(AppDelegate *)[UIApplication sharedApplication].delegate resetHistory];
 }
 
-- (IBAction)exportMeasurement:(id)sender {
-    DLog(@"export pushed");
-    [(AppDelegate *)[UIApplication sharedApplication].delegate exportMeasurement];
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     DLog(@"%@", segue.identifier);
     if ([segue.identifier isEqualToString:@"Predefined Buildings Segue1"] || [segue.identifier isEqualToString:@"Predefined Buildings Segue2"]) {
