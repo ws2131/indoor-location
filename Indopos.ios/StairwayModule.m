@@ -322,7 +322,7 @@
 }
 
 
--(double)run:(NSArray *)times withAccel:(NSArray *)a_vert_rm withAmp:(NSArray *)a_amp withHeading:(NSArray *)heading_lpf withIndex:(int)index {
+-(double)run:(NSArray *)times withAccel:(NSArray *)a_vert_rm withAmp:(NSArray *)a_amp withHeading:(NSArray *)heading_lpf withHeadingAccuracy:(NSArray *)heading_accuracy withIndex:(int)index {
     int len = [times count];
     DLog(@"stairway run: %d", len);
     
@@ -348,7 +348,7 @@
     NSMutableArray *steps = [[NSMutableArray alloc] initWithCapacity:len];
     NSMutableArray *step_amp = [[NSMutableArray alloc] initWithCapacity:step_num];
     NSMutableArray *step_heading = [[NSMutableArray alloc] initWithCapacity:step_num];
-    //NSMutableArray *step_heading_accuracy = [[NSMutableArray alloc] initWithCapacity:step_num];
+    NSMutableArray *step_heading_accuracy = [[NSMutableArray alloc] initWithCapacity:step_num];
     NSMutableArray *step_d = [[NSMutableArray alloc] initWithCapacity:step_num];
     int step_index = -1;
     for (int i = 0; i < len; i++) {
@@ -356,6 +356,7 @@
             step_index++;
             [step_amp addObject:[a_amp objectAtIndex:i]];
             [step_heading addObject:[heading_lpf objectAtIndex:i]];
+            [step_heading_accuracy addObject:[heading_accuracy objectAtIndex:i]];
             [step_d addObject:[d_v objectAtIndex:i]];
         }
         [steps addObject:[NSNumber numberWithInt:step_index]];
@@ -391,8 +392,12 @@
     double heading_diff = 0;
     [step_stat_by_magneto addObject:[NSNumber numberWithDouble:0.0]];
     for (int i = 1; i < step_num; i++) {
-        heading_diff = [self diffAngles:[[step_heading objectAtIndex:i] doubleValue] withAngle:[[step_heading objectAtIndex:i - 1] doubleValue]];
-        [step_stat_by_magneto addObject:[NSNumber numberWithDouble:(heading_diff / GAMMA * -2) + 1]];
+        if ([[step_heading_accuracy objectAtIndex:i] doubleValue] < 0 || [[step_heading_accuracy objectAtIndex:i - 1] doubleValue] < 0) {
+            [step_stat_by_magneto addObject:[NSNumber numberWithDouble:0]];
+        } else {
+            heading_diff = [self diffAngles:[[step_heading objectAtIndex:i] doubleValue] withAngle:[[step_heading objectAtIndex:i - 1] doubleValue]];
+            [step_stat_by_magneto addObject:[NSNumber numberWithDouble:(heading_diff / GAMMA * -2) + 1]];
+        }
     }
     
     double dist_diff = 0;
@@ -566,6 +571,7 @@
     int next_end_index = -1;
     double mean_p;
     double mean_n;
+    BOOL contain_invalid_heading = NO;
     for (int i = 0; i < step_num - 1; i++) {
         if ([[step_stat objectAtIndex:i] intValue] == 1 && [[step_stat objectAtIndex:i + 1] intValue] == 0) {
             start_index = i + 1;
@@ -594,6 +600,18 @@
                     next_start_index >= next_end_index) {
                     continue;
                 }
+                
+                contain_invalid_heading = NO;
+                for (int j = prev_start_index; j <= next_end_index; j++) {
+                    if ([[step_heading_accuracy objectAtIndex:j] doubleValue] < 0) {
+                        contain_invalid_heading = YES;
+                        break;
+                    }
+                }
+                if (contain_invalid_heading == YES) {
+                    continue;
+                }
+                
                 mean_p = [self getAverage:step_heading from:prev_start_index to:prev_end_index];
                 mean_n = [self getAverage:step_heading from:next_start_index to:next_end_index];
                 

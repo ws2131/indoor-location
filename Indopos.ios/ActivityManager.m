@@ -35,6 +35,7 @@
     NSMutableArray *m32 = [[NSMutableArray alloc] initWithCapacity:len];
     NSMutableArray *m33 = [[NSMutableArray alloc] initWithCapacity:len];
     NSMutableArray *heading = [[NSMutableArray alloc] initWithCapacity:len];
+    NSMutableArray *heading_accuracy = [[NSMutableArray alloc] initWithCapacity:len];
     
     for (SensorData *sensorData in self.measurement.measurements) {
         [a_x addObject:[NSNumber numberWithDouble:([sensorData.a_x doubleValue] * GRAVITY)]];
@@ -50,6 +51,7 @@
         [m32 addObject:sensorData.m32];
         [m33 addObject:sensorData.m33];
         [heading addObject:sensorData.heading];
+        [heading_accuracy addObject:sensorData.headingAccuracy];
         
         [times addObject:sensorData.time];
         [dates addObject:sensorData.date];
@@ -366,13 +368,14 @@
             NSArray *a_set = [self getArray:a_vert_rm from:start_index to:end_index];
             NSArray *a_amp_set = [self getArray:a_amp from:start_index to:end_index];
             NSArray *h_set = [self getArray:heading_lpf from:start_index to:end_index];
+            NSArray *ha_set = [self getArray:heading_accuracy from:start_index to:end_index];
             
             StairwayModule *stairwayModule = [[StairwayModule alloc] init];
             stairwayModule.buildingInfo = self.buildingInfo;
 
             DLog(@"%d: %d - %d", st_count + 1, start_index + 1, end_index + 1);
 
-            st_floor = [stairwayModule run:t_set withAccel:a_set withAmp:a_amp_set withHeading:h_set withIndex:st_count + 1];
+            st_floor = [stairwayModule run:t_set withAccel:a_set withAmp:a_amp_set withHeading:h_set withHeadingAccuracy:ha_set withIndex:st_count + 1];
             
             History *history = [NSEntityDescription insertNewObjectForEntityForName:@"History" inManagedObjectContext:self.managedObjectContext];
             history.key = historyKey;
