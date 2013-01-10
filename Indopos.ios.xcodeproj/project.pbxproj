@@ -196,6 +196,7 @@
 		712EA986161E56A500C047E3 /* Indopos.ios */ = {
 			isa = PBXGroup;
 			children = (
+				712EA987161E56A500C047E3 /* Supporting Files */,
 				71E309411630A65F0099B29F /* CoreDataTVC */,
 				71F77D97162E2FE90064C1B7 /* CHCSVParser */,
 				712EA998161E56A500C047E3 /* MainStoryboard.storyboard */,
@@ -229,7 +230,6 @@
 				71DCB6071679399D00C52E49 /* FileViewVC.m */,
 				71F77D70162DFEFB0064C1B7 /* FileHandler.h */,
 				71F77D71162DFEFB0064C1B7 /* FileHandler.m */,
-				712EA987161E56A500C047E3 /* Supporting Files */,
 				71F77D93162E2FD80064C1B7 /* AnalysisModule.h */,
 				71F77D94162E2FD80064C1B7 /* AnalysisModule.m */,
 				71B916A716826B7D0015FCD9 /* EscalatorModule.h */,

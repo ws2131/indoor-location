@@ -38,6 +38,14 @@
     locationManager.delegate = self;
     motionManager = [[CMMotionManager alloc] init];
     
+    // device capability
+    UIDevice *device = [UIDevice currentDevice];
+    BOOL backgroundSupported = NO;
+    if ([device respondsToSelector:@selector(isMultitaskingSupported)]) {
+        backgroundSupported = device.multitaskingSupported;
+    }
+    DLog("backgroundSupported: %d headingAvailable: %d", backgroundSupported, [CLLocationManager headingAvailable]);
+    
     NSTimeInterval interval = 1.0 / FREQUENCY;
     [[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
     motionManager.deviceMotionUpdateInterval = interval;
@@ -428,6 +436,7 @@
      return;
      */
     currentHeading = newHeading;
+    //DLog(@"heading: %f", newHeading.magneticHeading);
 }
 
 
