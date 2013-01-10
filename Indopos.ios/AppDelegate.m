@@ -44,7 +44,7 @@
     if ([device respondsToSelector:@selector(isMultitaskingSupported)]) {
         backgroundSupported = device.multitaskingSupported;
     }
-    DLog("backgroundSupported: %d headingAvailable: %d", backgroundSupported, [CLLocationManager headingAvailable]);
+    DLog("backgroundSupported: %d gyroAvailable: %d headingAvailable: %d", backgroundSupported, motionManager.gyroAvailable, [CLLocationManager headingAvailable]);
     
     NSTimeInterval interval = 1.0 / FREQUENCY;
     [[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
@@ -423,6 +423,8 @@
         [measurement.measurements addObject:sensorData];
         [self writeToFile:sensorData];
         [mainTVC updateCounter:sensorData.time];
+
+        //DLog(@"a_z: %f", acceleration.z);
     }
 }
 
@@ -430,12 +432,8 @@
 # pragma mark -
 # pragma mark CLLocationManager delegate
 - (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
-    // even though heading accuracy is -1, use it since we only need changes in headings
-    /*
-     if (newHeading.headingAccuracy < 0)
-     return;
-     */
     currentHeading = newHeading;
+
     //DLog(@"heading: %f", newHeading.magneticHeading);
 }
 
