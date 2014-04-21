@@ -2,8 +2,8 @@
 //  Config.m
 //  Indopos.ios
 //
-//  Created by Wonsang Song on 10/19/12.
-//  Copyright (c) 2012 Wonsang Song. All rights reserved.
+//  Created by Wonsang Song on 8/5/13.
+//  Copyright (c) 2013 Wonsang Song. All rights reserved.
 //
 
 #import "Config.h"
@@ -13,6 +13,7 @@
 @implementation Config
 
 @dynamic test;
+@dynamic frequency;
 @dynamic inBuilding;
 
 @end

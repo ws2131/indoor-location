@@ -24,4 +24,5 @@
 @property (strong, nonatomic) IBOutlet UITextField *address2TextField;
 @property (strong, nonatomic) IBOutlet UITextField *address3TextField;
 
+@property (strong, nonatomic) IBOutlet UITextField *freqTextField;
 @end

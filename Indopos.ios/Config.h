@@ -2,8 +2,8 @@
 //  Config.h
 //  Indopos.ios
 //
-//  Created by Wonsang Song on 10/19/12.
-//  Copyright (c) 2012 Wonsang Song. All rights reserved.
+//  Created by Wonsang Song on 8/5/13.
+//  Copyright (c) 2013 Wonsang Song. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -14,6 +14,7 @@
 @interface Config : NSManagedObject
 
 @property (nonatomic, retain) NSString * test;
+@property (nonatomic, retain) NSNumber * frequency;
 @property (nonatomic, retain) BuildingInfo *inBuilding;
 
 @end

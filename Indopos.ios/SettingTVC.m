@@ -43,6 +43,8 @@
     self.address1TextField.text = buildingInfo.address1;
     self.address2TextField.text = buildingInfo.address2;
     self.address3TextField.text = buildingInfo.address3;
+    
+    self.freqTextField.text = [config.frequency stringValue];
 }
 
 
@@ -74,6 +76,14 @@
     buildingInfo.address1 = self.address1TextField.text;
     buildingInfo.address2 = self.address2TextField.text;
     buildingInfo.address3 = self.address3TextField.text;
+    
+    NSNumber *prevFreq = config.frequency;
+    config.frequency = [NSNumber numberWithInteger:[self.freqTextField.text integerValue]];
+    if ([prevFreq intValue] != [config.frequency intValue]) {
+        DLog("frequence is changed from %d to %d", [prevFreq intValue], [config.frequency intValue]);
+        [(AppDelegate *)[UIApplication sharedApplication].delegate updateFrequency];
+    }
+    
     [self.managedObjectContext save:nil];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:msg

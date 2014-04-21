@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="0Yb-aZ-Pt8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="0Yb-aZ-Pt8">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
         <!--MainTVC - Main-->
@@ -633,7 +633,44 @@
                                 </cells>
                             </tableViewSection>
                             <tableViewSection id="rKy-NI-KTU">
-                                <cells/>
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="yOi-xw-ema">
+                                        <rect key="frame" x="0.0" y="453" width="320" height="46"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qpq-cV-T1C">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="62" id="J5b-2j-fAl"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Sampling Frequency:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IKE-4V-KbV">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Hz" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hdP-lR-HrP">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="hdP-lR-HrP" firstAttribute="leading" secondItem="qpq-cV-T1C" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="IwW-WO-kX8"/>
+                                            <constraint firstItem="IKE-4V-KbV" firstAttribute="baseline" secondItem="qpq-cV-T1C" secondAttribute="baseline" type="default" id="OJv-Wm-JsE"/>
+                                            <constraint firstItem="hdP-lR-HrP" firstAttribute="baseline" secondItem="qpq-cV-T1C" secondAttribute="baseline" type="default" id="P40-DV-JRS"/>
+                                            <constraint firstItem="IKE-4V-KbV" firstAttribute="leading" secondItem="yOi-xw-ema" secondAttribute="leading" constant="25" id="abh-JU-LA9"/>
+                                            <constraint firstAttribute="trailing" secondItem="hdP-lR-HrP" secondAttribute="trailing" constant="15" id="cZp-uF-OFi"/>
+                                            <constraint firstItem="qpq-cV-T1C" firstAttribute="centerY" secondItem="yOi-xw-ema" secondAttribute="centerY" type="default" id="vzc-fd-E8r"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                </cells>
                             </tableViewSection>
                         </sections>
                         <connections>
@@ -654,6 +691,7 @@
                         <outlet property="address3TextField" destination="MA6-yQ-ide" id="llA-PW-lux"/>
                         <outlet property="floorHeightTextfield" destination="jiJ-7i-KyH" id="f1O-kD-iQ2"/>
                         <outlet property="floorOfEntryTextField" destination="U5z-Vy-jSn" id="2hU-iJ-gOp"/>
+                        <outlet property="freqTextField" destination="qpq-cV-T1C" id="BCf-bY-RGK"/>
                         <outlet property="lobbyHeightTextField" destination="K4A-bj-lhb" id="kIj-c9-slJ"/>
                         <outlet property="numOfLandingsTextField" destination="zeU-cw-0iY" id="bte-Nk-4La"/>
                     </connections>
@@ -1021,12 +1059,6 @@
         <class className="MainTVC" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainTVC.h"/>
             <relationships>
-                <relationship kind="action" name="currentFloorChanged:"/>
-                <relationship kind="action" name="refresh:"/>
-                <relationship kind="action" name="selectedActivity:"/>
-                <relationship kind="action" name="startButtonTouched:"/>
-                <relationship kind="action" name="toggleActivity:"/>
-                <relationship kind="action" name="viewTapped:" candidateClass="UIGestureRecognizer"/>
                 <relationship kind="outlet" name="activityIndicatorView" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="activitySegmentedControl" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="activityUISwitch" candidateClass="UISwitch"/>
@@ -1044,14 +1076,12 @@
         <class className="SettingTVC" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingTVC.h"/>
             <relationships>
-                <relationship kind="action" name="resetHistory:"/>
-                <relationship kind="action" name="save:"/>
-                <relationship kind="action" name="viewTapped:" candidateClass="UIGestureRecognizer"/>
                 <relationship kind="outlet" name="address1TextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="address2TextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="address3TextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="floorHeightTextfield" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="floorOfEntryTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="freqTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="lobbyHeightTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="numOfLandingsTextField" candidateClass="UITextField"/>
             </relationships>

@@ -20,7 +20,7 @@
 #import "History.h"
 #import "Measurement.h"
 
-#define FREQUENCY 30
+#define DEFAULT_FREQUENCY 30
 
 @implementation AppDelegate
 
@@ -33,25 +33,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // intialize sensors
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    motionManager = [[CMMotionManager alloc] init];
-    
-    // device capability
-    UIDevice *device = [UIDevice currentDevice];
-    BOOL backgroundSupported = NO;
-    if ([device respondsToSelector:@selector(isMultitaskingSupported)]) {
-        backgroundSupported = device.multitaskingSupported;
-    }
-    DLog("backgroundSupported: %d gyroAvailable: %d headingAvailable: %d", backgroundSupported, motionManager.gyroAvailable, [CLLocationManager headingAvailable]);
-    
-    NSTimeInterval interval = 1.0 / FREQUENCY;
-    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
-    motionManager.deviceMotionUpdateInterval = interval;
-    motionManager.gyroUpdateInterval = interval;
-    motionManager.magnetometerUpdateInterval = interval;
-    
+    // initialize config info
     [self setupFetchedResultsControllerForBuildingInfo];
     if (![[self.fetchedResultsController fetchedObjects] count] > 0) {
         DLog(@"DB is empty, default values will be inserted.");
@@ -66,14 +48,36 @@
         self.config = [NSEntityDescription insertNewObjectForEntityForName:@"Config"
                                                     inManagedObjectContext:self.managedObjectContext];
         self.config.inBuilding = buildingInfo;
+        self.config.frequency =[NSNumber numberWithInt:DEFAULT_FREQUENCY];
         [self.managedObjectContext save:nil];
     } else {
-        DLog(@"Config has values.");
         self.config = [[self.fetchedResultsController fetchedObjects] objectAtIndex:0];
         buildingInfo = self.config.inBuilding;
+        DLog(@"Config has values. Freq: %d", [self.config.frequency intValue]);
     }
     DLog(@"building: %@", buildingInfo.address1);
     
+    // intialize sensors
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    motionManager = [[CMMotionManager alloc] init];
+    
+    // device capability
+    UIDevice *device = [UIDevice currentDevice];
+    BOOL backgroundSupported = NO;
+    if ([device respondsToSelector:@selector(isMultitaskingSupported)]) {
+        backgroundSupported = device.multitaskingSupported;
+    }
+    DLog("backgroundSupported: %d accelAvailable: %d gyroAvailable: %d magnetoAvailable: %d headingAvailable: %d",
+         backgroundSupported, motionManager.accelerometerAvailable, motionManager.gyroAvailable, motionManager.magnetometerAvailable, [CLLocationManager headingAvailable]);
+    
+    NSTimeInterval interval = 1.0 / [self.config.frequency intValue];
+    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
+    motionManager.deviceMotionUpdateInterval = interval;
+    motionManager.gyroUpdateInterval = interval;
+    motionManager.magnetometerUpdateInterval = interval;
+    
+    // other initialization
     dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSS"];
     
@@ -456,6 +460,14 @@
     [self.managedObjectContext save:nil];    
 }
 
+- (void)updateFrequency {
+    DLog(@"updateFrequency");
+    NSTimeInterval interval = 1.0 / [self.config.frequency intValue];
+    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:interval];
+    motionManager.deviceMotionUpdateInterval = interval;
+    motionManager.gyroUpdateInterval = interval;
+    motionManager.magnetometerUpdateInterval = interval;
+}
 
 # pragma mark -
 # pragma mark MainTVC Delegate
@@ -470,7 +482,7 @@
     measurement.measurements = [[NSMutableArray alloc] initWithCapacity:400];
     measurement.startDate = [NSDate date];
     measurement.start_ti = [NSNumber numberWithDouble:0.];
-    measurement.frequency = [NSNumber numberWithInt:FREQUENCY];
+    measurement.frequency = self.config.frequency;
     
     [self startFile];
 
@@ -534,7 +546,7 @@
     [motionManager startGyroUpdates];
     [motionManager startMagnetometerUpdates];
     [locationManager startUpdatingHeading];
-    
+    DLog(@"motionManager attitudeReferenceFrame: %d", motionManager.attitudeReferenceFrame);
 #endif
     
     DLog(@"startButtonPushed done");
@@ -555,6 +567,7 @@
     
     DLog(@"number of measurements: %d", [measurement.measurements count]);
     DLog(@"buildingInfo: %@", self.config.inBuilding.address1);
+    DLog(@"sampling interval: %f, %f", [UIAccelerometer sharedAccelerometer].updateInterval, motionManager.deviceMotionUpdateInterval);
 
     if ([measurement.measurements count] > 0) {
         AnalysisModule *analysisModule = nil;
